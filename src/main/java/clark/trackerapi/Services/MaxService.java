@@ -17,19 +17,11 @@ public class MaxService {
 
     public List<Max> indexMaxes() {
         List<Max> allMaxes = new ArrayList<>();
-        try {
-            maxRepository.findAll().forEach(allMaxes::add);
-        } catch (Exception e) {
-            throw e;
-        }
+        maxRepository.findAll().forEach(allMaxes::add);
         return allMaxes;
     }
 
     public void insertMax(Max max) {
-        try {
-            maxRepository.save(max);
-        } catch (Exception e) {
-            throw e;
-        }
+        maxRepository.save(max);
     }
 }
