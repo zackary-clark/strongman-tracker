@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MaxServiceTests {
@@ -37,11 +37,17 @@ public class MaxServiceTests {
     }
 
     @Test
-    public void indexMaxesGetsAllMaxesFromRepo() {
+    public void indexMaxesGetsAllMaxesInRepo() {
         List<Max> expectedMaxes = TestData.getDefaultListOfMaxes();
         when(maxRepository.findAll()).thenReturn(expectedMaxes);
         List<Max> actualMaxes = maxService.indexMaxes();
         assertEquals(actualMaxes, expectedMaxes);
     }
 
+    @Test
+    public void insertMaxCallsSaveInRepo() {
+        Max max = TestData.getDefaultMax();
+        maxService.insertMax(max);
+        verify(maxRepository).save(max);
+    }
 }
