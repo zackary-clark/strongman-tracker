@@ -1,6 +1,6 @@
 package clark.trackerapi;
 
-import clark.trackerapi.Controllers.LoginController;
+import clark.trackerapi.controllers.LoginController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +20,4 @@ public class TrackerApiApplicationTests {
 	public void contextLoads() {
 		assertNotNull(loginController);
 	}
-
 }

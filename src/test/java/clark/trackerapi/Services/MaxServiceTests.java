@@ -1,16 +1,11 @@
-package clark.trackerapi.Services;
+package clark.trackerapi.services;
 
-import clark.trackerapi.Data.Max;
-import clark.trackerapi.Data.MaxRepository;
-import clark.trackerapi.TestHelpers.TestData;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import clark.trackerapi.data.Max;
+import clark.trackerapi.data.MaxRepository;
+import clark.trackerapi.testHelpers.TestData;
+import org.junit.*;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoSession;
+import org.mockito.*;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;

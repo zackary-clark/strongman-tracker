@@ -1,4 +1,4 @@
-package clark.trackerapi.Controllers;
+package clark.trackerapi.controllers;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

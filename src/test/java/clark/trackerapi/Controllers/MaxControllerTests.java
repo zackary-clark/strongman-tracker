@@ -1,8 +1,8 @@
-package clark.trackerapi.Controllers;
+package clark.trackerapi.controllers;
 
-import clark.trackerapi.Data.Max;
-import clark.trackerapi.Services.MaxService;
-import clark.trackerapi.TestHelpers.TestData;
+import clark.trackerapi.data.Max;
+import clark.trackerapi.services.MaxService;
+import clark.trackerapi.testHelpers.TestData;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

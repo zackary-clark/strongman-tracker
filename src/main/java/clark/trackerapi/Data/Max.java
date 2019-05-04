@@ -1,4 +1,4 @@
-package clark.trackerapi.Data;
+package clark.trackerapi.data;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

@@ -1,7 +1,7 @@
-package clark.trackerapi.Services;
+package clark.trackerapi.services;
 
-import clark.trackerapi.Data.Max;
-import clark.trackerapi.Data.MaxRepository;
+import clark.trackerapi.data.Max;
+import clark.trackerapi.data.MaxRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

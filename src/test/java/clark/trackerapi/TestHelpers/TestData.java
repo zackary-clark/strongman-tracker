@@ -1,6 +1,6 @@
-package clark.trackerapi.TestHelpers;
+package clark.trackerapi.testHelpers;
 
-import clark.trackerapi.Data.Max;
+import clark.trackerapi.data.Max;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package clark.trackerapi.Controllers;
+package clark.trackerapi.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

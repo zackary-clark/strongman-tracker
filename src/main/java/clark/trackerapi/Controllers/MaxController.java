@@ -1,7 +1,7 @@
-package clark.trackerapi.Controllers;
+package clark.trackerapi.controllers;
 
-import clark.trackerapi.Data.Max;
-import clark.trackerapi.Services.MaxService;
+import clark.trackerapi.data.Max;
+import clark.trackerapi.services.MaxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

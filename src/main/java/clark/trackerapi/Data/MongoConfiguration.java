@@ -1,4 +1,4 @@
-package clark.trackerapi.Data;
+package clark.trackerapi.data;
 
 import com.mongodb.MongoClient;
 import org.springframework.context.annotation.Bean;
