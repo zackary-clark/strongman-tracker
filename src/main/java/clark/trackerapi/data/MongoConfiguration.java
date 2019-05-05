@@ -15,7 +15,7 @@ public class MongoConfiguration {
         return new SimpleMongoDbFactory(new MongoClient(), "tracker-test");
     }
 
-    public @Bean MongoTemplate mongoTemplate() throws Exception {
+    public @Bean MongoTemplate mongoTemplate() {
         return new MongoTemplate(mongoDbFactory());
     }
 }
