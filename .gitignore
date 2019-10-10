@@ -1,9 +1,19 @@
-.gradle
+### Backend ###
+.gradle/
 /build/
-!gradle/wrapper/gradle-wrapper.jar
+/gradle/
 .env
 .data
 /bin/
+
+### Frontend ###
+/node_modules/
+stats.json
+/coverage/
+/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 ### STS ###
 .apt_generated
@@ -27,3 +37,6 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+### VS CODE ###
+.vscode/

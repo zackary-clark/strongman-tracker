@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.1.2.RELEASE'
+		springBootVersion = '2.1.9.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -26,8 +26,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+
 	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }

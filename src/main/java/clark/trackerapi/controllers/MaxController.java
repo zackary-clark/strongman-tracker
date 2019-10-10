@@ -19,10 +19,8 @@ public class MaxController {
     @GetMapping("/maxes")
     public List<Max> index() {
         try {
-            System.out.println("GET maxes");
             return maxService.indexMaxes();
         } catch (Exception e) {
-            System.out.println("Exception in GET maxes");
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to get Maxes.");
         }
     }
