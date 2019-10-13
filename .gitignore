@@ -7,6 +7,7 @@
 /bin/
 
 ### Frontend ###
+/src/main/resources/static
 /node_modules/
 stats.json
 /coverage/

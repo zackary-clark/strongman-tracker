@@ -1,0 +1,20 @@
+{
+    "defaultSeverity": "warning",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": true,
+    "linterOptions": {
+        "exclude": [
+            "node_modules/"
+        ]
+    },
+    "rules": {
+        "no-trailing-whitespace": [true, "ignore-blank-lines"],
+        "ordered-imports": false,
+        "max-line-length": [true, 140],
+        "object-literal-sort-keys": false,
+        "arrow-parens": false
+    },
+    "rulesDirectory": []
+}

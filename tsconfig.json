@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "allowJs": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "outDir": "./out/ts/",
+        "jsx": "react",
+        "lib": ["es5", "es6", "dom"],
+        "skipLibCheck": true,
+        "sourceMap": true
+    },
+    "exclude": ["node_modules", "spec"]
+}

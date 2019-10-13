@@ -1,0 +1,75 @@
+{
+  "name": "tracker-layout",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "analyze": "webpack --json > stats.json",
+    "build": "yarn build-frontend && gradle assemble",
+    "build-frontend": "webpack -p",
+    "dev": "yarn start-backend && yarn start-frontend",
+    "ship": "yarn build && cd dist && git add --all && git commit -m \"Release at $(date)\" && git push",
+    "start-backend": "docker start tracker-mongo && gradle bootRun",
+    "start-frontend": "webpack-dev-server --open",
+    "test": "jest"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/frontend/spec/setupTests"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss)$": "identity-obj-proxy"
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.0",
+    "@babel/plugin-transform-runtime": "^7.5.0",
+    "@babel/preset-env": "^7.5.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/enzyme": "^3.10.1",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/jest": "^24.0.15",
+    "@types/material-ui": "^0.21.7",
+    "@types/react": "^16.9.5",
+    "@types/react-dom": "^16.9.1",
+    "@types/react-router-dom": "^5.1.0",
+    "@types/whatwg-fetch": "^0.0.33",
+    "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.0.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "file-loader": "^4.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "http-server": "^0.11.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.8.0",
+    "jest-environment-enzyme": "^7.0.2",
+    "jest-enzyme": "^7.0.2",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^6.0.4",
+    "tslint": "^5.18.0",
+    "typescript": "^3.6.4",
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.5.0",
+    "@material-ui/core": "^4.5.0",
+    "@material-ui/icons": "^4.4.3",
+    "core-js": "^3.1.4",
+    "material-table": "^1.52.0",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "react-router-dom": "^5.1.2",
+    "reflect-metadata": "^0.1.13",
+    "reset-css": "^4.0.1",
+    "whatwg-fetch": "^3.0.0"
+  }
+}
