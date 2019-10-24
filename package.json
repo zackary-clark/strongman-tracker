@@ -4,11 +4,10 @@
   "license": "MIT",
   "scripts": {
     "analyze": "webpack --json > stats.json",
-    "build": "yarn build-frontend && gradle assemble",
+    "build": "./gradlew assemble",
     "build-frontend": "webpack -p",
     "dev": "nf start",
-    "ship": "yarn build && cd dist && git add --all && git commit -m \"Release at $(date)\" && git push",
-    "start-backend": "docker start tracker-mongo && gradle bootRun",
+    "start-backend": "docker start tracker-mongo && ./gradlew bootRun",
     "start-frontend": "webpack-dev-server --open",
     "test": "jest"
   },
