@@ -1,7 +1,6 @@
 ### Backend ###
 .gradle/
 /build/
-/gradle/
 .env
 .data
 /bin/
