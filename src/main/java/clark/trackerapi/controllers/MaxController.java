@@ -12,6 +12,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class MaxController {
     @Autowired
     private MaxService maxService;

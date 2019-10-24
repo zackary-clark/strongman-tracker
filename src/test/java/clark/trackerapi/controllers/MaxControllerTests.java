@@ -50,7 +50,7 @@ public class MaxControllerTests {
 
         given(maxService.indexMaxes()).willReturn(maxes);
 
-        this.mockMvc.perform(get("/maxes"))
+        this.mockMvc.perform(get("/api/maxes"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].id").value("1"))
@@ -65,7 +65,7 @@ public class MaxControllerTests {
     public void postMaxCallsMaxServiceWithCorrectData() throws Exception {
         Max newMax = TestData.getDefaultMax();
 
-        this.mockMvc.perform(post("/max")
+        this.mockMvc.perform(post("/api/max")
                 .header("Content-Type", "application/json")
                 .content("{\n" +
                         "\t\"date\": \"2019-01-18\",\n" +

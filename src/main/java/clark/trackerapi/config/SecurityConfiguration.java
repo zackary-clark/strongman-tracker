@@ -26,9 +26,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // TODO: remove cors outside of dev environment
         http
-                .cors().and()
+                .cors().disable()
                 .authorizeRequests()
                 .anyRequest().permitAll()
                 .and().csrf().disable();

@@ -22,7 +22,7 @@ public class LoginControllerTest {
 
     @Test
     public void getHomeReturnsDefaultMessage() throws Exception {
-        this.mockMvc.perform(get("/home")
+        this.mockMvc.perform(get("/api/home")
             .header("Content-Type", "application/json")
             .content("home"))
             .andExpect(status().isOk());

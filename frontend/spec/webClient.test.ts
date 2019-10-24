@@ -27,7 +27,7 @@ describe("WebClient", () => {
         it("should GET with correct path and headers", () => {
             expect(fetchStub).toHaveBeenCalledTimes(1);
             expect(fetchStub).toHaveBeenCalledWith(
-                expect.stringContaining("/maxes"),
+                expect.stringContaining("/api/maxes"),
                 expect.objectContaining({
                     method: "GET",
                     headers: {
@@ -46,7 +46,7 @@ describe("WebClient", () => {
         it("should POST with correct path and headers", () => {
             expect(fetchStub).toHaveBeenCalledTimes(1);
             expect(fetchStub).toHaveBeenCalledWith(
-                expect.stringContaining("/max"),
+                expect.stringContaining("/api/max"),
                 expect.objectContaining({
                     method: "POST",
                     headers: {

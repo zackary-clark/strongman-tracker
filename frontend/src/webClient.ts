@@ -1,7 +1,6 @@
 import { IMax } from "./data/max";
 
-const host = "http://localhost:8080";
-// TODO: take this from env variable or otherwise make configurable
+const host = "/api";
 
 const contentHeader = {"Content-Type": "application/json"};
 

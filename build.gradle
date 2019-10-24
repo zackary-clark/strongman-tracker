@@ -10,9 +10,11 @@ buildscript {
 	}
 }
 
-apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.2.0.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
 
 group = 'clark'
 version = '0.0.1-SNAPSHOT'
@@ -34,4 +36,12 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+}
+
+task buildFrontEnd {
+	exec { commandLine 'bash', './scripts/buildFrontEnd.sh' }
+}
+
+assemble {
+	dependsOn buildFrontEnd
 }

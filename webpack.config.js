@@ -36,7 +36,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: "Tracker",
+      title: "Strongman Tracker",
       filename: "index.html",
       template: "./frontend/index.html.template",
       favicon: "./frontend/src/images/favicon.ico",
@@ -47,5 +47,8 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     port: 8081,
+    proxy: {
+      "/api": "http://localhost:8080"
+    }
   },
 };
