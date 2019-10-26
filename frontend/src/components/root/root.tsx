@@ -1,13 +1,11 @@
 import * as React from "react";
-import NavBar from "./navBar/navBar";
-import { Route } from "react-router-dom";
-import MaxContainer from "./maxes/maxContainer";
-import Demo2 from "./demo2/demo2";
-import { maxRoute, demo2Route } from "../routes";
+import NavBar from "../navBar/navBar";
+import {Route} from "react-router-dom";
+import MaxContainer from "../maxes/maxContainer";
+import Demo2 from "../demo2/demo2";
+import { maxRoute, demo2Route } from "./routes";
 
-import "./app.scss";
-
-class App extends React.Component {
+class Root extends React.Component {
     public render() {
         return (
             <React.Fragment>
@@ -19,4 +17,4 @@ class App extends React.Component {
     }
 }
 
-export default App;
+export default Root;

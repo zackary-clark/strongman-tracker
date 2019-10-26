@@ -1,12 +1,13 @@
 import React, { ReactElement } from "react";
 import {getMaxes, postMax} from "../../webClient";
-import Button from "../wrappers/button";
-import Table from "../wrappers/table";
 import { IMax } from "../../data/max";
+import {Button} from "@material-ui/core";
+import MaterialTable from "material-table";
 
 interface IMaxContainerState {
     maxes: IMax[];
 }
+
 export default class MaxContainer extends React.Component<React.HTMLAttributes<HTMLElement>, IMaxContainerState> {
     public constructor(props: React.HTMLAttributes<HTMLElement>) {
         super(props);
@@ -24,8 +25,7 @@ export default class MaxContainer extends React.Component<React.HTMLAttributes<H
 
     private generateTable = (): ReactElement => (
         // TODO: This table looks bad on mobile
-        <Table
-            className={"maxes-table"}
+        <MaterialTable
             title={"One Rep Max Tracker"}
             columns={[
                 {

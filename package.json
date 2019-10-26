@@ -15,13 +15,16 @@
     "@babel/runtime": "^7.5.0",
     "@material-ui/core": "^4.5.0",
     "@material-ui/icons": "^4.4.3",
+    "@material-ui/styles": "^4.5.0",
     "core-js": "^3.1.4",
-    "material-table": "^1.52.0",
+    "material-table": "^1.53.0",
+    "mobx": "^5.14.2",
+    "mobx-react": "^6.1.4",
+    "mobx-state-tree": "^3.14.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-router-dom": "^5.1.2",
     "reflect-metadata": "^0.1.13",
-    "reset-css": "^4.0.1",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {

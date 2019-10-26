@@ -1,10 +1,10 @@
 import * as React from "react";
 import { IDecoratedReactWrapper, mountAndDecorate } from "../test-helpers/enzymeHelpers";
 import MaxContainer from "../../src/components/maxes/maxContainer";
-import Button from "../../src/components/wrappers/button";
 import * as WebClient from "../../src/webClient";
 import { responseWithJson } from "../test-helpers/shared";
 import { sampleMaxesArray, sampleMax } from "../test-helpers/data";
+import {Button} from "@material-ui/core";
 
 describe("maxContainer", () => {
     let wrapper: IDecoratedReactWrapper;

@@ -1,7 +1,26 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import App from "./components/app";
 import { HashRouter } from "react-router-dom";
-import "reset-css";
+import { Provider } from "mobx-react";
+import { ThemeProvider } from "@material-ui/styles";
 
-ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById("root"));
+import Root from "./components/root/root";
+import { createMuiTheme, CssBaseline } from "@material-ui/core";
+
+const theme = createMuiTheme({
+    palette: {
+        type: "dark",
+    },
+});
+
+ReactDOM.render(
+    <Provider>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <HashRouter>
+                <Root />
+            </HashRouter>
+        </ThemeProvider>
+    </Provider>,
+    document.getElementById("root"),
+);
