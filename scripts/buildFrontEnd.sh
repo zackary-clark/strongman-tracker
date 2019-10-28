@@ -4,4 +4,4 @@ set -e -x
 
 yarn install
 
-yarn build-frontend
+webpack -p

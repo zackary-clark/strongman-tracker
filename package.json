@@ -5,9 +5,9 @@
   "scripts": {
     "analyze": "webpack --json > stats.json",
     "build": "./gradlew assemble",
-    "build-frontend": "webpack -p",
+    "build-frontend": "./scripts/buildFrontEnd.sh",
     "dev": "nf start",
-    "start-backend": "docker start tracker-mongo && ./gradlew bootRun",
+    "start-backend": "./scripts/startBackEnd.sh",
     "start-frontend": "webpack-dev-server --open",
     "test": "jest"
   },
