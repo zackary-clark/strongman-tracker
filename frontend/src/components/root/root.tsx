@@ -1,7 +1,7 @@
 import * as React from "react";
 import NavBar from "../navBar/navBar";
 import {Route} from "react-router-dom";
-import MaxContainer from "../maxes/maxContainer";
+import {MaxContainer} from "../maxes";
 import Demo2 from "../demo2/demo2";
 import { maxRoute, demo2Route } from "./routes";
 

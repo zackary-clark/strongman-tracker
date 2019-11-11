@@ -3,7 +3,7 @@ import Root from "../../src/components/root/root";
 import { IDecoratedReactWrapper, mountInRouter } from "../test-helpers/enzymeHelpers";
 import NavBar from "../../src/components/navBar/navBar";
 import { maxRoute, demo2Route } from "../../src/components/root/routes";
-import MaxContainer from "../../src/components/maxes/maxContainer";
+import {MaxContainer} from "../../src/components/maxes";
 import Demo2 from "../../src/components/demo2/demo2";
 
 describe("Root", () => {

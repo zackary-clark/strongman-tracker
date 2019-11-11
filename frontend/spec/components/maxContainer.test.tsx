@@ -1,18 +1,19 @@
 import * as React from "react";
 import { IDecoratedReactWrapper, mountAndDecorate } from "../test-helpers/enzymeHelpers";
-import MaxContainer from "../../src/components/maxes/maxContainer";
+import {MaxComponent} from "../../src/components/maxes";
 import * as WebClient from "../../src/webClient";
 import { responseWithJson } from "../test-helpers/shared";
 import { sampleMaxesArray, sampleMax } from "../test-helpers/data";
 import {Button} from "@material-ui/core";
 
-describe("maxContainer", () => {
+describe("maxComponent", () => {
     let wrapper: IDecoratedReactWrapper;
     let getMaxesSpy: jest.SpyInstance;
     let postMaxSpy: jest.SpyInstance;
     
     beforeEach(() => {
-        wrapper = mountAndDecorate(<MaxContainer />);
+        // TODO: should not have to pass in a classes object here
+        wrapper = mountAndDecorate(<MaxComponent classes={{button: ""}} />);
         getMaxesSpy = jest.spyOn(WebClient, "getMaxes").mockResolvedValue(responseWithJson(sampleMaxesArray));
         postMaxSpy = jest.spyOn(WebClient, "postMax").mockResolvedValue(responseWithJson());
     });
