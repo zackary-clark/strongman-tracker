@@ -8,7 +8,7 @@
     "build-frontend": "./scripts/buildFrontEnd.sh",
     "dev": "nf start",
     "start-backend": "./scripts/startBackEnd.sh",
-    "start-frontend": "webpack-dev-server --open",
+    "start-frontend": "webpack-dashboard -- webpack-dev-server",
     "test": "jest"
   },
   "dependencies": {
@@ -67,6 +67,7 @@
     "typescript": "^3.6.4",
     "webpack": "^4.35.2",
     "webpack-cli": "^3.3.5",
+    "webpack-dashboard": "^3.2.0",
     "webpack-dev-server": "^3.7.2"
   },
   "jest": {
