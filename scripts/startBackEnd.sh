@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 docker start tracker-mongo
 

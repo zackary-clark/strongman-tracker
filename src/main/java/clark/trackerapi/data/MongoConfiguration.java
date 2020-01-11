@@ -12,7 +12,7 @@ public class MongoConfiguration {
 
     public @Bean
     MongoDbFactory mongoDbFactory() {
-        return new SimpleMongoDbFactory(new MongoClient(), "tracker-test");
+        return new SimpleMongoDbFactory(new MongoClient(), "tracker");
     }
 
     public @Bean MongoTemplate mongoTemplate() {
