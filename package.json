@@ -5,7 +5,7 @@
     "scripts": {
         "analyze": "webpack --json > stats.json",
         "build": "./scripts/build.sh",
-        "ship": "yarn build && gh-pages -d dist",
+        "deploy": "yarn build && gh-pages -d dist",
         "start": "webpack-dashboard -- webpack-dev-server",
         "test": "jest"
     },
