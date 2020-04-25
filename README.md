@@ -1,5 +1,3 @@
 # Strongman Tracker
 
-Uses Spring Boot, React and MobX State Tree
-
-## Subheader
+Client uses React, Typescript, Webpack, Material UI, and React Context API

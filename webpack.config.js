@@ -1,14 +1,12 @@
-const path = require("path");
 const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const DashboardPlugin = require("webpack-dashboard/plugin");
 
 module.exports = {
   mode: "production",
-  entry: "./frontend/src/index.tsx",
+  entry: "./src/index.tsx",
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "./src/main/resources/static"),
   },
   module: {
     rules: [{
@@ -40,8 +38,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "Strongman Tracker",
       filename: "index.html",
-      template: "./frontend/index.html.template",
-      favicon: "./frontend/src/images/favicon.ico",
+      template: "./index.html.template",
+      favicon: "./src/images/favicon.ico",
       xhtml: true,
     }),
   ],
