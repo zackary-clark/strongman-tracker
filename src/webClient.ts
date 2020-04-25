@@ -1,6 +1,6 @@
 import { IMax } from "./data/max";
 
-const host = "/api";
+const host = window.location.hostname === "localhost" ? "/api" : "https://strongman-tracker.herokuapp.com/api";
 
 const contentHeader = {"Content-Type": "application/json"};
 

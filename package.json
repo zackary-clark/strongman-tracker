@@ -6,7 +6,7 @@
         "analyze": "webpack --json > stats.json",
         "build": "./scripts/build.sh",
         "deploy": "yarn build && gh-pages -d dist",
-        "start": "webpack-dashboard -- webpack-dev-server",
+        "dev": "webpack-dashboard -- webpack-dev-server",
         "test": "jest"
     },
     "dependencies": {
