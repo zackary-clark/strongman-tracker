@@ -21,7 +21,7 @@ export const mountAndDecorate = (node: ReactElement<any>): IDecoratedReactWrappe
 
 const decorateWrapper = (wrapper: IDecoratedReactWrapper): IDecoratedReactWrapper => {
     wrapper.findOneElement = (selector: string): IDecoratedReactWrapper => {
-        const element = wrapper.find(selector);
+        const element: ReactWrapper = wrapper.find(selector);
 
         if (element.length === 1) {
             return element as IDecoratedReactWrapper;
@@ -33,7 +33,7 @@ const decorateWrapper = (wrapper: IDecoratedReactWrapper): IDecoratedReactWrappe
     };
 
     wrapper.asyncUpdate = (): Promise<IDecoratedReactWrapper> => {
-        return new Promise((resolve) => setTimeout(resolve, 10))
+        return new Promise((resolve: Function) => setTimeout(resolve, 10))
             .then(() => {
                 return wrapper.update();
             });

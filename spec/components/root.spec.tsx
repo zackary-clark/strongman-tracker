@@ -7,8 +7,8 @@ import Demo2 from "../../src/components/demo2/demo2";
 
 describe("Root", () => {
     let wrapper: IDecoratedReactWrapper;
-    const pseudoRandomString = Math.random().toString(36).substring(7);
-    const routeArray = [
+    const pseudoRandomString: string = Math.random().toString(36).substring(7);
+    const routeArray: string[] = [
         "/",
         maxRoute,
         demo2Route,

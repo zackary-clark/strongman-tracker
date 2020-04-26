@@ -15,5 +15,6 @@
         "skipLibCheck": true,
         "sourceMap": true
     },
-    "exclude": ["node_modules", "spec"]
+    "include": ["src", "spec"],
+    "exclude": ["node_modules"]
 }

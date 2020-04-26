@@ -1,7 +1,8 @@
+import { ClassNameMap } from "@material-ui/core/styles/withStyles";
+import { Link, LinkProps } from "react-router-dom";
+import { AppBar, Button, Theme, Toolbar, createStyles, makeStyles } from "@material-ui/core";
+import { demo2Route, maxRoute } from "../root/routes";
 import React from "react";
-import {Link, LinkProps} from "react-router-dom";
-import { maxRoute, demo2Route } from "../root/routes";
-import {AppBar, Button, createStyles, makeStyles, Theme, Toolbar} from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -18,10 +19,10 @@ const LinkForward = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) 
     <Link innerRef={ref} {...props} />
 ));
 
-export default function NavBar() {
-    const classes = useStyles();
+export default function NavBar(): JSX.Element {
+    const classes: ClassNameMap<"button" | "root"> = useStyles();
 
-    const MenuButton = (to: string, label: string) => (
+    const MenuButton = (to: string, label: string): JSX.Element => (
         <Button
             href="#"
             color="secondary"

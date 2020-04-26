@@ -4,7 +4,7 @@ import { sampleMax } from "./test-helpers/data";
 let oldFetch: (input: Request | string, init?: RequestInit) => Promise<Response>;
 
 describe("WebClient", () => {
-    const fetchStub = jest.fn(() => Promise.resolve(new Response("", {status: 200})));
+    const fetchStub: jest.Mock = jest.fn(() => Promise.resolve(new Response("", {status: 200})));
 
     beforeAll(() => {
         oldFetch = window.fetch;

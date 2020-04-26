@@ -4,7 +4,7 @@ import Select from "@material-ui/core/Select";
 import * as React from "react";
 
 export default class Demo2 extends React.Component {
-    public render() {
+    public render(): React.ReactNode {
         return (
             <div className={"demo2"}>
                 <Button variant="contained" >default</Button><br/>
@@ -25,8 +25,8 @@ export default class Demo2 extends React.Component {
                         native
                         label="Age"
                         inputProps={{
-                            name: 'age',
-                            id: 'outlined-age-native-simple',
+                            name: "age",
+                            id: "outlined-age-native-simple",
                         }}
                     >
                         <option aria-label="None" value="" />
