@@ -1,5 +1,5 @@
 export interface IMax {
-    id: string;
+    _id: string;
     date: string;
     squat1RM?: string;
     bench1RM?: string;
@@ -8,7 +8,7 @@ export interface IMax {
 }
 
 export default class Max implements IMax {
-    public id = "";
+    public _id = "";
     public date = "";
     public squat1RM: string | undefined;
     public bench1RM: string | undefined;
@@ -16,7 +16,7 @@ export default class Max implements IMax {
     public press1RM: string | undefined;
 
     public constructor(data: IMax) {
-        this.id = data.id;
+        this._id = data._id;
         this.date = data.date;
         this.squat1RM = data.squat1RM;
         this.bench1RM = data.bench1RM;

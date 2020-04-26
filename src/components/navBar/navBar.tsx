@@ -25,7 +25,7 @@ export default function NavBar() {
         <Button
             href="#"
             color="secondary"
-            variant={"outlined"}
+            variant="contained"
             component={LinkForward}
             to={to}
             className={classes.button}

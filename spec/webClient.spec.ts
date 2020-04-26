@@ -60,7 +60,7 @@ describe("WebClient", () => {
             expect(fetchStub).toHaveBeenCalledWith(
                 expect.anything(),
                 expect.objectContaining({
-                    body: "{\"id\":\"alsdkgj2843talkdf\",\"date\":\"1993-01-05\",\"squat1RM\":\"225\"}",
+                    body: "{\"_id\":\"alsdkgj2843talkdf\",\"date\":\"1993-01-05\",\"squat1RM\":\"225\"}",
                 }),
             );
         });

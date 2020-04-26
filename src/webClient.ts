@@ -4,10 +4,10 @@ const host = window.location.hostname === "localhost" ? "/api" : "https://strong
 
 const contentHeader = {"Content-Type": "application/json"};
 
-export const getMaxes = (): Promise<Response> => {
+export function getMaxes(): Promise<Response> {
     return fetch(host + "/maxes", {method: "GET", headers: contentHeader, mode: "cors"});
-};
+}
 
-export const postMax = (data: IMax): Promise<Response> => {
+export function postMax(data: IMax): Promise<Response> {
     return fetch(host + "/max", {method: "POST", headers: contentHeader, mode: "cors", body: JSON.stringify(data)});
-};
+}

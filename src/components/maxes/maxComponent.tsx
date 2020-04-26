@@ -1,16 +1,22 @@
+import withStyles from "@material-ui/core/styles/withStyles";
 import * as React from "react";
-import {IMax} from "../../data/max";
-import {Button, WithStyles} from "@material-ui/core";
-import {ReactElement} from "react";
+import { IMax } from "../../data/max";
+import { Button, createStyles, Theme, WithStyles } from "@material-ui/core";
+import { ReactElement } from "react";
 import MaterialTable from "material-table";
-import {getMaxes, postMax} from "../../webClient";
-import {MaxComponentStyles} from "./maxContainer";
+import { getMaxes, postMax } from "../../webClient";
+
+const MaxComponentStyles = (theme: Theme) => createStyles({
+    button: {
+        margin: theme.spacing(1),
+    },
+});
 
 interface IMaxComponentState {
     maxes: IMax[];
 }
 
-export class MaxComponent extends React.Component<WithStyles<typeof MaxComponentStyles>, IMaxComponentState> {
+class MaxComponentSansTheme extends React.Component<WithStyles<typeof MaxComponentStyles>, IMaxComponentState> {
     public constructor(props: WithStyles<typeof MaxComponentStyles>) {
         super(props);
         this.state = {maxes: []};
@@ -24,7 +30,7 @@ export class MaxComponent extends React.Component<WithStyles<typeof MaxComponent
                     className={`get-maxes ${classes.button}`}
                     onClick={this.getMaxesOnClick}
                     variant={"contained"}
-                    color={"secondary"}
+                    color={"primary"}
                 >
                     GetMaxes
                 </Button>
@@ -84,3 +90,5 @@ export class MaxComponent extends React.Component<WithStyles<typeof MaxComponent
             .then(maxes => this.setState({maxes}));
     }
 }
+
+export const MaxComponent = withStyles(MaxComponentStyles, {withTheme: true})(MaxComponentSansTheme);
