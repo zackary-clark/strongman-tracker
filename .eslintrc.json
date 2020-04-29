@@ -9,7 +9,8 @@
         "@typescript-eslint",
         "react",
         "jest-dom",
-        "testing-library"
+        "testing-library",
+        "import"
     ],
     "env": {
         "es6": true,
@@ -20,6 +21,9 @@
         "plugin:react/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript",
         "plugin:jest-dom/recommended",
         "plugin:testing-library/recommended"
     ],
@@ -31,6 +35,11 @@
                 "avoidEscape": true
             }
         ],
+        "import/order": ["error"],
+        "import/newline-after-import": ["error"],
+        "import/no-duplicates": ["error"],
+        "import/no-cycle": ["error"],
+        "import/no-namespace": "off",
         "semi": "off",
         "@typescript-eslint/semi": ["error", "always"],
         "no-use-before-define": "off",
@@ -45,6 +54,7 @@
             }
         ],
         "react/display-name": "off",
+        "react/prop-types": "off",
         "@typescript-eslint/ban-ts-ignore": "off",
         "@typescript-eslint/prefer-readonly": ["error"],
         "@typescript-eslint/interface-name-prefix": [

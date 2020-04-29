@@ -1,13 +1,13 @@
-import { Button, FormControl } from "@material-ui/core";
+import * as React from "react";
+import { Button, FormControl, MenuItem } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
-import * as React from "react";
 
 export default class Demo2 extends React.Component {
     public render(): React.ReactNode {
         return (
             <div className={"demo2"}>
-                <Button variant="contained" >default</Button><br/>
+                <Button variant="contained" aria-label={"contained-default"}>default</Button><br/>
                 <Button variant="contained" color={"primary"}>primary</Button><br/>
                 <Button variant="contained" color={"secondary"}>secondary</Button><br/>
                 <Button variant="contained" disabled>disabled</Button><br/>
@@ -19,20 +19,19 @@ export default class Demo2 extends React.Component {
                 <Button variant="outlined" color={"primary"}>primary</Button><br/>
                 <Button variant="outlined" color={"secondary"}>secondary</Button><br/>
                 <Button variant="outlined" disabled>disabled</Button><br/>
-                <FormControl variant="outlined" >
-                    <InputLabel htmlFor="outlined-age-native-simple">Age</InputLabel>
+                <FormControl variant="outlined">
+                    <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
                     <Select
-                        native
+                        labelId="demo-simple-select-outlined-label"
+                        id="demo-simple-select-outlined"
                         label="Age"
-                        inputProps={{
-                            name: "age",
-                            id: "outlined-age-native-simple",
-                        }}
                     >
-                        <option aria-label="None" value="" />
-                        <option value={10}>Ten</option>
-                        <option value={20}>Twenty</option>
-                        <option value={30}>Thirty</option>
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
                     </Select>
                 </FormControl>
             </div>

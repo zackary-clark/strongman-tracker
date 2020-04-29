@@ -1,9 +1,7 @@
-import withStyles from "@material-ui/core/styles/withStyles";
 import * as React from "react";
-import { IMax } from "../../data/max";
-import { Button, createStyles, Theme, WithStyles, StyleRules } from "@material-ui/core";
-import { ReactElement } from "react";
 import MaterialTable from "material-table";
+import { Button, createStyles, Theme, withStyles, WithStyles, StyleRules } from "@material-ui/core";
+import { IMax } from "../../data/max";
 import { getMaxes, postMax } from "../../webClient";
 
 const MaxComponentStyles = (theme: Theme): StyleRules => createStyles({
@@ -31,6 +29,7 @@ class MaxComponentSansTheme extends React.Component<WithStyles<typeof MaxCompone
                     onClick={this.getMaxesOnClick}
                     variant={"contained"}
                     color={"primary"}
+                    aria-label={"get-maxes"}
                 >
                     GetMaxes
                 </Button>
@@ -39,7 +38,7 @@ class MaxComponentSansTheme extends React.Component<WithStyles<typeof MaxCompone
         );
     }
 
-    protected generateTable = (): ReactElement => (
+    protected generateTable = (): React.ReactElement => (
         // TODO: This table looks bad on mobile
         <MaterialTable
             title={"One Rep Max Tracker"}

@@ -1,9 +1,9 @@
-import { ReactNode } from "react";
 import * as React from "react";
-import NavBar from "../navBar/navBar";
+import { ReactNode } from "react";
 import { Route } from "react-router-dom";
-import { MaxComponent } from "../maxes";
+import NavBar from "../navBar/navBar";
 import Demo2 from "../demo2/demo2";
+import { MaxComponent } from "../maxes";
 import { maxRoute, demo2Route } from "./routes";
 
 class Root extends React.Component {

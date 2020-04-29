@@ -20,10 +20,6 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.s?css$/,
-        loaders: ["style-loader", "css-loader", "sass-loader"],
-      },
-      {
         test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.ttf$/,
         loader: "file-loader",
       },

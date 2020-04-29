@@ -1,16 +1,24 @@
 import React from "react";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 import NavBar from "../../src/components/navBar/navBar";
-import { Link } from "react-router-dom";
-import { IDecoratedReactWrapper, mountInRouter } from "../test-helpers/enzymeHelpers";
+import { maxRoute } from "../../src/components/root/routes";
+import { renderInRouter } from "../test-helpers/testUtils";
 
 describe("NavBar", () => {
-    let wrapper: IDecoratedReactWrapper;
-
-    beforeEach(() => {
-        wrapper = mountInRouter(<NavBar />);
+    it("should render two links to the pages", () => {
+        const { getAllByRole } = renderInRouter(<NavBar />);
+        expect(getAllByRole("button")).toHaveLength(2);
     });
 
-    it("Renders two links for the demos", () => {
-        expect(wrapper.find(Link).length).toBe(2);
+    it("should route to /maxes when Maxes button is clicked", () => {
+        const history = createMemoryHistory();
+        const { getByRole } = renderInRouter(
+            <Router history={history}>
+                <NavBar />
+            </Router>
+        );
+        getByRole("button", { name: "go-to-maxes" }).click();
+        expect(history.location.pathname).toBe(maxRoute);
     });
 });

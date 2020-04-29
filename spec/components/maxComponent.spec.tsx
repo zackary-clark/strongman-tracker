@@ -1,17 +1,14 @@
 import * as React from "react";
-import { IDecoratedReactWrapper, mountAndDecorate } from "../test-helpers/enzymeHelpers";
-import { MaxComponent } from "../../src/components/maxes";
+import { render } from "@testing-library/react";
 import * as WebClient from "../../src/webClient";
+import { MaxComponent } from "../../src/components/maxes";
 import { responseWithJson } from "../test-helpers/shared";
 import { sampleMaxesArray } from "../test-helpers/data";
-import { Button } from "@material-ui/core";
 
 describe("maxComponent", () => {
-    let wrapper: IDecoratedReactWrapper;
     let getMaxesSpy: jest.SpyInstance;
 
     beforeEach(() => {
-        wrapper = mountAndDecorate(<MaxComponent />);
         getMaxesSpy = jest.spyOn(WebClient, "getMaxes").mockResolvedValue(responseWithJson(sampleMaxesArray));
     });
 
@@ -20,11 +17,13 @@ describe("maxComponent", () => {
     });
 
     it("Renders GetMaxes button", () => {
-        expect(wrapper.find(Button).text()).toBe("GetMaxes");
+        const { getByRole } = render(<MaxComponent />);
+        expect(getByRole("button", { name: "get-maxes" })).toHaveTextContent("GetMaxes");
     });
 
     it("Calls webclient.getMaxes on 'GetMaxes' click", () => {
-        wrapper.find(Button).simulate("click");
+        const { getByRole } = render(<MaxComponent />);
+        getByRole("button", { name: "get-maxes" }).click();
         expect(getMaxesSpy).toBeCalled();
     });
 });
