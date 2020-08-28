@@ -29,9 +29,9 @@ class MaxComponentSansTheme extends React.Component<WithStyles<typeof MaxCompone
                     onClick={this.getMaxesOnClick}
                     variant={"contained"}
                     color={"primary"}
-                    aria-label={"get-maxes"}
+                    title={"Get Maxes"}
                 >
-                    GetMaxes
+                    Get Maxes
                 </Button>
                 {this.generateTable()}
             </div>
@@ -85,8 +85,9 @@ class MaxComponentSansTheme extends React.Component<WithStyles<typeof MaxCompone
 
     protected getMaxesOnClick = (): void => {
         getMaxes()
-            .then((res: Response) => res.json())
-            .then((maxes: IMax[]) => this.setState({maxes}));
+            .then((res) => res.data)
+            .then((maxes) => this.setState({maxes}))
+            .catch((e) => console.error(e));
     };
 }
 
