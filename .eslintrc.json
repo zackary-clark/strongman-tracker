@@ -56,12 +56,6 @@
         "react/display-name": "off",
         "react/prop-types": "off",
         "@typescript-eslint/ban-ts-ignore": "off",
-        "@typescript-eslint/prefer-readonly": ["error"],
-        "@typescript-eslint/interface-name-prefix": [
-            "error",
-            {
-                "prefixWithI": "always"
-            }
-        ]
+        "@typescript-eslint/prefer-readonly": ["error"]
     }
 }

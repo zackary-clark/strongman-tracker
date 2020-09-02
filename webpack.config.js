@@ -39,7 +39,9 @@ module.exports = {
       xhtml: true,
     }),
   ],
-  externals: [],
+  externals: {
+    "jspdf": "jspdf", // jspdf is bundled with material table, and is absolutely huge TODO: get rid of this when material-table fixes their shit
+  },
   devServer: {
     historyApiFallback: true,
     port: 8081,
