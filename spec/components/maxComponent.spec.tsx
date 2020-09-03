@@ -2,7 +2,7 @@ import * as React from "react";
 import { render } from "@testing-library/react";
 import { waitFor, fireEvent } from "@testing-library/dom";
 import * as WebClient from "../../src/webClient";
-import { MaxComponent } from "../../src/components/maxes";
+import { MaxComponent } from "../../src/components";
 import { sampleMaxesArray, defaultAxiosResponse } from "../test-helpers/data";
 
 describe("maxComponent", () => {

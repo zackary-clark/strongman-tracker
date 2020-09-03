@@ -1,7 +1,7 @@
 import React from "react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import NavBar from "../../src/components/navBar/navBar";
+import { NavBar } from "../../src/components";
 import { maxRoute } from "../../src/components/root/routes";
 import { renderInRouter } from "../test-helpers/testUtils";
 

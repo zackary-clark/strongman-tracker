@@ -18,7 +18,7 @@ const LinkForward = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) 
     <Link innerRef={ref} {...props} />
 ));
 
-export default function NavBar(): JSX.Element {
+export function NavBar(): JSX.Element {
     const classes = useStyles();
 
     const MenuButton = (to: string, label: string, ariaLabel?: string): JSX.Element => (

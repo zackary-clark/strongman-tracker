@@ -66,7 +66,7 @@ export const palette: PaletteOptions = {
     },
     success: {
         light: GRUVBOX.GREEN_10,
-        main: GRUVBOX.GREEN_2,
+        main: GRUVBOX.GREEN_10,
         contrastText: GRUVBOX.FG0,
     },
     background: {

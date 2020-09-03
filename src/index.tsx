@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import { HashRouter } from "react-router-dom";
 import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 
-import Root from "./components/root/root";
+import { Root } from "./components";
 import { palette } from "./palette";
 
 const theme = createMuiTheme({palette});
