@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, LinkProps } from "react-router-dom";
 import { AppBar, Button, Theme, Toolbar, createStyles, makeStyles } from "@material-ui/core";
-import { demo2Route, maxRoute } from "../root/routes";
+import { demo2Route, maxRoute } from "../routes";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -24,7 +24,6 @@ export function NavBar(): JSX.Element {
     const MenuButton = (to: string, label: string, ariaLabel?: string): JSX.Element => (
         <Button
             href="#"
-            color="secondary"
             variant="contained"
             component={LinkForward}
             to={to}

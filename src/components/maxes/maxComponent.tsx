@@ -28,7 +28,6 @@ class MaxComponentSansTheme extends React.Component<WithStyles<typeof MaxCompone
                     className={`get-maxes ${classes.button}`}
                     onClick={this.getMaxesOnClick}
                     variant={"contained"}
-                    color={"primary"}
                     title={"Get Maxes"}
                 >
                     Get Maxes

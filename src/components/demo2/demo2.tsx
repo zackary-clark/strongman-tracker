@@ -1,37 +1,39 @@
 import * as React from "react";
-import { Button, FormControl, MenuItem, Snackbar } from "@material-ui/core";
+import { Button, FormControl, MenuItem, Snackbar, InputLabel, Select } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
 
-export class Demo2 extends React.Component {
+interface IDemo2State {
+    open: boolean,
+}
+
+export class Demo2 extends React.Component<any, IDemo2State> {
+    public constructor(props: any) {
+        super(props);
+        this.state = {open: false};
+        this.closeSnackbar = this.closeSnackbar.bind(this);
+    }
+
     public render(): React.ReactNode {
         return (
             <div className={"demo2"}>
                 <Snackbar
                     anchorOrigin={{vertical: "top", horizontal: "right"}}
-                    open={true}
+                    autoHideDuration={5000}
+                    open={this.state.open}
+                    onClose={this.closeSnackbar}
                 >
-                    <Alert severity={"error"} variant={"filled"}>
+                    <Alert severity={"error"} variant={"filled"} onClose={this.closeSnackbar}>
                         This is an error.
                     </Alert>
                 </Snackbar>
-                <Snackbar
-                    anchorOrigin={{vertical: "top", horizontal: "center"}}
-                    open={true}
+                <Button
+                    title="Open Snackbar"
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => {this.setState({open: true});}}
                 >
-                    <Alert severity={"info"} variant={"filled"}>
-                        This is an info.
-                    </Alert>
-                </Snackbar>
-                <Snackbar
-                    anchorOrigin={{vertical: "top", horizontal: "left"}}
-                    open={true}
-                >
-                    <Alert severity={"success"} variant={"filled"}>
-                        This is a success.
-                    </Alert>
-                </Snackbar>
+                    Open Snackbar
+                </Button><br/>
                 <Button variant="contained" aria-label={"contained-default"}>default</Button><br/>
                 <Button variant="contained" color={"primary"}>primary</Button><br/>
                 <Button variant="contained" color={"secondary"}>secondary</Button><br/>
@@ -61,5 +63,9 @@ export class Demo2 extends React.Component {
                 </FormControl>
             </div>
         );
+    }
+
+    protected closeSnackbar(event?: React.SyntheticEvent, reason?: string): void {
+        this.setState({open: false});
     }
 }

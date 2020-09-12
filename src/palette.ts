@@ -40,14 +40,16 @@ export const palette: PaletteOptions = {
         white: GRUVBOX.FG0,
     },
     primary: {
-        main: GRUVBOX.AQUA_14,
-        dark: GRUVBOX.AQUA_6,
-        contrastText: GRUVBOX.BG0_H,
+        light: "#b3d6c9",
+        main: GRUVBOX.BLUE_12,
+        dark: "#56766a",
+        contrastText: GRUVBOX.BG,
     },
     secondary: {
-        light: GRUVBOX.BLUE_12,
-        main: GRUVBOX.BLUE_4,
-        contrastText: GRUVBOX.FG0,
+        light: "#d7b3c0",
+        main: "#a58390",
+        dark: "#765663",
+        contrastText: GRUVBOX.BG,
     },
     error: {
         main: GRUVBOX.RED_9,
@@ -65,8 +67,8 @@ export const palette: PaletteOptions = {
         contrastText: GRUVBOX.FG0,
     },
     success: {
-        light: GRUVBOX.GREEN_10,
-        main: GRUVBOX.GREEN_10,
+        main: GRUVBOX.AQUA_6,
+        dark: GRUVBOX.AQUA_14,
         contrastText: GRUVBOX.FG0,
     },
     background: {
@@ -79,7 +81,7 @@ export const palette: PaletteOptions = {
         disabled: GRUVBOX.FG4,
     },
     action: {
-        active: GRUVBOX.FG0,
+        active: GRUVBOX.FG,
     },
     grey: {
         100: GRUVBOX.FG0,
