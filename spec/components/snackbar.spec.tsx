@@ -3,4 +3,8 @@ describe("Snackbar", () => {
         // TODO: transfer demo2 snackbar tests here once the component is implemented
         expect(true).toBe(false);
     });
+
+    it("should display custom error messages", () => {
+        expect(true).toBe(false);
+    });
 });
