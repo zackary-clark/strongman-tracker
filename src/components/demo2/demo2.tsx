@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Button, FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
-import { Snackbar } from "../snackBar";
-import { MUIClickHandler, withAppContext } from "../../context";
+import { MUIClickHandler, withSnackbarContext } from "../../context";
 
 interface IDemo2Props {
     onOpenSnackbar: MUIClickHandler,
@@ -11,7 +10,6 @@ class Demo2SansContext extends React.Component<IDemo2Props> {
     render(): React.ReactNode {
         return (
             <div className={"demo2"}>
-                <Snackbar/>
                 <Button
                     title="Open Snackbar"
                     variant="contained"
@@ -52,4 +50,4 @@ class Demo2SansContext extends React.Component<IDemo2Props> {
     }
 }
 
-export const Demo2 = withAppContext(Demo2SansContext);
+export const Demo2 = withSnackbarContext(Demo2SansContext);

@@ -39,7 +39,7 @@ export function NavBar(): JSX.Element {
             <AppBar position="static" color={"primary"}>
                 <Toolbar>
                     {MenuButton(maxRoute, "Maxes", "go-to-maxes")}
-                    {MenuButton(demo2Route, "Demo2")}
+                    {MenuButton(demo2Route, "Demo2", "go-to-demo2")}
                 </Toolbar>
             </AppBar>
         </div>

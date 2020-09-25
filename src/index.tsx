@@ -5,12 +5,12 @@ import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 
 import { Root } from "./components";
 import { palette } from "./palette";
-import { provideAppContext } from "./context";
+import { provideSnackbarContext } from "./context";
 
 const theme = createMuiTheme({palette});
 
 // Don't use HOC inside render method. Ref: https://reactjs.org/docs/higher-order-components.html#dont-use-hocs-inside-the-render-method
-const RootProvidingContext = provideAppContext(Root);
+const RootProvidingContext = provideSnackbarContext(Root);
 
 ReactDOM.render(
     <ThemeProvider theme={theme}>
