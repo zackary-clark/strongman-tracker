@@ -10,7 +10,7 @@ describe("Snackbar", () => {
             <Snackbar autoHideDuration={50} />
             <Button
                 title={"Open Snackbar"}
-                onClick={props.onOpenSnackbar}
+                onClick={() => props.onOpenSnackbar(props.customMessage)}
             >
                 Open Snackbar
             </Button>
@@ -19,7 +19,7 @@ describe("Snackbar", () => {
 
     const SUT = provideSnackbarContext(withSnackbarContext(testComponent));
 
-    it("should Open Snackbar on 'Open Snackbar' click", async () => {
+    it("should Open Snackbar on 'Open Snackbar' click with default message", async () => {
         const {getByTitle, getByText} = render(<SUT />);
         getByTitle("Open Snackbar").click();
         await waitFor(() => expect(getByText(defaultSnackbarMessage)));
@@ -48,7 +48,9 @@ describe("Snackbar", () => {
         await waitForElementToBeRemoved(() => getByText(defaultSnackbarMessage));
     });
 
-    it("should display custom error messages", () => {
-        expect(true).toBe(false);
+    it("should display custom error messages", async () => {
+        const {getByTitle, getByText} = render(<SUT customMessage={"Custom Message"} />);
+        getByTitle("Open Snackbar").click();
+        await waitFor(() => expect(getByText("Custom Message")));
     });
 });

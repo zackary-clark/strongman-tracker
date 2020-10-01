@@ -60,5 +60,9 @@ describe("maxComponent", () => {
             getByTitle("Save").click();
             await waitFor(() => expect(getByText("123123")));
         });
+
+        it("should show snackbar when save fails", () => {
+            expect(true).toBe(false);
+        });
     });
 });

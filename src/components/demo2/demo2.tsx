@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Button, FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
-import { MUIClickHandler, withSnackbarContext } from "../../context";
+import { withSnackbarContext } from "../../context";
 
 interface IDemo2Props {
-    onOpenSnackbar: MUIClickHandler,
+    onOpenSnackbar: () => void,
 }
 
 class Demo2SansContext extends React.Component<IDemo2Props> {
@@ -14,7 +14,7 @@ class Demo2SansContext extends React.Component<IDemo2Props> {
                     title="Open Snackbar"
                     variant="contained"
                     color="secondary"
-                    onClick={this.props.onOpenSnackbar}
+                    onClick={() => this.props.onOpenSnackbar()}
                 >
                     Open Snackbar
                 </Button><br/>

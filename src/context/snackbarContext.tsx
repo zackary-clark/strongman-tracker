@@ -7,7 +7,7 @@ interface ISnackbarContext {
     isSnackbarOpen?: boolean,
     snackbarMessage?: string,
     onCloseSnackbar?: MUIClickHandler,
-    onOpenSnackbar?: MUIClickHandler,
+    onOpenSnackbar?: (message?: string) => void,
 }
 
 export const defaultSnackbarMessage = "An Error Occurred";
@@ -33,8 +33,8 @@ export function provideSnackbarContext(WrappedComponent: ComponentType<any>) {
                 this.setState({isSnackbarOpen: false});
             };
 
-            this.openSnackbar = () => {
-                this.setState({isSnackbarOpen: true});
+            this.openSnackbar = (message?: string) => {
+                this.setState({isSnackbarOpen: true, snackbarMessage: message || defaultSnackbarMessage});
             };
 
             this.state = {...defaultSnackbarContext, onCloseSnackbar: this.closeSnackbar, onOpenSnackbar: this.openSnackbar};
