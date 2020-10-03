@@ -3,6 +3,7 @@ import MaterialTable from "material-table";
 import { Button, createStyles, Theme, withStyles, WithStyles, StyleRules } from "@material-ui/core";
 import { IMax } from "../../data/max";
 import { getMaxes, postMax } from "../../webClient";
+import { withSnackbarContext } from "../../context";
 
 const MaxComponentStyles = (theme: Theme): StyleRules => createStyles({
     button: {
@@ -10,12 +11,16 @@ const MaxComponentStyles = (theme: Theme): StyleRules => createStyles({
     },
 });
 
-interface IMaxComponentState {
-    maxes: IMax[];
+interface IMaxComponentProps extends WithStyles<typeof MaxComponentStyles> {
+    onOpenSnackbar: (message?: string) => void,
 }
 
-class MaxComponentSansTheme extends React.Component<WithStyles<typeof MaxComponentStyles>, IMaxComponentState> {
-    public constructor(props: WithStyles<typeof MaxComponentStyles>) {
+interface IMaxComponentState {
+    maxes: IMax[],
+}
+
+class MaxComponentSansTheme extends React.Component<IMaxComponentProps, IMaxComponentState> {
+    public constructor(props: IMaxComponentProps) {
         super(props);
         this.state = {maxes: []};
     }
@@ -56,14 +61,14 @@ class MaxComponentSansTheme extends React.Component<WithStyles<typeof MaxCompone
             editable={{
                 onRowAdd: this.addEntry,
                 onRowDelete: () => {
-                    return new Promise((resolve: Function, reject: Function) => {
+                    return new Promise((resolve, reject) => {
                         setTimeout(() => {
                             resolve();
                         }, 10);
                     });
                 },
                 onRowUpdate: () => {
-                    return new Promise((resolve: Function, reject: Function) => {
+                    return new Promise((resolve, reject) => {
                         setTimeout(() => {
                             resolve();
                         }, 10);
@@ -79,6 +84,10 @@ class MaxComponentSansTheme extends React.Component<WithStyles<typeof MaxCompone
                 const maxes: IMax[] = this.state.maxes;
                 maxes.push(newData);
                 return this.setState({maxes});
+            })
+            .catch(e => {
+                console.error("Save Failed!");
+                this.props.onOpenSnackbar("Save Failed!");
             });
     };
 
@@ -86,8 +95,11 @@ class MaxComponentSansTheme extends React.Component<WithStyles<typeof MaxCompone
         getMaxes()
             .then((res) => res.data)
             .then((maxes) => this.setState({maxes}))
-            .catch((e) => console.error(e));
+            .catch(e => {
+                console.error("Get Failed");
+                this.props.onOpenSnackbar();
+            });
     };
 }
 
-export const MaxComponent = withStyles(MaxComponentStyles, {withTheme: true})(MaxComponentSansTheme);
+export const MaxComponent = withSnackbarContext(withStyles(MaxComponentStyles, {withTheme: true})(MaxComponentSansTheme));

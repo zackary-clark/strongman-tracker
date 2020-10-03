@@ -4,6 +4,8 @@ import { waitFor, fireEvent } from "@testing-library/dom";
 import * as WebClient from "../../src/webClient";
 import { MaxComponent } from "../../src/components";
 import { sampleMaxesArray, defaultAxiosResponse } from "../test-helpers/data";
+import { defaultSnackbarMessage } from "../../src/context";
+import { renderWithSnackbar } from "../test-helpers/testUtils";
 
 describe("maxComponent", () => {
     let getMaxesSpy: jest.SpyInstance;
@@ -38,6 +40,15 @@ describe("maxComponent", () => {
             getByTitle("Get Maxes").click();
             await waitFor(() => expect(getByText("123456")));
         });
+
+        it("should show snackbar when getMaxes fails", async () => {
+            getMaxesSpy = jest.spyOn(WebClient, "getMaxes").mockRejectedValue("error");
+            const { getByTitle, getByText } = renderWithSnackbar(<MaxComponent />);
+
+            getByTitle("Get Maxes").click();
+
+            await waitFor(() => expect(getByText(defaultSnackbarMessage)));
+        });
     });
     
     describe("Max Table", () => {
@@ -48,21 +59,31 @@ describe("maxComponent", () => {
 
         it("should call webClient.postMax on 'Add'", () => {
             const { getByTitle } = render(<MaxComponent />);
+
             getByTitle("Add").click();
             getByTitle("Save").click();
+
             expect(postMaxSpy).toHaveBeenCalled();
         });
 
         it("should place new entry in table on 'Add'", async () => {
             const { getByTitle, getByPlaceholderText, getByText } = render(<MaxComponent />);
+
             getByTitle("Add").click();
             fireEvent.change(getByPlaceholderText("Squat"), { target: { value: "123123" }});
             getByTitle("Save").click();
+
             await waitFor(() => expect(getByText("123123")));
         });
 
-        it("should show snackbar when save fails", () => {
-            expect(true).toBe(false);
+        it("should show snackbar when save fails", async () => {
+            postMaxSpy = jest.spyOn(WebClient, "postMax").mockRejectedValue("error");
+            const {getByTitle, getByText} = renderWithSnackbar(<MaxComponent />);
+
+            getByTitle("Add").click();
+            getByTitle("Save").click();
+
+            await waitFor(() => expect(getByText("Save Failed!")));
         });
     });
 });

@@ -55,7 +55,7 @@
         ],
         "react/display-name": "off",
         "react/prop-types": "off",
-        "@typescript-eslint/ban-ts-ignore": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/prefer-readonly": ["error"],
         "@typescript-eslint/no-empty-function": "off"
     }
