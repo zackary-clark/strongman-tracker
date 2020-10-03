@@ -19,7 +19,7 @@ interface IMaxComponentState {
     maxes: IMax[],
 }
 
-class MaxComponentSansTheme extends React.Component<IMaxComponentProps, IMaxComponentState> {
+class MaxComponentSansContext extends React.Component<IMaxComponentProps, IMaxComponentState> {
     public constructor(props: IMaxComponentProps) {
         super(props);
         this.state = {maxes: []};
@@ -80,10 +80,10 @@ class MaxComponentSansTheme extends React.Component<IMaxComponentProps, IMaxComp
 
     protected addEntry = (newData: IMax): Promise<void | IMax> => {
         return postMax(newData)
-            .then(() => {
+            .then(res => {
                 const maxes: IMax[] = this.state.maxes;
-                maxes.push(newData);
-                return this.setState({maxes});
+                maxes.push(res.data);
+                this.setState({maxes});
             })
             .catch(e => {
                 console.error("Save Failed!");
@@ -102,4 +102,4 @@ class MaxComponentSansTheme extends React.Component<IMaxComponentProps, IMaxComp
     };
 }
 
-export const MaxComponent = withSnackbarContext(withStyles(MaxComponentStyles, {withTheme: true})(MaxComponentSansTheme));
+export const MaxComponent = withSnackbarContext(withStyles(MaxComponentStyles, {withTheme: true})(MaxComponentSansContext));

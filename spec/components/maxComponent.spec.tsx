@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import { waitFor, fireEvent } from "@testing-library/dom";
 import * as WebClient from "../../src/webClient";
 import { MaxComponent } from "../../src/components";
-import { sampleMaxesArray, defaultAxiosResponse } from "../test-helpers/data";
+import { sampleMaxesArray, defaultAxiosResponse, sampleMax } from "../test-helpers/data";
 import { defaultSnackbarMessage } from "../../src/context";
 import { renderWithSnackbar } from "../test-helpers/testUtils";
 
@@ -16,7 +16,10 @@ describe("maxComponent", () => {
             ...defaultAxiosResponse,
             data: sampleMaxesArray
         });
-        postMaxSpy = jest.spyOn(WebClient, "postMax").mockResolvedValue(defaultAxiosResponse);
+        postMaxSpy = jest.spyOn(WebClient, "postMax").mockResolvedValue({
+            ...defaultAxiosResponse,
+            data: sampleMax
+        });
     });
 
     afterEach(() => {
@@ -70,10 +73,10 @@ describe("maxComponent", () => {
             const { getByTitle, getByPlaceholderText, getByText } = render(<MaxComponent />);
 
             getByTitle("Add").click();
-            fireEvent.change(getByPlaceholderText("Squat"), { target: { value: "123123" }});
+            fireEvent.change(getByPlaceholderText("Squat"), { target: { value: "225" }});
             getByTitle("Save").click();
 
-            await waitFor(() => expect(getByText("123123")));
+            await waitFor(() => expect(getByText("225")));
         });
 
         it("should show snackbar when save fails", async () => {
