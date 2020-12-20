@@ -4,7 +4,6 @@ import { waitFor, fireEvent } from "@testing-library/dom";
 import * as WebClient from "../../src/webClient";
 import { MaxComponent } from "../../src/components";
 import { sampleMaxesArray, defaultAxiosResponse, sampleMax } from "../test-helpers/data";
-import { defaultSnackbarMessage } from "../../src/context";
 import { renderWithSnackbar } from "../test-helpers/testUtils";
 
 describe("maxComponent", () => {
@@ -50,7 +49,7 @@ describe("maxComponent", () => {
 
             getByTitle("Get Maxes").click();
 
-            await waitFor(() => expect(getByText(defaultSnackbarMessage)));
+            await waitFor(() => expect(getByText("Network Error!")));
         });
     });
     

@@ -86,7 +86,7 @@ class MaxComponentSansContext extends React.Component<IMaxComponentProps, IMaxCo
                 this.setState({maxes});
             })
             .catch(e => {
-                console.error("Save Failed!");
+                console.error("Save Failed");
                 this.props.onOpenSnackbar("Save Failed!");
             });
     };
@@ -97,7 +97,7 @@ class MaxComponentSansContext extends React.Component<IMaxComponentProps, IMaxCo
             .then((maxes) => this.setState({maxes}))
             .catch(e => {
                 console.error("Get Failed");
-                this.props.onOpenSnackbar();
+                this.props.onOpenSnackbar("Network Error!");
             });
     };
 }
