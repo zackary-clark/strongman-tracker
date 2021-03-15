@@ -36,7 +36,6 @@ module.exports = {
       filename: "index.html",
       template: "./index.html.template",
       favicon: "./src/images/favicon.ico",
-      xhtml: true,
     }),
   ],
   devServer: {
