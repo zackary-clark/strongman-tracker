@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strongman-tracker
+  namespace: default
+  labels:
+    app: strongman-tracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: strongman-tracker
+  template:
+    metadata:
+      labels:
+        app: strongman-tracker
+    spec:
+      containers:
+        - name: strongman-tracker
+          image: zackaryclark/strongman-tracker:dev
+          ports:
+            - containerPort: 80
+
