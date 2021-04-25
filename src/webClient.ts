@@ -9,6 +9,6 @@ export function getMaxes(): Promise<AxiosResponse<IMax[]>> {
     return Axios.get(host + "/maxes", {headers: contentHeader});
 }
 
-export function postMax(data: IMax): Promise<AxiosResponse> {
+export function postMax(data: IMax): Promise<AxiosResponse<IMax>> {
     return Axios.post(host + "/max", data, {headers: contentHeader});
 }

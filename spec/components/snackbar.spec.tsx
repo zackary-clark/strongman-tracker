@@ -1,23 +1,31 @@
 import * as React from "react";
+import { useContext } from "react";
 import { Button } from "@material-ui/core";
 import { render, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
-import { defaultSnackbarMessage, provideSnackbarContext, withSnackbarContext } from "../../src/context";
+import { defaultSnackbarMessage, SnackbarContextProvider, SnackbarContext } from "../../src/context";
 import { Snackbar } from "../../src/components/snackBar";
 
 describe("Snackbar", () => {
-    const testComponent = (props: any) => (
-        <div>
-            <Snackbar autoHideDuration={50} />
-            <Button
-                title={"Open Snackbar"}
-                onClick={() => props.onOpenSnackbar(props.customMessage)}
-            >
-                Open Snackbar
-            </Button>
-        </div>
-    );
+    function TestComponent(props: any) {
+        const { onOpenSnackbar } = useContext(SnackbarContext);
+        return (
+            <div>
+                <Snackbar autoHideDuration={50}/>
+                <Button
+                    title={"Open Snackbar"}
+                    onClick={() => onOpenSnackbar(props.customMessage)}
+                >
+                    Open Snackbar
+                </Button>
+            </div>
+        );
+    }
 
-    const SUT = provideSnackbarContext(withSnackbarContext(testComponent));
+    const SUT = (props: any) => (
+        <SnackbarContextProvider>
+            <TestComponent {...props} />
+        </SnackbarContextProvider>
+    );
 
     it("should Open Snackbar on 'Open Snackbar' click with default message", async () => {
         const {getByTitle, getByText} = render(<SUT />);

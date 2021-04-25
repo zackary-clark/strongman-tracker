@@ -1,12 +1,11 @@
-import React, { FunctionComponent, ReactElement } from "react";
+import React from "react";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Snackbar } from "../../src/components/snackBar";
-import { provideSnackbarContext } from "../../src/context";
+import { SnackbarContextProvider } from "../../src/context";
 
-export const renderInRouter = (component: ReactElement<any>, path?: string) => {
-    // @ts-ignore
-    const RoutingWrapper: FunctionComponent = ({children}) => {
+export const renderInRouter = (component: React.ReactElement, path?: string) => {
+    const RoutingWrapper: React.FunctionComponent = ({children}) => {
         return (
             <MemoryRouter initialEntries={[path ? path : "/"]}>
                 {children}
@@ -16,15 +15,15 @@ export const renderInRouter = (component: ReactElement<any>, path?: string) => {
     return render(component, {wrapper: RoutingWrapper});
 };
 
-export const renderWithSnackbar = (component: ReactElement) => {
-    const componentAndSnackbar = () => (
-        <React.Fragment>
-            <Snackbar />
-            {component}
-        </React.Fragment>
-    );
-
-    const ComponentWithSnackbarAndContext = provideSnackbarContext(componentAndSnackbar);
+export const renderWithSnackbar = (component: React.ReactElement) => {
+    const ComponentWithSnackbarAndContext = () => (
+            <SnackbarContextProvider>
+                <React.Fragment>
+                    <Snackbar />
+                    {component}
+                </React.Fragment>
+            </SnackbarContextProvider>
+        );
 
     return render(<ComponentWithSnackbarAndContext />);
 };

@@ -1,48 +1,23 @@
 import * as React from "react";
+import { useContext, useState } from "react";
 import MaterialTable from "material-table";
-import { Button, createStyles, Theme, withStyles, WithStyles, StyleRules } from "@material-ui/core";
+import { Button, createStyles, makeStyles, Theme } from "@material-ui/core";
 import { IMax } from "../../data/max";
 import { getMaxes, postMax } from "../../webClient";
-import { withSnackbarContext } from "../../context";
+import { SnackbarContext } from "../../context";
 
-const MaxComponentStyles = (theme: Theme): StyleRules => createStyles({
+const useStyles = makeStyles((theme: Theme) => createStyles({
     button: {
         margin: theme.spacing(1),
     },
-});
+}));
 
-interface IMaxComponentProps extends WithStyles<typeof MaxComponentStyles> {
-    onOpenSnackbar: (message?: string) => void,
-}
+export function MaxComponent(): React.ReactElement {
+    const classes = useStyles();
+    const { onOpenSnackbar } = useContext(SnackbarContext);
+    const [ maxes, setMaxes ] = useState<IMax[]>([]);
 
-interface IMaxComponentState {
-    maxes: IMax[],
-}
-
-class MaxComponentSansContext extends React.Component<IMaxComponentProps, IMaxComponentState> {
-    public constructor(props: IMaxComponentProps) {
-        super(props);
-        this.state = {maxes: []};
-    }
-
-    public render(): React.ReactNode {
-        const {classes} = this.props;
-        return (
-            <div className={"max-container"}>
-                <Button
-                    className={`get-maxes ${classes.button}`}
-                    onClick={this.getMaxesOnClick}
-                    variant={"contained"}
-                    title={"Get Maxes"}
-                >
-                    Get Maxes
-                </Button>
-                {this.generateTable()}
-            </div>
-        );
-    }
-
-    protected generateTable = (): React.ReactElement => (
+    const generateTable = (): React.ReactElement => (
         // TODO: This table looks bad on mobile
         <MaterialTable
             title={"One Rep Max Tracker"}
@@ -57,9 +32,9 @@ class MaxComponentSansContext extends React.Component<IMaxComponentProps, IMaxCo
                 {title: "Deadlift", field: "deadlift1RM", type: "numeric"},
                 {title: "OHP", field: "press1RM", type: "numeric"},
             ]}
-            data={this.state.maxes}
+            data={maxes}
             editable={{
-                onRowAdd: this.addEntry,
+                onRowAdd: addEntry,
                 onRowDelete: () => {
                     return new Promise((resolve, reject) => {
                         setTimeout(() => {
@@ -78,28 +53,40 @@ class MaxComponentSansContext extends React.Component<IMaxComponentProps, IMaxCo
         />
     );
 
-    protected addEntry = (newData: IMax): Promise<void | IMax> => {
+    const addEntry = (newData: IMax): Promise<void | IMax> => {
         return postMax(newData)
             .then(res => {
-                const maxes: IMax[] = this.state.maxes;
-                maxes.push(res.data);
-                this.setState({maxes});
+                const newMaxes: IMax[] = maxes.splice(0);
+                newMaxes.push(res.data);
+                setMaxes(newMaxes);
             })
             .catch(e => {
                 console.error("Save Failed");
-                this.props.onOpenSnackbar("Save Failed!");
+                onOpenSnackbar("Save Failed!");
             });
     };
 
-    protected getMaxesOnClick = (): void => {
+    const getMaxesOnClick = (): void => {
         getMaxes()
             .then((res) => res.data)
-            .then((maxes) => this.setState({maxes}))
+            .then((resData) => setMaxes(resData))
             .catch(e => {
                 console.error("Get Failed");
-                this.props.onOpenSnackbar("Network Error!");
+                onOpenSnackbar("Network Error!");
             });
     };
+    
+    return (
+        <div className={"max-container"}>
+            <Button
+                className={`get-maxes ${classes.button}`}
+                onClick={getMaxesOnClick}
+                variant={"contained"}
+                title={"Get Maxes"}
+            >
+                Get Maxes
+            </Button>
+            {generateTable()}
+        </div>
+    );
 }
-
-export const MaxComponent = withSnackbarContext(withStyles(MaxComponentStyles, {withTheme: true})(MaxComponentSansContext));

@@ -1,13 +1,13 @@
-import React, { ComponentType, ReactNode } from "react";
+import React, { ComponentType, ReactNode, useState } from "react";
 import { Subtract } from "utility-types/dist/mapped-types";
 
 export type MUIClickHandler = (event?: React.SyntheticEvent, reason?: string) => void;
 
 interface ISnackbarContext {
-    isSnackbarOpen?: boolean,
-    snackbarMessage?: string,
-    onCloseSnackbar?: MUIClickHandler,
-    onOpenSnackbar?: (message?: string) => void,
+    isSnackbarOpen: boolean,
+    snackbarMessage: string,
+    onCloseSnackbar: MUIClickHandler,
+    onOpenSnackbar: (message?: string) => void,
 }
 
 export const defaultSnackbarMessage = "An Error Occurred";
@@ -19,62 +19,29 @@ const defaultSnackbarContext: ISnackbarContext = {
     onOpenSnackbar: () => {},
 };
 
-const SnackbarContext = React.createContext(defaultSnackbarContext);
+export const SnackbarContext = React.createContext(defaultSnackbarContext);
 
-export function provideSnackbarContext(WrappedComponent: ComponentType<any>) {
-    return class extends React.Component<any, ISnackbarContext> {
-        closeSnackbar: () => void;
-        openSnackbar: () => void;
+export function SnackbarContextProvider(props: any) {
+    const [isSnackbarOpen, setIsSnackbarOpen] = useState(defaultSnackbarContext.isSnackbarOpen);
+    const [snackbarMessage, setSnackbarMessage] = useState(defaultSnackbarContext.snackbarMessage);
 
-        public constructor(props: any) {
-            super(props);
-
-            this.closeSnackbar = () => {
-                this.setState({isSnackbarOpen: false});
-            };
-
-            this.openSnackbar = (message?: string) => {
-                this.setState({isSnackbarOpen: true, snackbarMessage: message || defaultSnackbarMessage});
-            };
-
-            this.state = {...defaultSnackbarContext, onCloseSnackbar: this.closeSnackbar, onOpenSnackbar: this.openSnackbar};
-        }
-
-        public render(): ReactNode {
-            return (
-                <SnackbarContext.Provider value={this.state}>
-                    <WrappedComponent {...this.props} />
-                </SnackbarContext.Provider>
-            );
-        }
+    const closeSnackbar = () => {
+        setIsSnackbarOpen(false);
     };
-}
 
-export function withSnackbarContext<T extends ISnackbarContext>(WrappedComponent: ComponentType<T>) {
-    return class extends React.Component<Subtract<T, ISnackbarContext>> {
-        public constructor(props: T) {
-            super(props);
-        }
-
-        public render(): ReactNode {
-            return (
-                <SnackbarContext.Consumer>
-                    {({
-                          isSnackbarOpen,
-                          snackbarMessage,
-                          onCloseSnackbar,
-                          onOpenSnackbar
-                    }) => (
-                        <WrappedComponent
-                            isSnackbarOpen={isSnackbarOpen}
-                            snackbarMessage={snackbarMessage}
-                            onCloseSnackbar={onCloseSnackbar}
-                            onOpenSnackbar={onOpenSnackbar}
-                            {...this.props as T}
-                        />
-                    )}
-                </SnackbarContext.Consumer>
-            );
-        }
+    const openSnackbar = (message?: string) => {
+        setIsSnackbarOpen(true);
+        setSnackbarMessage(message || defaultSnackbarContext.snackbarMessage);
     };
+
+    return (
+        <SnackbarContext.Provider value={{
+            isSnackbarOpen,
+            snackbarMessage,
+            onCloseSnackbar: closeSnackbar,
+            onOpenSnackbar: openSnackbar
+        }}>
+            {props.children}
+        </SnackbarContext.Provider>
+    );
 }

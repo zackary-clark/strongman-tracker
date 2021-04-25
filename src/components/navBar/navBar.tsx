@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, LinkProps } from "react-router-dom";
 import { AppBar, Button, Theme, Toolbar, createStyles, makeStyles } from "@material-ui/core";
-import { demo2Route, maxRoute } from "../routes";
+import { demo2Route, maxRoute, workoutsRoute } from "../routes";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -18,10 +18,10 @@ const LinkForward = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) 
     <Link innerRef={ref} {...props} />
 ));
 
-export function NavBar(): JSX.Element {
+export function NavBar(): React.ReactElement {
     const classes = useStyles();
 
-    const MenuButton = (to: string, label: string, ariaLabel?: string): JSX.Element => (
+    const MenuButton = (to: string, label: string, ariaLabel?: string): React.ReactElement => (
         <Button
             href="#"
             variant="contained"
@@ -38,8 +38,9 @@ export function NavBar(): JSX.Element {
         <div className={classes.root} data-testid={"nav-bar"}>
             <AppBar position="static" color={"primary"}>
                 <Toolbar>
+                    {MenuButton(workoutsRoute, "Workouts", "go-to-workouts")}
                     {MenuButton(maxRoute, "Maxes", "go-to-maxes")}
-                    {MenuButton(demo2Route, "Demo2", "go-to-demo2")}
+                    {MenuButton(demo2Route, "Demo2", "go-to-demo")}
                 </Toolbar>
             </AppBar>
         </div>
