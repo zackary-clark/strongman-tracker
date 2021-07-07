@@ -7,6 +7,11 @@
         "build": "./scripts/build.sh",
         "deploy": "yarn build && gh-pages -d dist",
         "dev": "webpack-dashboard -- webpack-dev-server",
+        "docker:redirect": "eval $(minikube -p minikube docker-env)",
+        "docker:build": "docker build ./ -t zackaryclark/strongman-tracker",
+        "minikube:create": "kubectl create -f kubernetes/local-deployment.yml && kubectl apply -f kubernetes/local-nodeport.yml",
+        "minikube:start": "yarn build && yarn docker:redirect && yarn docker:build && yarn minikube:stop && yarn minikube:create",
+        "minikube:stop": "kubectl delete deployment strongman-tracker && kubectl delete services strongman-tracker",
         "test": "jest"
     },
     "dependencies": {
