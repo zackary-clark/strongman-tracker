@@ -1,17 +1,15 @@
 {
     "name": "strongman-tracker",
-    "version": "0.1.0",
+    "version": "0.0.1",
     "license": "MIT",
     "scripts": {
         "analyze": "webpack --json > stats.json",
         "build": "./scripts/build.sh",
-        "deploy": "yarn build && gh-pages -d dist",
         "dev": "webpack-dashboard -- webpack-dev-server",
-        "docker:redirect": "eval $(minikube -p minikube docker-env)",
-        "docker:build": "docker build ./ -t zackaryclark/strongman-tracker",
+        "docker:build": "yarn build && docker rmi zackaryclark/strongman-tracker && docker build ./ -t zackaryclark/strongman-tracker",
         "minikube:create": "kubectl create -f kubernetes/local-deployment.yml && kubectl apply -f kubernetes/local-nodeport.yml",
-        "minikube:start": "yarn build && yarn docker:redirect && yarn docker:build && yarn minikube:stop && yarn minikube:create",
-        "minikube:stop": "kubectl delete deployment strongman-tracker && kubectl delete services strongman-tracker",
+        "minikube:start": "yarn minikube:stop && yarn docker:build && yarn minikube:create && minikube service strongman-tracker --url",
+        "minikube:stop": "kubectl delete deployment strongman-tracker --ignore-not-found && kubectl delete services strongman-tracker --ignore-not-found",
         "test": "jest"
     },
     "dependencies": {
@@ -23,8 +21,7 @@
         "material-table": "1.57.2",
         "react": "16.13.1",
         "react-dom": "16.13.1",
-        "react-router-dom": "5.2.0",
-        "utility-types": "^3.10.0"
+        "react-router-dom": "5.2.0"
     },
     "devDependencies": {
         "@babel/core": "7.11.5",
@@ -64,5 +61,6 @@
         "webpack-cli": "3.3.12",
         "webpack-dashboard": "3.2.1",
         "webpack-dev-server": "3.11.0"
-    }
+    },
+    "private": true
 }
