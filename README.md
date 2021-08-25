@@ -34,10 +34,12 @@ Client uses React, Typescript, Webpack, Material UI, and React Context API
 ## "Releasing"
 
 1. Update `version` in package.json
-2. Push to `master`
-3. `yarn build`
-4. `docker build -t zackaryclark/strongman-tracker:VERSION` 
+2. Update `tag` of image in production-deployment.yml to match
+3. Push to `develop` with git tag `v{VERSION}`
+4. `yarn build`
+5. `docker build ./ -t zackaryclark/strongman-tracker:{VERSION}` 
    - Make sure this terminal has *NOT* been "redirected" to minikube
    - Make sure this `VERSION` matches the new version in package.json
-5. `docker push zackaryclark/strongman-tracker:VERSION`
-6. TODO: Run this container on K8s Cluster
+6. `docker push zackaryclark/strongman-tracker:{VERSION}`
+7. `kubectl config use-context prod`
+8. `kubectl apply -f kubernetes/production-deployment.yml`
