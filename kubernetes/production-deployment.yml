@@ -14,6 +14,9 @@ spec:
     spec:
       containers:
         - name: strongman-tracker
-          image: zackaryclark/strongman-tracker:0.0.2
+          image: zackaryclark/strongman-tracker:latest
           ports:
             - containerPort: 80
+          env:
+            - name: "REACT_APP_HOST_ADDRESS"
+              value: "http://zackary-clark.duckdns.org/api"

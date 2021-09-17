@@ -50,14 +50,14 @@ export function MaxComponent(): React.ReactElement {
                 editable={{
                     onRowAdd: addEntry,
                     onRowDelete: () => {
-                        return new Promise((resolve, reject) => {
+                        return new Promise<void>((resolve, reject) => {
                             setTimeout(() => {
                                 resolve();
                             }, 10);
                         });
                     },
                     onRowUpdate: () => {
-                        return new Promise((resolve, reject) => {
+                        return new Promise<void>((resolve, reject) => {
                             setTimeout(() => {
                                 resolve();
                             }, 10);

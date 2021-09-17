@@ -1,0 +1,5 @@
+#!/bin/sh -eu
+
+cat <<EOF
+window.REACT_APP_HOST_ADDRESS='$REACT_APP_HOST_ADDRESS';
+EOF
