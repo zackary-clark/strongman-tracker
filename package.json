@@ -8,13 +8,13 @@
         "dev": "webpack-dashboard -- webpack-dev-server",
         "docker:buildlocal": "yarn build && docker rmi -f zackaryclark/strongman-tracker && docker build ./ -f Local.Dockerfile -t zackaryclark/strongman-tracker",
         "docker:buildrelease": "yarn build && docker build ./ -f Dockerfile -t zackaryclark/strongman-tracker:latest -t zackaryclark/strongman-tracker:$npm_package_version",
-        "docker:pushrelease": "docker push zackaryclark/strongman-tracker:$npm_package_version",
+        "docker:pushrelease": "docker push zackaryclark/strongman-tracker:$npm_package_version && docker push zackaryclark/strongman-tracker:latest",
         "minikube:create": "kubectl create -f kubernetes/local-deployment.yml && kubectl apply -f kubernetes/local-nodeport.yml",
         "minikube:start": "yarn docker:buildlocal && yarn minikube:create && minikube service strongman-tracker --url",
         "minikube:stop": "kubectl delete deployment strongman-tracker --ignore-not-found && kubectl delete services strongman-tracker --ignore-not-found",
         "test": "jest",
         "preversion": "yarn test",
-        "postversion": "git push --tags && git push && yarn docker:buildrelease && yarn docker:pushrelease && echo \"\n\\x1b[1m\\x1b[32m<==  Released Client v$npm_package_version  ==>\\x1b[0m\n\""
+        "postversion": "git push --tags && git push && yarn docker:buildrelease && yarn docker:pushrelease && echo -e \"\n\\033[0;32m  <==  Released Client v$npm_package_version  ==>  \\033[0m\n\""
     },
     "dependencies": {
         "@babel/runtime": "7.15.4",
