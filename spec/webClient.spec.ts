@@ -15,7 +15,7 @@ describe("WebClient", () => {
             await getMaxes();
             expect(Axios.get).toHaveBeenCalledTimes(1);
             expect(Axios.get).toHaveBeenCalledWith(
-                expect.stringContaining("/api/maxes"),
+                expect.stringContaining("/maxes"),
                 expect.objectContaining({
                     headers: {
                         "Content-Type": "application/json",
@@ -30,7 +30,7 @@ describe("WebClient", () => {
             await postMax(sampleMax);
             expect(Axios.post).toHaveBeenCalledTimes(1);
             expect(Axios.post).toHaveBeenCalledWith(
-                expect.stringMatching("/api/max"),
+                expect.stringMatching("/max"),
                 expect.anything(),
                 expect.objectContaining({
                     headers: {
