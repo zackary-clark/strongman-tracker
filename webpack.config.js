@@ -51,6 +51,9 @@ module.exports = {
         }),
     ],
     devServer: {
+        client: {
+            overlay: {errors: true, warnings: false}
+        },
         historyApiFallback: true,
         port: 8081,
         proxy: {

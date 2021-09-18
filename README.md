@@ -32,6 +32,13 @@ Client uses React, Typescript, Webpack, Material UI, and React Context API
 
 ## Releasing/Deploying
 
+### One time `qemu` prep
+1. Install `qemu` and `qemu-user-static` on dev machine
+2. Run `docker run --rm --privileged multiarch/qemu-user-static --reset -p yes`
+
+Now you can build arm64 images from your x86 dev machine
+
+### Release Steps
 ***Make sure this terminal has NOT been "redirected" to minikube***
 
 1. Commit the ready-to-be-released code
