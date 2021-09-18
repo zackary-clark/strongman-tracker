@@ -14,7 +14,7 @@
         "minikube:stop": "kubectl delete deployment strongman-tracker --ignore-not-found && kubectl delete services strongman-tracker --ignore-not-found",
         "test": "jest",
         "preversion": "yarn test",
-        "postversion": "git push --tags && git push && yarn docker:buildrelease && yarn docker:pushrelease && echo \"Released Client v$npm_package_version\""
+        "postversion": "git push --tags && git push && yarn docker:buildrelease && yarn docker:pushrelease && echo \"\n\\x1b[1m\\x1b[32m<==  Released Client v$npm_package_version  ==>\\x1b[0m\n\""
     },
     "dependencies": {
         "@babel/runtime": "7.15.4",
