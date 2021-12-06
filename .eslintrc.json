@@ -16,7 +16,7 @@
                 "plugin:import/warnings",
                 "plugin:import/typescript",
                 "plugin:jest-dom/recommended",
-                "plugin:testing-library/recommended"
+                "plugin:testing-library/react"
             ],
             "rules": {
                 "quotes": [

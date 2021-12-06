@@ -47,7 +47,7 @@ module.exports = {
             title: "Strongman Tracker",
             filename: "index.html",
             template: "./index.html.template",
-            favicon: "./src/images/favicon.ico",
+            favicon: "./src/images/favicon.png",
         }),
     ],
     devServer: {
