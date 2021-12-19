@@ -47,4 +47,4 @@ Now you can build arm64 images from your x86 dev machine
    2. Push to `develop` with git tag
    3. Build, tag and push the docker image to Docker Hub
 3. `kubectl config use-context prod`
-4. `kubectl apply -f kubernetes/production-deployment.yml`
+4. `kubectl rollout restart deployment strongman-tracker-deployment`

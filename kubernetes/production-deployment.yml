@@ -15,6 +15,7 @@ spec:
       containers:
         - name: strongman-tracker
           image: zackaryclark/strongman-tracker:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           env:
