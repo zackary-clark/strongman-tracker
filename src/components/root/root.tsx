@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Route } from "react-router-dom";
+import { Box } from "@material-ui/core";
 import { NavBar } from "../navBar";
 import { Demo } from "../demo";
 import { MaxComponent } from "../maxes";
@@ -9,12 +10,12 @@ import { WorkoutsComponent } from "../workouts";
 
 export function Root(): React.ReactElement {
     return (
-        <React.Fragment>
+        <Box>
             <Snackbar/>
             <NavBar/>
             <Route exact path={workoutsRoute} component={WorkoutsComponent}/>
             <Route exact path={maxRoute} component={MaxComponent}/>
             <Route exact path={demo2Route} component={Demo}/>
-        </React.Fragment>
+        </Box>
     );
 }

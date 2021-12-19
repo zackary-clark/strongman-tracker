@@ -1,46 +1,26 @@
 import React from "react";
-import { Link, LinkProps } from "react-router-dom";
-import { AppBar, Button, Theme, Toolbar, createStyles, makeStyles } from "@material-ui/core";
+import { AppBar, createStyles, makeStyles, Theme, Toolbar } from "@material-ui/core";
 import { demo2Route, maxRoute, workoutsRoute } from "../routes";
+import { MenuButton } from "./MenuButton";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             flexGrow: 1,
         },
-        button: {
-            marginRight: theme.spacing(1),
-        },
     }),
 );
 
-const LinkForward = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => (
-    <Link innerRef={ref} {...props} />
-));
-
 export function NavBar(): React.ReactElement {
     const classes = useStyles();
-
-    const MenuButton = (to: string, label: string, ariaLabel?: string): React.ReactElement => (
-        <Button
-            href="#"
-            variant="contained"
-            component={LinkForward}
-            to={to}
-            className={classes.button}
-            aria-label={ariaLabel}
-        >
-            {label}
-        </Button>
-    );
 
     return (
         <div className={classes.root} data-testid={"nav-bar"}>
             <AppBar position="static" color={"primary"}>
                 <Toolbar>
-                    {MenuButton(workoutsRoute, "Workouts", "go-to-workouts")}
-                    {MenuButton(maxRoute, "Maxes", "go-to-maxes")}
-                    {MenuButton(demo2Route, "Demo2", "go-to-demo")}
+                    <MenuButton routeTo={workoutsRoute} label={"Workouts"} ariaLabel={"go-to-workouts"} />
+                    <MenuButton routeTo={maxRoute} label={"Maxes"} ariaLabel={"go-to-maxes"} />
+                    <MenuButton routeTo={demo2Route} label={"Demo"} ariaLabel={"go-to-demo"} />
                 </Toolbar>
             </AppBar>
         </div>

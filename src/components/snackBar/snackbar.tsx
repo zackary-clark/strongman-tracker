@@ -1,18 +1,18 @@
 import * as React from "react";
 import { useContext } from "react";
-import { Snackbar as MUISnackbar } from "@material-ui/core";
+import { Box, Snackbar as MUISnackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { SnackbarContext } from "../../context";
 
-interface ISnackbarProps {
+interface Props {
     autoHideDuration?: number,
 }
 
-export function Snackbar(props: ISnackbarProps): React.ReactElement {
+export function Snackbar(props: Props): React.ReactElement {
     const { isSnackbarOpen, onCloseSnackbar, snackbarMessage } = useContext(SnackbarContext);
 
     return (
-        <div className={"snackbar"}>
+        <Box className={"snackbar"}>
             <MUISnackbar
                 anchorOrigin={{vertical: "top", horizontal: "right"}}
                 autoHideDuration={props.autoHideDuration || 5000}
@@ -23,6 +23,6 @@ export function Snackbar(props: ISnackbarProps): React.ReactElement {
                     {snackbarMessage}
                 </Alert>
             </MUISnackbar>
-        </div>
+        </Box>
     );
 }

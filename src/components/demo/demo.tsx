@@ -35,6 +35,7 @@ export function Demo(): React.ReactElement {
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
                     label="Age"
+                    value={""}
                 >
                     <MenuItem value="">
                         <em>None</em>

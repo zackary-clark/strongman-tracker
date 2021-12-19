@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";
 import MaterialTable from "material-table";
+import { Box } from "@material-ui/core";
 import { IMax } from "../../data/max";
 import { getMaxes, postMax } from "../../webClient";
 import { SnackbarContext } from "../../context";
@@ -13,7 +14,6 @@ export function MaxComponent(): React.ReactElement {
         getMaxes()
             .then((res) => res.data)
             .then((resData) => {
-                console.log(resData);
                 setMaxes(resData);
             })
             .catch(e => {
@@ -36,7 +36,7 @@ export function MaxComponent(): React.ReactElement {
     };
 
     return (
-        <div className={"max-container"}>
+        <Box className={"max-container"}>
             <MaterialTable
                 title={"One Rep Max Tracker"}
                 columns={[
@@ -65,6 +65,6 @@ export function MaxComponent(): React.ReactElement {
                     },
                 }}
             />
-        </div>
+        </Box>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { PropsWithChildren, useState } from "react";
 
 export type MUIClickHandler = (event?: React.SyntheticEvent, reason?: string) => void;
 
@@ -20,7 +20,7 @@ const defaultSnackbarContext: ISnackbarContext = {
 
 export const SnackbarContext = React.createContext(defaultSnackbarContext);
 
-export function SnackbarContextProvider(props: any) {
+export function SnackbarContextProvider({children}: PropsWithChildren<unknown>): JSX.Element {
     const [isSnackbarOpen, setIsSnackbarOpen] = useState(defaultSnackbarContext.isSnackbarOpen);
     const [snackbarMessage, setSnackbarMessage] = useState(defaultSnackbarContext.snackbarMessage);
 
@@ -40,7 +40,7 @@ export function SnackbarContextProvider(props: any) {
             onCloseSnackbar: closeSnackbar,
             onOpenSnackbar: openSnackbar
         }}>
-            {props.children}
+            {children}
         </SnackbarContext.Provider>
     );
 }

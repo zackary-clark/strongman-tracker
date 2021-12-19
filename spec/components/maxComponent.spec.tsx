@@ -1,72 +1,57 @@
 import * as React from "react";
-import { render } from "@testing-library/react";
-import { waitFor } from "@testing-library/dom";
+import { render, screen } from "@testing-library/react";
 import * as WebClient from "../../src/webClient";
 import { MaxComponent } from "../../src/components";
 import { defaultAxiosResponse, sampleMax, sampleMaxesArray } from "../test-helpers/data";
 import { renderWithSnackbar } from "../test-helpers/testUtils";
 
 describe("maxComponent", () => {
-    let getMaxesSpy: jest.SpyInstance;
-    let postMaxSpy: jest.SpyInstance;
-
     beforeEach(() => {
-        getMaxesSpy = jest.spyOn(WebClient, "getMaxes").mockResolvedValue({
+        const responseCopyBecauseMaterialTableMutatesEverythingItsPassedBecauseItsBad = {
             ...defaultAxiosResponse,
-            data: sampleMaxesArray
-        });
-        postMaxSpy = jest.spyOn(WebClient, "postMax").mockResolvedValue({
-            ...defaultAxiosResponse,
-            data: sampleMax
-        });
+            data: [...sampleMaxesArray]
+        };
+        jest.spyOn(WebClient, "getMaxes").mockResolvedValue({...responseCopyBecauseMaterialTableMutatesEverythingItsPassedBecauseItsBad});
     });
 
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
-    
     describe("GetMaxes", () => {
-        it("should call webclient.getMaxes on render", () => {
-            render(<MaxComponent />);
-            expect(getMaxesSpy).toBeCalled();
-        });
-
         it("should add data to table", async () => {
-            const { getByText } = render(<MaxComponent />);
-            await waitFor(() => expect(getByText("123456")));
+            render(<MaxComponent />);
+            expect(await screen.findByText("123456")).toBeInTheDocument();
         });
 
         it("should show snackbar when getMaxes fails", async () => {
-            getMaxesSpy = jest.spyOn(WebClient, "getMaxes").mockRejectedValue("error");
-            const { getByText } = renderWithSnackbar(<MaxComponent />);
+            jest.spyOn(WebClient, "getMaxes").mockRejectedValue("error");
+            renderWithSnackbar(<MaxComponent />);
 
-            await waitFor(() => expect(getByText("Network Error!")));
+            expect(await screen.findByText("Network Error!")).toBeInTheDocument();
         });
     });
     
     describe("Max Table", () => {
-        it("should render maxes table with title", () => {
-            const { getByRole } = render(<MaxComponent />);
-            expect(getByRole("heading", { name: "One Rep Max Tracker" })).toBeInTheDocument();
-        });
+        it("should add new max to table", async () => {
+            jest.spyOn(WebClient, "postMax").mockResolvedValue({
+                ...defaultAxiosResponse,
+                data: sampleMax
+            });
+            render(<MaxComponent />);
+            expect(await screen.findByText("123456")).toBeInTheDocument();
 
-        it("should call webClient.postMax on 'Add'", () => {
-            const { getByTitle } = render(<MaxComponent />);
+            screen.getByTitle("Add").click();
+            screen.getByTitle("Save").click();
 
-            getByTitle("Add").click();
-            getByTitle("Save").click();
-
-            expect(postMaxSpy).toHaveBeenCalled();
+            expect(await screen.findByText("225")).toBeInTheDocument();
         });
 
         it("should show snackbar when save fails", async () => {
-            postMaxSpy = jest.spyOn(WebClient, "postMax").mockRejectedValue("error");
-            const {getByTitle, getByText} = renderWithSnackbar(<MaxComponent />);
+            jest.spyOn(WebClient, "postMax").mockRejectedValue("error");
+            renderWithSnackbar(<MaxComponent />);
+            expect(await screen.findByText("123456")).toBeInTheDocument();
 
-            getByTitle("Add").click();
-            getByTitle("Save").click();
+            screen.getByTitle("Add").click();
+            screen.getByTitle("Save").click();
 
-            await waitFor(() => expect(getByText("Save Failed!")));
+            expect(await screen.findByText("Save Failed!")).toBeInTheDocument();
         });
     });
 });

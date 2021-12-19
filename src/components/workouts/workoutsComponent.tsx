@@ -1,9 +1,10 @@
 import * as React from "react";
+import { Box } from "@material-ui/core";
 
-export const WorkoutsComponent = () => {
+export const WorkoutsComponent = (): React.ReactElement => {
     return (
-        <div>
+        <Box>
             Workouts
-        </div>
+        </Box>
     );
 };
