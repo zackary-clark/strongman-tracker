@@ -1,4 +1,23 @@
-import { PaletteOptions } from "@material-ui/core/styles/createPalette";
+import { PaletteOptions } from "@mui/material/styles";
+import { createTheme } from "@mui/material";
+
+declare module "@mui/material/styles" {
+    interface Palette {
+        neutral: Palette["primary"];
+    }
+
+    // allow configuration using `createTheme`
+    interface PaletteOptions {
+        neutral?: PaletteOptions["primary"];
+    }
+}
+
+// Update the Button's color prop options
+declare module "@mui/material/Button" {
+    interface ButtonPropsColorOverrides {
+        neutral: true;
+    }
+}
 
 const GRUVBOX = {
     BG: "#282828",
@@ -33,8 +52,8 @@ const GRUVBOX = {
     ORANGE_BRIGHT: "#fe8019",
 };
 
-export const palette: PaletteOptions = {
-    type: "dark",
+const palette: PaletteOptions = {
+    mode: "dark",
     common: {
         black: GRUVBOX.BG0_H,
         white: GRUVBOX.FG0,
@@ -83,6 +102,12 @@ export const palette: PaletteOptions = {
     action: {
         active: GRUVBOX.FG,
     },
+    neutral: {
+        light: GRUVBOX.FG1,
+        main: GRUVBOX.FG2,
+        dark: GRUVBOX.FG3,
+        contrastText: GRUVBOX.BG,
+    },
     grey: {
         100: GRUVBOX.FG0,
         200: GRUVBOX.FG1,
@@ -99,3 +124,5 @@ export const palette: PaletteOptions = {
         A700: GRUVBOX.BG3,
     },
 };
+
+export const theme = createTheme({palette});

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useContext } from "react";
-import { Box, Button } from "@material-ui/core";
+import { Box, Button } from "@mui/material";
 import { render, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
 import { defaultSnackbarMessage, SnackbarContext, SnackbarContextProvider } from "../../src/context";
 import { Snackbar } from "../../src/components/snackBar";

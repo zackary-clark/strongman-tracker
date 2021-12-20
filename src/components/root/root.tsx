@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Route } from "react-router-dom";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { NavBar } from "../navBar";
 import { Demo } from "../demo";
 import { MaxComponent } from "../maxes";

@@ -1,6 +1,7 @@
-import React, { PropsWithChildren, useState } from "react";
+import React, { PropsWithChildren, SyntheticEvent, useState } from "react";
+import { SnackbarCloseReason } from "@mui/material";
 
-export type MUIClickHandler = (event?: React.SyntheticEvent, reason?: string) => void;
+export type MUIClickHandler = (event: Event | SyntheticEvent<any, Event>, reason?: SnackbarCloseReason) => void;
 
 interface ISnackbarContext {
     isSnackbarOpen: boolean,

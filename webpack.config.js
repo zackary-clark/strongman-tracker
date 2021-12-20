@@ -1,5 +1,4 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const DashboardPlugin = require("webpack-dashboard/plugin");
 
 module.exports = {
     mode: "production",
@@ -41,8 +40,8 @@ module.exports = {
     resolve: {
         extensions: [".js", ".ts", ".tsx"],
     },
+    target: "web",
     plugins: [
-        new DashboardPlugin(),
         new HtmlWebpackPlugin({
             title: "Strongman Tracker",
             filename: "index.html",
@@ -52,9 +51,9 @@ module.exports = {
     ],
     devServer: {
         client: {
-            overlay: {errors: true, warnings: false}
+            overlay: {errors: true, warnings: false},
+            logging: "info"
         },
-        historyApiFallback: true,
         port: 8081,
         proxy: {
             "/api": "http://localhost:8080"

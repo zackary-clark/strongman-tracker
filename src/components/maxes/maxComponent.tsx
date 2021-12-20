@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";
 import MaterialTable from "material-table";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { IMax } from "../../data/max";
 import { getMaxes, postMax } from "../../webClient";
 import { SnackbarContext } from "../../context";
