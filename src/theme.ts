@@ -4,11 +4,13 @@ import { createTheme } from "@mui/material";
 declare module "@mui/material/styles" {
     interface Palette {
         neutral: Palette["primary"];
+        gruv: typeof GRUVBOX;
     }
 
     // allow configuration using `createTheme`
     interface PaletteOptions {
         neutral?: PaletteOptions["primary"];
+        gruv: typeof GRUVBOX;
     }
 }
 
@@ -54,6 +56,7 @@ const GRUVBOX = {
 
 const palette: PaletteOptions = {
     mode: "dark",
+    gruv: GRUVBOX,
     common: {
         black: GRUVBOX.BG0_H,
         white: GRUVBOX.FG0,

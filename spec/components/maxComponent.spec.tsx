@@ -14,7 +14,7 @@ describe("maxComponent", () => {
         jest.spyOn(WebClient, "getMaxes").mockResolvedValue({...responseCopyBecauseMaterialTableMutatesEverythingItsPassedBecauseItsBad});
     });
 
-    describe("GetMaxes", () => {
+    describe("Get Maxes", () => {
         it("should add data to table", async () => {
             render(<MaxComponent />);
             expect(await screen.findByText("123456")).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe("maxComponent", () => {
         });
     });
     
-    describe("Max Table", () => {
+    describe.skip("Add Max", () => {
         it("should add new max to table", async () => {
             jest.spyOn(WebClient, "postMax").mockResolvedValue({
                 ...defaultAxiosResponse,

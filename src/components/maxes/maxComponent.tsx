@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";
-import MaterialTable from "material-table";
-import { Box } from "@mui/material";
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { IMax } from "../../data/max";
 import { getMaxes, postMax } from "../../webClient";
 import { SnackbarContext } from "../../context";
@@ -37,34 +36,38 @@ export function MaxComponent(): React.ReactElement {
 
     return (
         <Box className={"max-container"}>
-            <MaterialTable
-                title={"One Rep Max Tracker"}
-                columns={[
-                    {title: "Date", field: "date", type: "date", initialEditValue: new Date()},
-                    {title: "Squat", field: "squat1RM", type: "numeric"},
-                    {title: "Bench", field: "bench1RM", type: "numeric"},
-                    {title: "Deadlift", field: "deadlift1RM", type: "numeric"},
-                    {title: "OHP", field: "press1RM", type: "numeric"},
-                ]}
-                data={maxes}
-                editable={{
-                    onRowAdd: addEntry,
-                    onRowDelete: () => {
-                        return new Promise<void>((resolve, reject) => {
-                            setTimeout(() => {
-                                resolve();
-                            }, 10);
-                        });
-                    },
-                    onRowUpdate: () => {
-                        return new Promise<void>((resolve, reject) => {
-                            setTimeout(() => {
-                                resolve();
-                            }, 10);
-                        });
-                    },
-                }}
-            />
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead>
+                        <TableRow sx={{backgroundColor: "gruv.BG1", fontWeight: "bold", }}>
+                            <TableCell>Date</TableCell>
+                            <TableCell>Squat</TableCell>
+                            <TableCell>Bench</TableCell>
+                            <TableCell>Deadlift</TableCell>
+                            <TableCell>OHP</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {maxes.map(max => (
+                            <MaxRow max={max} key={max._id} />
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Box>
     );
 }
+
+interface MaxRowProps {
+    max: IMax;
+}
+
+const MaxRow = ({max}: MaxRowProps) => (
+    <TableRow sx={{"&:nth-of-type(odd)": {backgroundColor: "action.hover"}}}>
+        <TableCell>{max.date}</TableCell>
+        <TableCell>{max.squat1RM}</TableCell>
+        <TableCell>{max.bench1RM}</TableCell>
+        <TableCell>{max.deadlift1RM}</TableCell>
+        <TableCell>{max.press1RM}</TableCell>
+    </TableRow>
+);
