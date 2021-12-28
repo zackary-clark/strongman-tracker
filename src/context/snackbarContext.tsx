@@ -6,8 +6,8 @@ export type MUIClickHandler = (event: Event | SyntheticEvent<any, Event>, reason
 interface ISnackbarContext {
     isSnackbarOpen: boolean,
     snackbarMessage: string,
-    onCloseSnackbar: MUIClickHandler,
-    onOpenSnackbar: (message?: string) => void,
+    closeSnackbar: MUIClickHandler,
+    openSnackbar: (message?: string) => void,
 }
 
 export const defaultSnackbarMessage = "An Error Occurred";
@@ -15,8 +15,8 @@ export const defaultSnackbarMessage = "An Error Occurred";
 const defaultSnackbarContext: ISnackbarContext = {
     isSnackbarOpen: false,
     snackbarMessage: defaultSnackbarMessage,
-    onCloseSnackbar: () => {},
-    onOpenSnackbar: () => {},
+    closeSnackbar: () => {},
+    openSnackbar: () => {},
 };
 
 export const SnackbarContext = React.createContext(defaultSnackbarContext);
@@ -38,8 +38,8 @@ export function SnackbarContextProvider({children}: PropsWithChildren<unknown>):
         <SnackbarContext.Provider value={{
             isSnackbarOpen,
             snackbarMessage,
-            onCloseSnackbar: closeSnackbar,
-            onOpenSnackbar: openSnackbar
+            closeSnackbar: closeSnackbar,
+            openSnackbar: openSnackbar
         }}>
             {children}
         </SnackbarContext.Provider>

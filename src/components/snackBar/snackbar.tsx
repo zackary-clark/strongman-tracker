@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function Snackbar({autoHideDuration}: Props): React.ReactElement {
-    const {isSnackbarOpen, onCloseSnackbar, snackbarMessage} = useContext(SnackbarContext);
+    const {isSnackbarOpen, closeSnackbar, snackbarMessage} = useContext(SnackbarContext);
 
     return (
         <Box className={"snackbar"}>
@@ -16,9 +16,9 @@ export function Snackbar({autoHideDuration}: Props): React.ReactElement {
                 anchorOrigin={{vertical: "top", horizontal: "right"}}
                 autoHideDuration={autoHideDuration || 5000}
                 open={isSnackbarOpen}
-                onClose={onCloseSnackbar}
+                onClose={closeSnackbar}
             >
-                <Alert severity={"error"} variant={"filled"} onClose={onCloseSnackbar}>
+                <Alert severity={"error"} variant={"filled"} onClose={closeSnackbar}>
                     {snackbarMessage}
                 </Alert>
             </MUISnackbar>

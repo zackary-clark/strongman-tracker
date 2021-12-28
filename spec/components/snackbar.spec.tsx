@@ -7,13 +7,13 @@ import { Snackbar } from "../../src/components/snackBar";
 
 describe("Snackbar", () => {
     function TestComponent(props: any) {
-        const { onOpenSnackbar } = useContext(SnackbarContext);
+        const { openSnackbar } = useContext(SnackbarContext);
         return (
             <Box>
                 <Snackbar autoHideDuration={props.autoHideDuration || 20000}/>
                 <Button
                     title={"Open Snackbar"}
-                    onClick={() => onOpenSnackbar(props.customMessage)}
+                    onClick={() => openSnackbar(props.customMessage)}
                 >
                     Open Snackbar
                 </Button>

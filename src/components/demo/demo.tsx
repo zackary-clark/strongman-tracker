@@ -4,7 +4,7 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography } fr
 import { SnackbarContext } from "../../context";
 
 export function Demo(): React.ReactElement {
-    const {onOpenSnackbar} = useContext(SnackbarContext);
+    const {openSnackbar} = useContext(SnackbarContext);
 
     return (
         <Box className={"demo"}>
@@ -13,7 +13,7 @@ export function Demo(): React.ReactElement {
                 title="Open Snackbar"
                 variant="contained"
                 color="secondary"
-                onClick={() => onOpenSnackbar()}
+                onClick={() => openSnackbar()}
             >
                 Open Snackbar
             </Button><br/>

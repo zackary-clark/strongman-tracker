@@ -1,13 +1,27 @@
+import { Add } from "@mui/icons-material";
+import {
+    Box,
+    Dialog,
+    DialogTitle,
+    Fab,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow
+} from "@mui/material";
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { SnackbarContext } from "../../context";
 import { IMax } from "../../data/max";
 import { getMaxes, postMax } from "../../webClient";
-import { SnackbarContext } from "../../context";
 
 export function MaxComponent(): React.ReactElement {
-    const { onOpenSnackbar } = useContext(SnackbarContext);
-    const [ maxes, setMaxes ] = useState<IMax[]>([]);
+    const {openSnackbar} = useContext(SnackbarContext);
+    const [maxes, setMaxes] = useState<IMax[]>([]);
+    const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
 
     useEffect(() => {
         getMaxes()
@@ -17,7 +31,7 @@ export function MaxComponent(): React.ReactElement {
             })
             .catch(e => {
                 console.error("Get Failed");
-                onOpenSnackbar("Network Error!");
+                openSnackbar("Network Error!");
             });
     }, []);
 
@@ -30,7 +44,10 @@ export function MaxComponent(): React.ReactElement {
             })
             .catch(e => {
                 console.error("Save Failed");
-                onOpenSnackbar("Save Failed!");
+                openSnackbar("Save Failed!");
+            })
+            .finally(() => {
+                setIsAddDialogOpen(false);
             });
     };
 
@@ -39,12 +56,13 @@ export function MaxComponent(): React.ReactElement {
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
-                        <TableRow sx={{backgroundColor: "gruv.BG1", fontWeight: "bold", }}>
+                        <TableRow sx={{backgroundColor: "gruv.BG1", fontWeight: "bold",}}>
                             <TableCell>Date</TableCell>
                             <TableCell>Squat</TableCell>
                             <TableCell>Bench</TableCell>
                             <TableCell>Deadlift</TableCell>
                             <TableCell>OHP</TableCell>
+                            <TableCell />
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -54,6 +72,16 @@ export function MaxComponent(): React.ReactElement {
                     </TableBody>
                 </Table>
             </TableContainer>
+            {isAddDialogOpen && <AddDialog open={isAddDialogOpen} onClose={() => setIsAddDialogOpen(false)} />}
+            <Fab
+                aria-label="add-max"
+                data-testid="add-max"
+                color="secondary"
+                sx={{margin: 1}}
+                onClick={() => setIsAddDialogOpen(true)}
+            >
+                <Add fontSize="large" />
+            </Fab>
         </Box>
     );
 }
@@ -69,5 +97,17 @@ const MaxRow = ({max}: MaxRowProps) => (
         <TableCell>{max.bench1RM}</TableCell>
         <TableCell>{max.deadlift1RM}</TableCell>
         <TableCell>{max.press1RM}</TableCell>
+        <TableCell />
     </TableRow>
+);
+
+interface AddDialogProps {
+    open: boolean;
+    onClose: () => void;
+}
+
+const AddDialog = ({open, onClose}: AddDialogProps) => (
+    <Dialog open={open} onClose={onClose}>
+        <DialogTitle>Add New One Rep Max</DialogTitle>
+    </Dialog>
 );
