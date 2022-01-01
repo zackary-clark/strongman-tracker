@@ -1,22 +1,12 @@
 import { Add } from "@mui/icons-material";
-import {
-    Box,
-    Dialog,
-    DialogTitle,
-    Fab,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow
-} from "@mui/material";
+import { Box, Fab, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";
 import { SnackbarContext } from "../../context";
 import { IMax } from "../../data/max";
 import { getMaxes, postMax } from "../../webClient";
+import { AddDialog } from "./AddDialog";
+import { MaxRow } from "./MaxRow";
 
 export function MaxComponent(): React.ReactElement {
     const {openSnackbar} = useContext(SnackbarContext);
@@ -72,7 +62,8 @@ export function MaxComponent(): React.ReactElement {
                     </TableBody>
                 </Table>
             </TableContainer>
-            {isAddDialogOpen && <AddDialog open={isAddDialogOpen} onClose={() => setIsAddDialogOpen(false)} />}
+            {isAddDialogOpen &&
+            <AddDialog open={isAddDialogOpen} onClose={() => setIsAddDialogOpen(false)} addMax={addEntry} />}
             <Fab
                 aria-label="add-max"
                 data-testid="add-max"
@@ -85,29 +76,3 @@ export function MaxComponent(): React.ReactElement {
         </Box>
     );
 }
-
-interface MaxRowProps {
-    max: IMax;
-}
-
-const MaxRow = ({max}: MaxRowProps) => (
-    <TableRow sx={{"&:nth-of-type(odd)": {backgroundColor: "action.hover"}}}>
-        <TableCell>{max.date}</TableCell>
-        <TableCell>{max.squat1RM}</TableCell>
-        <TableCell>{max.bench1RM}</TableCell>
-        <TableCell>{max.deadlift1RM}</TableCell>
-        <TableCell>{max.press1RM}</TableCell>
-        <TableCell />
-    </TableRow>
-);
-
-interface AddDialogProps {
-    open: boolean;
-    onClose: () => void;
-}
-
-const AddDialog = ({open, onClose}: AddDialogProps) => (
-    <Dialog open={open} onClose={onClose}>
-        <DialogTitle>Add New One Rep Max</DialogTitle>
-    </Dialog>
-);

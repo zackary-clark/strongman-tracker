@@ -9,11 +9,21 @@ export const defaultAxiosResponse = {
 };
 
 export const sampleMaxesArray: IMax[] = [
-    {_id: "regacvsrgreasd", date: "2019-01-18", squat1RM: "123456"},
+    {
+        _id: "regacvsrgreasd",
+        date: "2019-01-18",
+        squat1RM: "225",
+        bench1RM: "185",
+        deadlift1RM: "315",
+        press1RM: "135",
+    },
 ];
 
 export const sampleMax: IMax = {
     _id: "alsdkgj2843talkdf",
-    date: "1993-01-05",
-    squat1RM: "225",
+    date: "Tue Jan 05 1993",
+    squat1RM: "123456",
+    bench1RM: "185",
+    deadlift1RM: "315",
+    press1RM: "135"
 };

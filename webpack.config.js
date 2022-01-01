@@ -54,6 +54,7 @@ module.exports = {
             overlay: {errors: true, warnings: false},
             logging: "info"
         },
+        hot: false,
         port: 8081,
         proxy: {
             "/api": "http://localhost:8080"

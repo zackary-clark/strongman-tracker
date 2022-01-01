@@ -1,1 +1,1 @@
-export * from "./workoutsComponent";
+export * from "./WorkoutsComponent";

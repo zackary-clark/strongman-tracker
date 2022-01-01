@@ -1,1 +1,1 @@
-export * from "./maxComponent";
+export * from "./MaxComponent";
