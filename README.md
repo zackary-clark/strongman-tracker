@@ -1,50 +1,37 @@
 # Strongman Tracker
 
-Client uses React, Typescript, Webpack, Material UI, and React Context API
+Client uses React, Typescript, Webpack, Material UI
+
+***The following steps assume the dev machine is an Apple Silicon Mac***
+
+If that is *not* the case, qemu can be used to emulate ARM64, and minikube can be used in place of Docker Desktop.
 
 ## Running Locally
 
 ### Webpack Dev Server
 
-#### Starting Up
 1. `yarn` to install dependencies
-2. `yarn dev` to run, with dashboard, on `localhost:8081`
-    Assumes the API is running on `:8080`, and proxies to that
+2. `yarn dev` to run, on `localhost:8081`
+    - Assumes the API is running on `:8080`, and proxies to that
 
-#### Shutting Down
-1. Simply `ctrl-C` in the terminal window
-
-### Minikube
+### Docker Desktop K8s
 
 #### Starting Up
-1. Make sure docker daemon is running
-2. Make sure `minikube` is running, `minikube start` if it isn't
-3. Make sure `kubectl` is using the "minikube" context
-4. `eval $(minikube docker-env)` to redirect future docker commands to inside `minikube`
-5. `yarn minikube:start` does everything else necessary to deploy the app in minikube
+1. Make sure Docker Desktop is running, including K8s
+2. `yarn kubelocal:start` does everything necessary to deploy the app in docker-desktop-k8s
    1. Builds the frontend, placing it in `./dist`
-   2. Builds the docker image (This will only correctly place it inside `minikube` if the "redirection" step is done)
-   3. Creates the deployment in `minikube`
-   4. Opens the running service to `192.168.49.2:32323` and prints that url to console
+   2. Builds the docker image
+   3. Creates the deployment
+   4. Opens the running service at `localhost:32323`
 
 #### Shutting Down
-1. `yarn minikube:stop` deletes the deployment
+1. `yarn kubelocal:stop` deletes the deployment
 
 ## Releasing/Deploying
 
-### One time `qemu` prep
-1. Install `qemu` and `qemu-user-static` on dev machine
-2. Run `docker run --rm --privileged multiarch/qemu-user-static --reset -p yes`
-
-Now you can build arm64 images from your x86 dev machine
-
-### Release Steps
-***Make sure this terminal has NOT been "redirected" to minikube***
-
-1. Commit the ready-to-be-released code
+1. Commit the ready-to-be-released code to `develop`
 2. Run `yarn version` to:
    1. Update `version` in package.json
    2. Push to `develop` with git tag
    3. Build, tag and push the docker image to Docker Hub
-3. `kubectl config use-context prod`
-4. `kubectl rollout restart deployment strongman-tracker-deployment`
+   4. Rollout deployment on cluster
