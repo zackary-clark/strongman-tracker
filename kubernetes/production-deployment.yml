@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: strongman-tracker-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: strongman-tracker
@@ -12,6 +12,15 @@ spec:
       labels:
         app: strongman-tracker
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: size
+                    operator: In
+                    values:
+                      - large
       containers:
         - name: strongman-tracker
           image: zackaryclark/strongman-tracker:latest
@@ -20,4 +29,4 @@ spec:
             - containerPort: 80
           env:
             - name: "REACT_APP_HOST_ADDRESS"
-              value: "http://zackary-clark.duckdns.org/api"
+              value: "https://zackary-clark.duckdns.org/strongman-tracker-api"
