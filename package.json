@@ -4,22 +4,24 @@
     "license": "MIT",
     "scripts": {
         "analyze": "webpack --json > stats.json",
-        "build": "yarn install && webpack",
+        "prebuild": "npm install",
+        "build": "webpack",
+        "predev": "npm install",
         "dev": "webpack serve --mode development --env development",
-        "docker:buildlocal": "yarn build && docker rmi -f zackaryclark/strongman-tracker && docker build ./ -t zackaryclark/strongman-tracker",
-        "docker:buildrelease": "yarn build && docker build ./ -t zackaryclark/strongman-tracker:latest -t zackaryclark/strongman-tracker:$npm_package_version",
+        "docker:buildlocal": "npm run build && docker rmi -f zackaryclark/strongman-tracker && docker build ./ -t zackaryclark/strongman-tracker",
+        "docker:buildrelease": "npm run build && docker build ./ -t zackaryclark/strongman-tracker:latest -t zackaryclark/strongman-tracker:$npm_package_version",
         "docker:pushrelease": "docker push zackaryclark/strongman-tracker:$npm_package_version && docker push zackaryclark/strongman-tracker:latest",
-        "docker:release": "yarn docker:buildrelease && yarn docker:pushrelease",
+        "docker:release": "npm run docker:buildrelease && npm run docker:pushrelease",
         "git:pushtags": "git push --tags && git push",
         "kubelocal:use": "kubectl config use-context docker-desktop",
         "kubelocal:create": "kubectl create -f kubernetes/local-deployment.yml && kubectl apply -f kubernetes/local-nodeport.yml",
-        "kubelocal:start": "yarn kubelocal:use && yarn docker:buildlocal && yarn kubelocal:create",
-        "kubelocal:stop": "yarn kubelocal:use && kubectl delete deployment strongman-tracker --ignore-not-found && kubectl delete services strongman-tracker --ignore-not-found",
+        "kubelocal:start": "npm run kubelocal:use && npm run docker:buildlocal && npm run kubelocal:create",
+        "kubelocal:stop": "npm run kubelocal:use && kubectl delete deployment strongman-tracker --ignore-not-found && kubectl delete services strongman-tracker --ignore-not-found",
         "kubeprod:release": "kubectl config use-context prod && kubectl rollout restart deployment strongman-tracker-deployment",
         "print:release": "echo -e \"\n\\033[0;32m  <==  Released Client v$npm_package_version  ==>  \\033[0m\n\"",
         "test": "jest",
-        "preversion": "yarn test",
-        "postversion": "yarn git:pushtags && yarn docker:release && sleep 5 && yarn kubeprod:release && yarn print:release"
+        "preversion": "npm test",
+        "postversion": "npm run git:pushtags && npm run docker:release && sleep 5 && npm run kubeprod:release && npm run print:release"
     },
     "dependencies": {
         "@babel/runtime": "7.15.4",
@@ -68,7 +70,7 @@
         "typescript": "4.4.3",
         "webpack": "5.64.3",
         "webpack-cli": "4.9.1",
-        "webpack-dev-server": "4.5.0"
+        "webpack-dev-server": "4.7.3"
     },
     "private": true
 }
