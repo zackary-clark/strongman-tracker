@@ -1,44 +1,70 @@
 import { Add } from "@mui/icons-material";
-import { Box, Fab, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import {
+    Box,
+    Fab,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography
+} from "@mui/material";
 import * as React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
+import {
+    AddMaxInput,
+    AllMaxesDocument,
+    AllMaxesQuery,
+    useAddMaxMutation,
+    useAllMaxesQuery
+} from "../../../generated/schema";
 import { SnackbarContext } from "../../context";
-import { IMax } from "../../data/max";
-import { getMaxes, postMax } from "../../webClient";
 import { AddDialog } from "./AddDialog";
 import { MaxRow } from "./MaxRow";
 
 export function MaxComponent(): React.ReactElement {
     const {openSnackbar} = useContext(SnackbarContext);
-    const [maxes, setMaxes] = useState<IMax[]>([]);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
 
-    useEffect(() => {
-        getMaxes()
-            .then((res) => res.data)
-            .then((resData) => {
-                setMaxes(resData);
-            })
-            .catch(e => {
-                console.error("Get Failed");
-                openSnackbar("Network Error!");
-            });
-    }, []);
+    const { loading, error: queryError, data } = useAllMaxesQuery();
+    const [addMax, { error: mutationError }] = useAddMaxMutation({
+        update(cache, {data}) {
+            const newMax = data?.addMax?.max;
+            if (newMax) {
+                const existingMaxesQuery: AllMaxesQuery | null = cache.readQuery({query: AllMaxesDocument});
+                cache.writeQuery({
+                    query: AllMaxesDocument,
+                    data: {
+                        maxes: existingMaxesQuery ? [...existingMaxesQuery.maxes, newMax] : [newMax]
+                    }
+                });
+            }
+        }
+    });
 
-    const addEntry = (newData: IMax): Promise<void | IMax> => {
-        return postMax(newData)
-            .then(res => {
-                const newMaxes: IMax[] = maxes.splice(0);
-                newMaxes.push(res.data);
-                setMaxes(newMaxes);
-            })
-            .catch(e => {
-                console.error("Save Failed");
-                openSnackbar("Save Failed!");
-            })
-            .finally(() => {
-                setIsAddDialogOpen(false);
-            });
+    if (loading) return <Typography>Loading...</Typography>;
+
+    if (queryError) {
+        console.error("Max Query Failed");
+        openSnackbar("Network Error!");
+    }
+
+    if (mutationError) {
+        console.error("AddMax Failed");
+        openSnackbar("Save Failed!");
+    }
+
+    const maxes = data?.maxes || [];
+
+    const addEntry = (input: AddMaxInput) => {
+        setIsAddDialogOpen(false);
+        return addMax({
+            variables: {
+                input
+            }
+        });
     };
 
     return (
@@ -46,7 +72,7 @@ export function MaxComponent(): React.ReactElement {
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
-                        <TableRow sx={{backgroundColor: "gruv.BG1", fontWeight: "bold",}}>
+                        <TableRow sx={{backgroundColor: "gruv.BG1", fontWeight: "bold"}}>
                             <TableCell>Date</TableCell>
                             <TableCell>Squat</TableCell>
                             <TableCell>Bench</TableCell>
@@ -57,7 +83,7 @@ export function MaxComponent(): React.ReactElement {
                     </TableHead>
                     <TableBody>
                         {maxes.map(max => (
-                            <MaxRow max={max} key={max._id} />
+                            <MaxRow max={max} key={max.id} />
                         ))}
                     </TableBody>
                 </Table>

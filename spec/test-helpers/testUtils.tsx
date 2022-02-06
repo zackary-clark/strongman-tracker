@@ -1,3 +1,4 @@
+import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import React from "react";
 import { render, RenderResult } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -13,6 +14,17 @@ export const renderInRouter = (component: React.ReactElement, path?: string): Re
         );
     };
     return render(component, {wrapper: RoutingWrapper});
+};
+
+export const renderWithApolloProvider = (component: React.ReactElement, mocks?: MockedResponse[]): RenderResult => {
+    const ApolloProviderWrapper: React.FunctionComponent = ({children}) => {
+        return (
+            <MockedProvider mocks={mocks} addTypename={false}>
+                {children}
+            </MockedProvider>
+        );
+    };
+    return render(component, {wrapper: ApolloProviderWrapper});
 };
 
 export const renderWithSnackbar = (component: React.ReactElement): RenderResult => {

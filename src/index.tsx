@@ -1,3 +1,4 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { HashRouter } from "react-router-dom";
@@ -9,6 +10,7 @@ import {
 
 import { Root } from "./components";
 import { SnackbarContextProvider } from "./context";
+import { getHostAddress } from "./env/getters";
 import { theme } from "./theme";
 
 
@@ -28,16 +30,23 @@ const waitForEnv = () => {
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
-                    <HashRouter>
-                        <SnackbarContextProvider>
-                            <Root />
-                        </SnackbarContextProvider>
-                    </HashRouter>
+                    <ApolloProvider client={client()}>
+                        <HashRouter>
+                            <SnackbarContextProvider>
+                                <Root />
+                            </SnackbarContextProvider>
+                        </HashRouter>
+                    </ApolloProvider>
                 </ThemeProvider>
             </StyledEngineProvider>,
             document.getElementById("root"),
         );
     }
 };
+
+const client = () => new ApolloClient({
+    uri: getHostAddress(),
+    cache: new InMemoryCache()
+});
 
 waitForEnv();

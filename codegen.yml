@@ -1,0 +1,10 @@
+schema: ./src/schema.ts
+documents: ./src/operations.ts
+generates:
+    ./generated/schema.ts:
+        plugins:
+            - typescript
+            - typescript-operations
+            - typescript-react-apollo
+        config:
+            fetcher: fetch
