@@ -57,7 +57,7 @@ module.exports = {
         hot: false,
         port: 8081,
         proxy: {
-            "/api": "http://localhost:8080"
+            "/graphql": "http://localhost:8080"
         }
     },
 };

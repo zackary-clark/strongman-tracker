@@ -5,13 +5,13 @@ import { screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material";
 import { NavBar } from "../../src/components";
 import { maxRoute, workoutsRoute } from "../../src/components/routes";
-import { renderInRouter } from "../test-helpers/testUtils";
+import { renderWithRouter } from "../test-helpers/testUtils";
 import { theme } from "../../src/theme";
 
 describe("NavBar", () => {
     it("should route to /workouts when Workouts button is clicked", () => {
         const history = createMemoryHistory();
-        renderInRouter(
+        renderWithRouter(
             <ThemeProvider theme={theme}>
                 <Router history={history}>
                     <NavBar />
@@ -24,7 +24,7 @@ describe("NavBar", () => {
 
     it("should route to /maxes when Maxes button is clicked", () => {
         const history = createMemoryHistory();
-        renderInRouter(
+        renderWithRouter(
             <ThemeProvider theme={theme}>
                 <Router history={history}>
                     <NavBar />

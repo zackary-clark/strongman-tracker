@@ -4,6 +4,7 @@
 .env
 .data
 /bin/
+/generated/
 
 ### Frontend ###
 /src/main/resources/static

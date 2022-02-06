@@ -1,12 +1,12 @@
 import { TableCell, TableRow } from "@mui/material";
 import * as React from "react";
-import { IMax } from "../../data/max";
+import { Max } from "../../../generated/schema";
 
-interface MaxRowProps {
-    max: IMax;
+interface Props {
+    max: Max;
 }
 
-export const MaxRow = ({max}: MaxRowProps) => (
+export const MaxRow = ({max}: Props) => (
     <TableRow sx={{"&:nth-of-type(odd)": {backgroundColor: "action.hover"}}}>
         <TableCell>{max.date}</TableCell>
         <TableCell data-testid="squat1RM">{max.squat1RM}</TableCell>

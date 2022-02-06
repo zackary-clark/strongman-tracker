@@ -8,4 +8,4 @@ declare global {
     }
 }
 
-window.REACT_APP_HOST_ADDRESS="/api";
+window.REACT_APP_HOST_ADDRESS="/graphql";

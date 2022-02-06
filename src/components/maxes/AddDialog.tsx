@@ -2,15 +2,15 @@ import { DesktopDatePicker, LocalizationProvider } from "@mui/lab";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from "@mui/material";
 import * as React from "react";
-import { IMax } from "../../data/max";
+import { AddMaxInput } from "../../../generated/schema";
 
-interface AddDialogProps {
+interface Props {
     open: boolean;
     onClose: () => void;
-    addMax: (newMax: IMax) => void;
+    addMax: (input: AddMaxInput) => void;
 }
 
-export const AddDialog = ({open, onClose, addMax}: AddDialogProps) => {
+export const AddDialog = ({open, onClose, addMax}: Props) => {
 
     const [date, setDate] = React.useState<Date | null>(null);
     const [squat, setSquat] = React.useState<string>("");
@@ -22,10 +22,10 @@ export const AddDialog = ({open, onClose, addMax}: AddDialogProps) => {
         if (date) {
             addMax({
                 date: date.toDateString(),
-                squat1RM: squat,
-                bench1RM: bench,
-                deadlift1RM: deadlift,
-                press1RM: press
+                squat1RM: parseInt(squat),
+                bench1RM: parseInt(bench),
+                deadlift1RM: parseInt(deadlift),
+                press1RM: parseInt(press)
             });
         }
     };
