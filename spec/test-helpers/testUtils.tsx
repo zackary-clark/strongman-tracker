@@ -5,37 +5,51 @@ import { MemoryRouter } from "react-router-dom";
 import { Snackbar } from "../../src/components/snackBar";
 import { SnackbarContextProvider } from "../../src/context";
 
-export const renderInRouter = (component: React.ReactElement, path?: string): RenderResult => {
-    const RoutingWrapper: React.FunctionComponent = ({children}) => {
-        return (
-            <MemoryRouter initialEntries={[path ? path : "/"]}>
-                {children}
-            </MemoryRouter>
-        );
-    };
-    return render(component, {wrapper: RoutingWrapper});
+export const renderWithRouter = (component: React.ReactElement, path?: string): RenderResult => {
+    return render(component, {wrapper: createRoutingWrapper(path)});
 };
 
-export const renderWithApolloProvider = (component: React.ReactElement, mocks?: MockedResponse[]): RenderResult => {
-    const ApolloProviderWrapper: React.FunctionComponent = ({children}) => {
-        return (
-            <MockedProvider mocks={mocks} addTypename={false}>
-                {children}
-            </MockedProvider>
-        );
-    };
-    return render(component, {wrapper: ApolloProviderWrapper});
+export const renderWithApollo = (component: React.ReactElement, mocks?: MockedResponse[]): RenderResult => {
+    return render(component, {wrapper: createApolloProviderWrapper(mocks)});
 };
 
 export const renderWithSnackbar = (component: React.ReactElement): RenderResult => {
-    const ComponentWithSnackbarAndContext = () => (
-            <SnackbarContextProvider>
-                <React.Fragment>
-                    <Snackbar />
-                    {component}
-                </React.Fragment>
-            </SnackbarContextProvider>
-        );
+    return render(component, {wrapper: SnackbarWrapper});
+};
 
-    return render(<ComponentWithSnackbarAndContext />);
+export const renderWithSnackbarAndApollo = (component: React.ReactElement, mocks?: MockedResponse[]): RenderResult => {
+    const ApolloWrapper = createApolloProviderWrapper(mocks);
+    const Wrapper: React.FunctionComponent = ({children}) => (
+        <ApolloWrapper>
+            <SnackbarWrapper>
+                {children}
+            </SnackbarWrapper>
+        </ApolloWrapper>
+    );
+    return render(component, {wrapper: Wrapper});
+};
+
+const createApolloProviderWrapper = (mocks?: MockedResponse[]): React.FunctionComponent => ({children}) => {
+    return (
+        <MockedProvider mocks={mocks} addTypename={false}>
+            {children}
+        </MockedProvider>
+    );
+};
+
+const createRoutingWrapper = (path?: string): React.FunctionComponent => ({children}) => {
+    return (
+        <MemoryRouter initialEntries={[path ? path : "/"]}>
+            {children}
+        </MemoryRouter>
+    );
+};
+
+const SnackbarWrapper: React.FunctionComponent = ({children}) => {
+    return (
+        <SnackbarContextProvider>
+            <Snackbar />
+            {children}
+        </SnackbarContextProvider>
+    );
 };

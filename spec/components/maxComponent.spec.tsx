@@ -1,36 +1,34 @@
 import { MockedResponse } from "@apollo/client/testing";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
-import { AllMaxesDocument } from "../../generated/schema";
+import { AddMaxDocument, AddMaxMutation, AllMaxesDocument } from "../../generated/schema";
 import { MaxComponent } from "../../src/components";
-import { renderWithApolloProvider, renderWithSnackbar } from "../test-helpers/testUtils";
+import { renderWithApollo, renderWithSnackbarAndApollo } from "../test-helpers/testUtils";
+
+const allMaxesQueryMock: MockedResponse = {
+    request: {
+        query: AllMaxesDocument
+    },
+    result: {
+        data: {
+            maxes: [
+                {
+                    bench1RM: null,
+                    date: "2021-12-23T05:00:00.000Z",
+                    deadlift1RM: null,
+                    id: 1,
+                    press1RM: null,
+                    squat1RM: 563
+                }
+            ]
+        }
+    }
+};
 
 describe("maxComponent", () => {
     it("should display data in table", async () => {
-        const mocks: MockedResponse[] = [
-            {
-                request: {
-                    query: AllMaxesDocument
-                },
-                result: {
-                    data: {
-                        maxes: [
-                            {
-                                bench1RM: null,
-                                date: "2021-12-23T05:00:00.000Z",
-                                deadlift1RM: null,
-                                id: 1,
-                                press1RM: null,
-                                squat1RM: 563
-                            }
-                        ]
-                    }
-                }
-            }
-        ];
-
-        renderWithApolloProvider(<MaxComponent />, mocks);
+        renderWithApollo(<MaxComponent />, [allMaxesQueryMock]);
 
         expect(await screen.findByText("2021-12-23T05:00:00.000Z")).toBeInTheDocument();
         expect(screen.getByTestId("squat1RM")).toHaveTextContent("563");
@@ -39,17 +37,24 @@ describe("maxComponent", () => {
         expect(screen.getByTestId("press1RM")).toBeEmptyDOMElement();
     });
 
-    it("should show snackbar when getMaxes fails", async () => {
-        // jest.spyOn(WebClient, "getMaxes").mockRejectedValue("error");
-        renderWithSnackbar(<MaxComponent />);
+    it("should show snackbar when AllMaxesQuery fails due to network error", async () => {
+        const mocks: MockedResponse[] = [
+            {
+                request: {
+                    query: AllMaxesDocument
+                },
+                error: new Error("An error occurred")
+            }
+        ];
+        renderWithSnackbarAndApollo(<MaxComponent />, mocks);
 
         expect(await screen.findByText("Network Error!")).toBeInTheDocument();
     });
 
     describe("Add Max", () => {
         it("should open Add Modal on Add Icon click and close again on escape key", async () => {
-            render(<MaxComponent />);
-            expect(await screen.findByText("225")).toBeInTheDocument();
+            renderWithApollo(<MaxComponent />, [allMaxesQueryMock]);
+            expect(await screen.findByText("563")).toBeInTheDocument();
             expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
 
             screen.getByTestId("add-max").click();
@@ -62,8 +67,8 @@ describe("maxComponent", () => {
         });
 
         it("should open Add Modal on Add Icon click and close again on cancel click", async () => {
-            render(<MaxComponent />);
-            expect(await screen.findByText("225")).toBeInTheDocument();
+            renderWithApollo(<MaxComponent />, [allMaxesQueryMock]);
+            expect(await screen.findByText("563")).toBeInTheDocument();
             expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
 
             screen.getByTestId("add-max").click();
@@ -76,20 +81,37 @@ describe("maxComponent", () => {
         });
 
         it("should add new max to table", async () => {
-            // const postSpy = jest.spyOn(WebClient, "postMax").mockResolvedValue({
-            //     ...defaultAxiosResponse,
-            //     data: sampleMax
-            // });
-            // const expectedArgs: IMax = {
-            //     date: sampleMax.date,
-            //     squat1RM: sampleMax.squat1RM,
-            //     bench1RM: sampleMax.bench1RM,
-            //     deadlift1RM: sampleMax.deadlift1RM,
-            //     press1RM: sampleMax.press1RM
-            // };
+            const addMaxMutationMock: MockedResponse<AddMaxMutation> = {
+                request: {
+                    query: AddMaxDocument,
+                    variables: {
+                        input: {
+                            date: "Tue Jan 05 1993",
+                            squat1RM: 123456,
+                            bench1RM: 185,
+                            deadlift1RM: 315,
+                            press1RM: 135
+                        }
+                    }
+                },
+                result: {
+                    data: {
+                        addMax: {
+                            max: {
+                                id: 100,
+                                date: "1993-01-05T00:00:00.000Z",
+                                squat1RM: 123456,
+                                deadlift1RM: 315,
+                                press1RM: 135,
+                                bench1RM: 185
+                            }
+                        }
+                    }
+                }
+            };
 
-            render(<MaxComponent />);
-            expect(await screen.findByText("225")).toBeInTheDocument();
+            renderWithApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationMock]);
+            expect(await screen.findByText("563")).toBeInTheDocument();
 
             screen.getByTestId("add-max").click();
             expect(await screen.findByText("Add New Max")).toBeInTheDocument();
@@ -101,14 +123,27 @@ describe("maxComponent", () => {
             userEvent.type(screen.getByLabelText("Press"), "135");
             screen.getByText("Save").click();
 
-            // expect(postSpy).toHaveBeenCalledWith(expectedArgs);
-            expect(await screen.findByText("123456")).toBeInTheDocument();
+            expect(await screen.findByText("1993-01-05T00:00:00.000Z")).toBeInTheDocument();
         });
 
         it("should show snackbar and close modal when save fails", async () => {
-            // jest.spyOn(WebClient, "postMax").mockRejectedValue("error");
-            renderWithSnackbar(<MaxComponent />);
-            expect(await screen.findByText("225")).toBeInTheDocument();
+            const addMaxMutationErrorMock: MockedResponse = {
+                request: {
+                    query: AddMaxDocument,
+                    variables: {
+                        input: {
+                            date: "Tue Jan 05 1993",
+                            squat1RM: null,
+                            bench1RM: null,
+                            deadlift1RM: null,
+                            press1RM: null
+                        }
+                    }
+                },
+                error: new Error("An error occurred")
+            };
+            renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationErrorMock]);
+            expect(await screen.findByText("563")).toBeInTheDocument();
 
             screen.getByTestId("add-max").click();
             userEvent.type(screen.getByLabelText("Date"), "01051993");
