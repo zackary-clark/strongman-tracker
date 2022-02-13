@@ -133,20 +133,24 @@ describe("maxComponent", () => {
                     variables: {
                         input: {
                             date: "Tue Jan 05 1993",
-                            squat1RM: null,
-                            bench1RM: null,
-                            deadlift1RM: null,
-                            press1RM: null
+                            squat1RM: 123456,
+                            bench1RM: 185,
+                            deadlift1RM: 315,
+                            press1RM: 135
                         }
                     }
                 },
-                error: new Error("An error occurred")
+                error: new Error("Network Error")
             };
             renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationErrorMock]);
             expect(await screen.findByText("563")).toBeInTheDocument();
 
             screen.getByTestId("add-max").click();
             userEvent.type(screen.getByLabelText("Date"), "01051993");
+            userEvent.type(screen.getByLabelText("Squat"), "123456");
+            userEvent.type(screen.getByLabelText("Bench"), "185");
+            userEvent.type(screen.getByLabelText("Deadlift"), "315");
+            userEvent.type(screen.getByLabelText("Press"), "135");
             screen.getByText("Save").click();
 
             expect(await screen.findByText("Save Failed!")).toBeInTheDocument();

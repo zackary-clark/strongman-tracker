@@ -58,13 +58,17 @@ export function MaxComponent(): React.ReactElement {
 
     const maxes = data?.maxes || [];
 
-    const addEntry = (input: AddMaxInput) => {
+    const addEntry = async (input: AddMaxInput) => {
         setIsAddDialogOpen(false);
-        return addMax({
-            variables: {
-                input
-            }
-        });
+        try {
+            await addMax({
+                variables: {
+                    input
+                }
+            });
+        } catch (e) {
+            console.error("AddMax Error Caught: ", e);
+        }
     };
 
     return (
