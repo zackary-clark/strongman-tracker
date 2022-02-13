@@ -1,4 +1,7 @@
 import { TableCell, TableRow } from "@mui/material";
+import { isMatch, parseISO } from "date-fns";
+import format from "date-fns/format";
+import { FunctionComponent } from "react";
 import * as React from "react";
 import { Max } from "../../../generated/schema";
 
@@ -6,9 +9,9 @@ interface Props {
     max: Max;
 }
 
-export const MaxRow = ({max}: Props) => (
+export const MaxRow: FunctionComponent<Props> = ({max}) => (
     <TableRow sx={{"&:nth-of-type(odd)": {backgroundColor: "action.hover"}}}>
-        <TableCell>{max.date}</TableCell>
+        <TableCell>{formatDateCell(max.date)}</TableCell>
         <TableCell data-testid="squat1RM">{max.squat1RM}</TableCell>
         <TableCell data-testid="bench1RM">{max.bench1RM}</TableCell>
         <TableCell data-testid="deadlift1RM">{max.deadlift1RM}</TableCell>
@@ -16,3 +19,8 @@ export const MaxRow = ({max}: Props) => (
         <TableCell />
     </TableRow>
 );
+
+const formatDateCell = (date: any) => {
+    if (typeof date !== "string" || !isMatch(date, "yyyy-MM-dd")) throw new Error(`Date ${date} is in an unexpected format!`);
+    return format(parseISO(date), "MM/dd/yyyy");
+};

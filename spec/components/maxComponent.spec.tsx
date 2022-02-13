@@ -1,6 +1,7 @@
 import { MockedResponse } from "@apollo/client/testing";
 import { fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { GraphQLError } from "graphql";
 import * as React from "react";
 import { AddMaxDocument, AddMaxMutation, AllMaxesDocument } from "../../generated/schema";
 import { MaxComponent } from "../../src/components";
@@ -15,7 +16,7 @@ const allMaxesQueryMock: MockedResponse = {
             maxes: [
                 {
                     bench1RM: null,
-                    date: "2021-12-23T05:00:00.000Z",
+                    date: "2021-12-23",
                     deadlift1RM: null,
                     id: 1,
                     press1RM: null,
@@ -30,7 +31,7 @@ describe("maxComponent", () => {
     it("should display data in table", async () => {
         renderWithApollo(<MaxComponent />, [allMaxesQueryMock]);
 
-        expect(await screen.findByText("2021-12-23T05:00:00.000Z")).toBeInTheDocument();
+        expect(await screen.findByText("12/23/2021")).toBeInTheDocument();
         expect(screen.getByTestId("squat1RM")).toHaveTextContent("563");
         expect(screen.getByTestId("bench1RM")).toBeEmptyDOMElement();
         expect(screen.getByTestId("deadlift1RM")).toBeEmptyDOMElement();
@@ -86,7 +87,7 @@ describe("maxComponent", () => {
                     query: AddMaxDocument,
                     variables: {
                         input: {
-                            date: "Tue Jan 05 1993",
+                            date: "1993-01-05",
                             squat1RM: 123456,
                             bench1RM: 185,
                             deadlift1RM: 315,
@@ -99,7 +100,7 @@ describe("maxComponent", () => {
                         addMax: {
                             max: {
                                 id: 100,
-                                date: "1993-01-05T00:00:00.000Z",
+                                date: "1993-01-05",
                                 squat1RM: 123456,
                                 deadlift1RM: 315,
                                 press1RM: 135,
@@ -123,16 +124,16 @@ describe("maxComponent", () => {
             userEvent.type(screen.getByLabelText("Press"), "135");
             screen.getByText("Save").click();
 
-            expect(await screen.findByText("1993-01-05T00:00:00.000Z")).toBeInTheDocument();
+            expect(await screen.findByText("01/05/1993")).toBeInTheDocument();
         });
 
-        it("should show snackbar and close modal when save fails", async () => {
+        it("should show snackbar and close modal when save fails due to network error", async () => {
             const addMaxMutationErrorMock: MockedResponse = {
                 request: {
                     query: AddMaxDocument,
                     variables: {
                         input: {
-                            date: "Tue Jan 05 1993",
+                            date: "1993-01-05",
                             squat1RM: 123456,
                             bench1RM: 185,
                             deadlift1RM: 315,
@@ -141,6 +142,39 @@ describe("maxComponent", () => {
                     }
                 },
                 error: new Error("Network Error")
+            };
+            renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationErrorMock]);
+            expect(await screen.findByText("563")).toBeInTheDocument();
+
+            screen.getByTestId("add-max").click();
+            userEvent.type(screen.getByLabelText("Date"), "01051993");
+            userEvent.type(screen.getByLabelText("Squat"), "123456");
+            userEvent.type(screen.getByLabelText("Bench"), "185");
+            userEvent.type(screen.getByLabelText("Deadlift"), "315");
+            userEvent.type(screen.getByLabelText("Press"), "135");
+            screen.getByText("Save").click();
+
+            expect(await screen.findByText("Save Failed!")).toBeInTheDocument();
+            expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
+        });
+
+        it("should show snackbar and close modal when save fails due to GraphQL error", async () => {
+            const addMaxMutationErrorMock: MockedResponse = {
+                request: {
+                    query: AddMaxDocument,
+                    variables: {
+                        input: {
+                            date: "1993-01-05",
+                            squat1RM: 123456,
+                            bench1RM: 185,
+                            deadlift1RM: 315,
+                            press1RM: 135
+                        }
+                    }
+                },
+                result: {
+                    errors: [new GraphQLError("Error")],
+                }
             };
             renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationErrorMock]);
             expect(await screen.findByText("563")).toBeInTheDocument();

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useContext } from "react";
+import { FunctionComponent, useContext } from "react";
 import { Box, Alert, Snackbar as MUISnackbar } from "@mui/material";
 import { SnackbarContext } from "../../context";
 
@@ -7,7 +7,7 @@ interface Props {
     autoHideDuration?: number,
 }
 
-export function Snackbar({autoHideDuration}: Props): React.ReactElement {
+export const Snackbar: FunctionComponent<Props> = ({autoHideDuration}) => {
     const {isSnackbarOpen, closeSnackbar, snackbarMessage} = useContext(SnackbarContext);
 
     return (
@@ -24,4 +24,4 @@ export function Snackbar({autoHideDuration}: Props): React.ReactElement {
             </MUISnackbar>
         </Box>
     );
-}
+};

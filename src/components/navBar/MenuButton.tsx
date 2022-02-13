@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { Button } from "@mui/material";
 import { Link, LinkProps } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const LinkForward = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) 
     <Link innerRef={ref} {...props} />
 ));
 
-export const MenuButton = ({routeTo, label, ariaLabel}: Props): React.ReactElement => {
+export const MenuButton: FunctionComponent<Props> = ({routeTo, label, ariaLabel}) => {
     return (
         <Button
             href="#"

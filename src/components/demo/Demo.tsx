@@ -1,10 +1,10 @@
-import * as React from "react";
-import { useContext } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
-import { SnackbarContext } from "../../context";
+import { FunctionComponent } from "react";
+import * as React from "react";
+import { useOpenSnackbar } from "../../context";
 
-export function Demo(): React.ReactElement {
-    const {openSnackbar} = useContext(SnackbarContext);
+export const Demo: FunctionComponent = () => {
+    const openSnackbar = useOpenSnackbar();
 
     return (
         <Box className={"demo"}>
@@ -47,4 +47,4 @@ export function Demo(): React.ReactElement {
             </FormControl>
         </Box>
     );
-}
+};

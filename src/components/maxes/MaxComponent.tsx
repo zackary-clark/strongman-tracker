@@ -12,7 +12,7 @@ import {
     Typography
 } from "@mui/material";
 import * as React from "react";
-import { useContext, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import {
     AddMaxInput,
     AllMaxesDocument,
@@ -20,12 +20,12 @@ import {
     useAddMaxMutation,
     useAllMaxesQuery
 } from "../../../generated/schema";
-import { SnackbarContext } from "../../context";
+import { useOpenSnackbar } from "../../context";
 import { AddDialog } from "./AddDialog";
 import { MaxRow } from "./MaxRow";
 
-export function MaxComponent(): React.ReactElement {
-    const {openSnackbar} = useContext(SnackbarContext);
+export const MaxComponent: FunctionComponent = () => {
+    const openSnackbar = useOpenSnackbar();
     const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
 
     const { loading, error: queryError, data } = useAllMaxesQuery();
@@ -44,17 +44,21 @@ export function MaxComponent(): React.ReactElement {
         }
     });
 
+    useEffect(() => {
+        if (queryError) {
+            console.error("Max Query Failed");
+            openSnackbar("Network Error!");
+        }
+    }, [queryError]);
+
+    useEffect(() => {
+        if (mutationError) {
+            console.error("Mutation Failed! Check graphql response for details");
+            openSnackbar("Save Failed!");
+        }
+    }, [mutationError]);
+
     if (loading) return <Typography>Loading...</Typography>;
-
-    if (queryError) {
-        console.error("Max Query Failed");
-        openSnackbar("Network Error!");
-    }
-
-    if (mutationError) {
-        console.error("AddMax Failed");
-        openSnackbar("Save Failed!");
-    }
 
     const maxes = data?.maxes || [];
 
@@ -67,7 +71,7 @@ export function MaxComponent(): React.ReactElement {
                 }
             });
         } catch (e) {
-            console.error("AddMax Error Caught: ", e);
+            // suppress, since graphql errors are really handled with the mutationError handling above
         }
     };
 
@@ -105,4 +109,4 @@ export function MaxComponent(): React.ReactElement {
             </Fab>
         </Box>
     );
-}
+};

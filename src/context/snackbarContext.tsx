@@ -1,7 +1,7 @@
-import React, { PropsWithChildren, SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useContext, useState } from "react";
 import { SnackbarCloseReason } from "@mui/material";
 
-export type MUIClickHandler = (event: Event | SyntheticEvent<any, Event>, reason?: SnackbarCloseReason) => void;
+type MUIClickHandler = (event: Event | SyntheticEvent, reason?: SnackbarCloseReason) => void;
 
 interface ISnackbarContext {
     isSnackbarOpen: boolean,
@@ -21,7 +21,7 @@ const defaultSnackbarContext: ISnackbarContext = {
 
 export const SnackbarContext = React.createContext(defaultSnackbarContext);
 
-export function SnackbarContextProvider({children}: PropsWithChildren<unknown>): JSX.Element {
+export const SnackbarContextProvider: React.FunctionComponent = ({children}) => {
     const [isSnackbarOpen, setIsSnackbarOpen] = useState(defaultSnackbarContext.isSnackbarOpen);
     const [snackbarMessage, setSnackbarMessage] = useState(defaultSnackbarContext.snackbarMessage);
 
@@ -30,8 +30,8 @@ export function SnackbarContextProvider({children}: PropsWithChildren<unknown>):
     };
 
     const openSnackbar = (message?: string) => {
-        setIsSnackbarOpen(true);
         setSnackbarMessage(message || defaultSnackbarContext.snackbarMessage);
+        setIsSnackbarOpen(true);
     };
 
     return (
@@ -44,4 +44,12 @@ export function SnackbarContextProvider({children}: PropsWithChildren<unknown>):
             {children}
         </SnackbarContext.Provider>
     );
-}
+};
+
+export const useOpenSnackbar = (): (message?: string) => void => {
+    const context = useContext(SnackbarContext);
+    if (context === undefined) {
+        throw new Error("useOpenSnackbar must be used within a SnackbarContextProvider");
+    }
+    return context.openSnackbar;
+};

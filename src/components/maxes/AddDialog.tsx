@@ -1,6 +1,8 @@
 import { DesktopDatePicker, LocalizationProvider } from "@mui/lab";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from "@mui/material";
+import format from "date-fns/format";
+import { FunctionComponent } from "react";
 import * as React from "react";
 import { AddMaxInput } from "../../../generated/schema";
 
@@ -10,7 +12,7 @@ interface Props {
     addMax: (input: AddMaxInput) => void;
 }
 
-export const AddDialog = ({open, onClose, addMax}: Props) => {
+export const AddDialog: FunctionComponent<Props> = ({open, onClose, addMax}) => {
 
     const [date, setDate] = React.useState<Date | null>(null);
     const [squat, setSquat] = React.useState<string>("");
@@ -21,7 +23,7 @@ export const AddDialog = ({open, onClose, addMax}: Props) => {
     const handleSaveClick = () => {
         if (date) {
             addMax({
-                date: date.toDateString(),
+                date: format(date, "yyyy-MM-dd"),
                 squat1RM: parseInt(squat),
                 bench1RM: parseInt(bench),
                 deadlift1RM: parseInt(deadlift),
