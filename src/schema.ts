@@ -2,7 +2,11 @@ import { gql } from "@apollo/client";
 
 export default gql`
     scalar Date
-    
+
+    interface MutationPayload {
+        success: Boolean!
+    }
+
     type Max {
         id: Int!
         date: Date!
@@ -15,11 +19,12 @@ export default gql`
     type Query {
         maxes: [Max!]!
     }
-    
+
     type Mutation {
         addMax(input: AddMaxInput!): AddMaxPayload
+        deleteMax(input: DeleteMaxInput!): DeleteMaxPayload
     }
-    
+
     input AddMaxInput {
         date: Date!
         squat1RM: Float
@@ -27,8 +32,17 @@ export default gql`
         deadlift1RM: Float
         press1RM: Float
     }
-    
-    type AddMaxPayload {
+
+    type AddMaxPayload implements MutationPayload {
+        success: Boolean!
         max: Max
+    }
+
+    input DeleteMaxInput {
+        id: Int!
+    }
+
+    type DeleteMaxPayload implements MutationPayload {
+        success: Boolean!
     }
 `;

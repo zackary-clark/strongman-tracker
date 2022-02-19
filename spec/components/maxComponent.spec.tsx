@@ -1,13 +1,19 @@
 import { MockedResponse } from "@apollo/client/testing";
-import { fireEvent, screen } from "@testing-library/react";
+import { fireEvent, screen, waitForElementToBeRemoved } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { GraphQLError } from "graphql";
 import * as React from "react";
-import { AddMaxDocument, AddMaxMutation, AllMaxesDocument } from "../../generated/schema";
+import {
+    AddMaxDocument,
+    AddMaxMutation,
+    AllMaxesDocument,
+    AllMaxesQuery, DeleteMaxDocument,
+    DeleteMaxMutation
+} from "../../generated/schema";
 import { MaxComponent } from "../../src/components";
 import { renderWithApollo, renderWithSnackbarAndApollo } from "../test-helpers/testUtils";
 
-const allMaxesQueryMock: MockedResponse = {
+const allMaxesQueryMock: MockedResponse<AllMaxesQuery> = {
     request: {
         query: AllMaxesDocument
     },
@@ -189,6 +195,58 @@ describe("maxComponent", () => {
 
             expect(await screen.findByText("Save Failed!")).toBeInTheDocument();
             expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
+        });
+    });
+
+    describe("Delete Max", () => {
+        it("should delete max from table", async () => {
+            const deleteMaxQueryMock: MockedResponse<DeleteMaxMutation> = {
+                request: {
+                    query: DeleteMaxDocument,
+                    variables: {
+                        input: {
+                            id: 1
+                        }
+                    }
+                },
+                result: {
+                    data: {
+                        deleteMax: {
+                            success: true
+                        }
+                    }
+                }
+            };
+
+            renderWithApollo(<MaxComponent />, [allMaxesQueryMock, deleteMaxQueryMock]);
+            expect(await screen.findByText("563")).toBeInTheDocument();
+
+            screen.getByLabelText("Delete").click();
+
+            await waitForElementToBeRemoved(() => screen.queryByText("563"));
+        });
+
+        it("should show snackbar and not remove from table when delete fails", async () => {
+            const deleteMaxQueryErrorMock: MockedResponse<DeleteMaxMutation> = {
+                request: {
+                    query: DeleteMaxDocument,
+                    variables: {
+                        input: {
+                            id: 1
+                        }
+                    }
+                },
+                result: {
+                    errors: [new GraphQLError("Error")],
+                }
+            };
+            renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, deleteMaxQueryErrorMock]);
+            expect(await screen.findByText("563")).toBeInTheDocument();
+
+            screen.getByLabelText("Delete").click();
+
+            expect(await screen.findByText("Delete Failed!")).toBeInTheDocument();
+            expect(screen.getByText("563")).toBeInTheDocument();
         });
     });
 });

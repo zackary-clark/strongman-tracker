@@ -27,3 +27,11 @@ const addMaxMutationDocument = gql`
         }
     }
 `;
+
+const deleteMaxMutationDocument = gql`
+    mutation DeleteMax($input: DeleteMaxInput!) {
+        deleteMax(input: $input) {
+            success
+        }
+    }
+`;
