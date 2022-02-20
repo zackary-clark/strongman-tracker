@@ -34,4 +34,17 @@ describe("NavBar", () => {
         screen.getByText("Maxes").click();
         expect(history.location.pathname).toBe(maxRoute);
     });
+
+    it("should route to / when Icon is clicked", () => {
+        const history = createMemoryHistory();
+        renderWithRouter(
+            <ThemeProvider theme={theme}>
+                <Router history={history}>
+                    <NavBar />
+                </Router>
+            </ThemeProvider>
+        );
+        screen.getByLabelText("home").click();
+        expect(history.location.pathname).toBe("/");
+    });
 });
