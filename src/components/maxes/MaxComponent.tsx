@@ -20,7 +20,7 @@ import {
     useAddMaxMutation,
     useAllMaxesQuery
 } from "../../../generated/schema";
-import { useOpenSnackbar } from "../../context";
+import { useOpenSnackbar } from "../../context/snackbarContext";
 import { AddDialog } from "./AddDialog";
 import { MaxRow } from "./MaxRow";
 

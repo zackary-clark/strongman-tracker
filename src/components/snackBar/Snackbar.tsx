@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FunctionComponent, useContext } from "react";
 import { Box, Alert, Snackbar as MUISnackbar } from "@mui/material";
-import { SnackbarContext } from "../../context";
+import { SnackbarContext } from "../../context/snackbarContext";
 
 interface Props {
     autoHideDuration?: number,

@@ -10,7 +10,7 @@ import {
     AllMaxesQuery, DeleteMaxDocument,
     DeleteMaxMutation
 } from "../../generated/schema";
-import { MaxComponent } from "../../src/components";
+import { MaxComponent } from "../../src/components/maxes/MaxComponent";
 import { renderWithApollo, renderWithSnackbarAndApollo } from "../test-helpers/testUtils";
 
 const allMaxesQueryMock: MockedResponse<AllMaxesQuery> = {

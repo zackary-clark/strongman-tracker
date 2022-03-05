@@ -3,7 +3,7 @@ import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import { screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material";
-import { NavBar } from "../../src/components";
+import { NavBar } from "../../src/components/navBar/NavBar";
 import { maxRoute, workoutsRoute } from "../../src/components/routes";
 import { renderWithRouter } from "../test-helpers/testUtils";
 import { theme } from "../../src/theme";

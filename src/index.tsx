@@ -8,8 +8,8 @@ import {
     StyledEngineProvider,
 } from "@mui/material";
 
-import { Root } from "./components";
-import { SnackbarContextProvider } from "./context";
+import { Root } from "./components/Root";
+import { SnackbarContextProvider } from "./context/snackbarContext";
 import { getHostAddress } from "./env/getters";
 import { theme } from "./theme";
 

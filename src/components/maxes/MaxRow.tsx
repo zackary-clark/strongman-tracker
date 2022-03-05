@@ -5,7 +5,7 @@ import format from "date-fns/format";
 import { FunctionComponent, MouseEventHandler, useEffect } from "react";
 import * as React from "react";
 import { AllMaxesDocument, AllMaxesQuery, Max, useDeleteMaxMutation } from "../../../generated/schema";
-import { useOpenSnackbar } from "../../context";
+import { useOpenSnackbar } from "../../context/snackbarContext";
 
 interface Props {
     max: Max;

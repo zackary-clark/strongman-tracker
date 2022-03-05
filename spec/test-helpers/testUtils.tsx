@@ -2,8 +2,8 @@ import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import React from "react";
 import { render, RenderResult } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { Snackbar } from "../../src/components/snackBar";
-import { SnackbarContextProvider } from "../../src/context";
+import { Snackbar } from "../../src/components/snackBar/Snackbar";
+import { SnackbarContextProvider } from "../../src/context/snackbarContext";
 
 export const renderWithRouter = (component: React.ReactElement, path?: string): RenderResult => {
     return render(component, {wrapper: createRoutingWrapper(path)});
