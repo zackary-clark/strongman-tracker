@@ -20,7 +20,7 @@
         "kubelocal:start": "npm run docker:check && npm run kubelocal:use && npm run docker:buildlocal && npm run kubelocal:create",
         "kubelocal:stop": "npm run kubelocal:use && kubectl delete deployment strongman-tracker --ignore-not-found && kubectl delete services strongman-tracker --ignore-not-found",
         "kubeprod:release": "kubectl config use-context prod && kubectl rollout restart deployment strongman-tracker-deployment",
-        "print:release": "echo -e \"\n\\033[0;32m  <==  Released Client v$npm_package_version  ==>  \\033[0m\n\"",
+        "print:release": "echo \"\n\\033[0;32m  <==  Released Client v$npm_package_version  ==>  \\033[0m\n\"",
         "test": "jest",
         "preversion": "npm test && npm run docker:check",
         "postversion": "npm run git:pushtags && npm run docker:release && sleep 5 && npm run kubeprod:release && npm run print:release"
