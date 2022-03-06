@@ -1,12 +1,6 @@
 import { gql } from "@apollo/client";
 
-export default gql`
-    scalar Date
-
-    interface MutationPayload {
-        success: Boolean!
-    }
-
+export const maxSchema = gql`
     type Max {
         id: Int!
         date: Date!
@@ -14,15 +8,6 @@ export default gql`
         bench1RM: Float
         deadlift1RM: Float
         press1RM: Float
-    }
-
-    type Query {
-        maxes: [Max!]!
-    }
-
-    type Mutation {
-        addMax(input: AddMaxInput!): AddMaxPayload
-        deleteMax(input: DeleteMaxInput!): DeleteMaxPayload
     }
 
     input AddMaxInput {

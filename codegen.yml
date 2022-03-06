@@ -1,5 +1,5 @@
-schema: ./src/schema.ts
-documents: ./src/operations.ts
+schema: 'src/schema/**/*.ts'
+documents: 'src/operations/**/*.ts'
 generates:
     ./generated/schema.ts:
         plugins:
