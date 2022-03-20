@@ -1,5 +1,5 @@
-schema: 'src/schema/**/*.ts'
-documents: 'src/operations/**/*.ts'
+schema: 'src/schema/**/*.graphql'
+documents: 'src/operations/**/*.graphql'
 generates:
     ./generated/schema.ts:
         plugins:

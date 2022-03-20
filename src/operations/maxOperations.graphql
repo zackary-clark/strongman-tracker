@@ -1,0 +1,29 @@
+query AllMaxes {
+    maxes {
+        id
+        date
+        squat1RM
+        deadlift1RM
+        press1RM
+        bench1RM
+    }
+}
+
+mutation AddMax($input: AddMaxInput!) {
+    addMax(input: $input) {
+        max {
+            id
+            date
+            squat1RM
+            deadlift1RM
+            press1RM
+            bench1RM
+        }
+    }
+}
+
+mutation DeleteMax($input: DeleteMaxInput!) {
+    deleteMax(input: $input) {
+        success
+    }
+}

@@ -1,0 +1,9 @@
+scalar Date
+
+interface MutationPayload {
+    success: Boolean!
+}
+
+type Query
+
+type Mutation
