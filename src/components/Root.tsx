@@ -7,14 +7,14 @@ import { NavBar } from "./navBar/NavBar";
 import { ProjectDescription } from "./ProjectDescription";
 import { maxRoute, workoutsRoute } from "./routes";
 import { Snackbar } from "./snackBar/Snackbar";
-import { WorkoutsComponent } from "./workouts/WorkoutsComponent";
+import { WorkoutComponent } from "./workouts/WorkoutComponent";
 
 export const Root: FunctionComponent = () => (
     <Box>
         <Snackbar/>
         <NavBar/>
         <Route exact path="/" component={ProjectDescription} />
-        <Route exact path={workoutsRoute} component={WorkoutsComponent}/>
+        <Route exact path={workoutsRoute} component={WorkoutComponent}/>
         <Route exact path={maxRoute} component={MaxComponent}/>
     </Box>
 );

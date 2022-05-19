@@ -1,0 +1,47 @@
+query AllWorkouts {
+    workouts {
+        id
+        date
+        lifts {
+            id
+            name
+            reps
+            sets
+            weight
+        }
+    }
+}
+
+mutation AddWorkout($input: AddWorkoutInput!) {
+    addWorkout(input: $input) {
+        workout {
+            id
+            date
+        }
+    }
+}
+
+mutation AddLift($input: AddLiftInput!) {
+    addLift(input: $input) {
+        workout
+        lift {
+            id
+            name
+            reps
+            sets
+            weight
+        }
+    }
+}
+
+mutation DeleteWorkout($input: DeleteWorkoutInput!) {
+    deleteWorkout(input: $input) {
+        success
+    }
+}
+
+mutation DeleteLift($input: DeleteLiftInput!) {
+    deleteLift(input: $input) {
+        success
+    }
+}

@@ -60,7 +60,7 @@ export const MaxComponent: FunctionComponent = () => {
 
     if (loading) return <Typography>Loading...</Typography>;
 
-    const maxes = data?.maxes || [];
+    const maxes = data?.maxes ?? [];
 
     const addEntry = async (input: AddMaxInput) => {
         setIsAddDialogOpen(false);

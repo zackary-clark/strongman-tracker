@@ -45,7 +45,7 @@ export const ProjectDescription: FunctionComponent = () => (
                 </ListItem>
             </List>
             <Typography variant="body1">
-                At my current pace, I&apos;ll implement those feature by the year 3022 at the earliest, but this is really just to learn
+                At my current pace, I&apos;ll implement those features by the year 3022 at the earliest, but this is really just to learn
                 and keep my skills sharp during periods where I cannot be &quot;hands on keyboard&quot; as much as I&apos;d like at work.
             </Typography>
         </Box>

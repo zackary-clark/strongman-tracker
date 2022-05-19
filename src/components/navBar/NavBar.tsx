@@ -8,6 +8,7 @@ export const NavBar: FunctionComponent = () => (
     <Box data-testid={"nav-bar"}>
         <AppBar enableColorOnDark position="sticky" sx={{backgroundColor: "primary.main"}}>
             <Toolbar>
+                {/* TODO: useMediaQuery() instead of css-based hiding? */}
                 <DesktopMenu />
                 <MobileMenu />
                 <AccountMenu />
