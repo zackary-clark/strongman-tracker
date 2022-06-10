@@ -1,9 +1,10 @@
+import { Box } from "@mui/material";
 import { compareDesc, parseISO } from "date-fns";
-import { FunctionComponent, useEffect } from "react";
 import * as React from "react";
-import { Box, Typography } from "@mui/material";
+import { FunctionComponent, useEffect } from "react";
 import { useAllWorkoutsQuery } from "../../../generated/schema";
 import { useOpenSnackbar } from "../../context/snackbarContext";
+import { LoadingScreen } from "../LoadingScreen";
 import { WorkoutTable } from "./WorkoutTable";
 
 export const WorkoutComponent: FunctionComponent = () => {
@@ -17,7 +18,7 @@ export const WorkoutComponent: FunctionComponent = () => {
         }
     }, [queryError]);
 
-    if (loading) return <Typography>Loading...</Typography>;
+    if (loading) return <LoadingScreen />;
 
     const workouts = data?.workouts ?? [];
     const workoutsSortedByDate = [...workouts].sort((a, b) => compareDesc(parseISO(a.date), parseISO(b.date)));

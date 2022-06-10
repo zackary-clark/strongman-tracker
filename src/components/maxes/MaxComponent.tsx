@@ -1,16 +1,5 @@
 import { Add } from "@mui/icons-material";
-import {
-    Box,
-    Fab,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography
-} from "@mui/material";
+import { Box, Fab, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import * as React from "react";
 import { FunctionComponent, useEffect, useState } from "react";
 import {
@@ -21,6 +10,7 @@ import {
     useAllMaxesQuery
 } from "../../../generated/schema";
 import { useOpenSnackbar } from "../../context/snackbarContext";
+import { LoadingScreen } from "../LoadingScreen";
 import { AddDialog } from "./AddDialog";
 import { MaxRow } from "./MaxRow";
 
@@ -58,7 +48,7 @@ export const MaxComponent: FunctionComponent = () => {
         }
     }, [mutationError]);
 
-    if (loading) return <Typography>Loading...</Typography>;
+    if (loading) return <LoadingScreen />;
 
     const maxes = data?.maxes ?? [];
 
