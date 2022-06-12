@@ -10,7 +10,7 @@ import {
     useAllMaxesQuery
 } from "../../../generated/schema";
 import { useOpenSnackbar } from "../../context/snackbarContext";
-import { LoadingScreen } from "../LoadingScreen";
+import { LoadingScreen } from "../common/LoadingScreen";
 import { AddDialog } from "./AddDialog";
 import { MaxRow } from "./MaxRow";
 
@@ -61,7 +61,7 @@ export const MaxComponent: FunctionComponent = () => {
                 }
             });
         } catch (e) {
-            // suppress, since graphql errors are really handled with the mutationError handling above
+            // suppress, since graphql errors are really handled with mutationErrors
         }
     };
 

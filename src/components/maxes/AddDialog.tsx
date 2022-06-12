@@ -5,6 +5,7 @@ import format from "date-fns/format";
 import { FunctionComponent } from "react";
 import * as React from "react";
 import { AddMaxInput } from "../../../generated/schema";
+import { DATE_FORMAT } from "../../constants";
 
 interface Props {
     open: boolean;
@@ -23,7 +24,7 @@ export const AddDialog: FunctionComponent<Props> = ({open, onClose, addMax}) => 
     const handleSaveClick = () => {
         if (date) {
             addMax({
-                date: format(date, "yyyy-MM-dd"),
+                date: format(date, DATE_FORMAT),
                 squat1RM: parseInt(squat),
                 bench1RM: parseInt(bench),
                 deadlift1RM: parseInt(deadlift),

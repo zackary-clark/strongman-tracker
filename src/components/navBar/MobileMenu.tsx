@@ -1,7 +1,7 @@
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { Box, IconButton, Menu, MenuItem } from "@mui/material";
 import React, { FunctionComponent, useState } from "react";
-import { maxRoute, workoutsRoute } from "../routes";
+import { MAX_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
 import { Logo } from "./Logo";
 import { MenuButton } from "./MenuButton";
 
@@ -37,10 +37,10 @@ export const MobileMenu: FunctionComponent = () => {
                     anchorEl={anchorEl}
                 >
                     <MenuItem onClick={handleClose}>
-                        <MenuButton routeTo={workoutsRoute} ariaLabel={"workouts"} variant="text">Workouts</MenuButton>
+                        <MenuButton routeTo={WORKOUT_ROUTE} ariaLabel={"workouts"} variant="text">Workouts</MenuButton>
                     </MenuItem>
                     <MenuItem onClick={handleClose}>
-                        <MenuButton routeTo={maxRoute} ariaLabel={"maxes"} variant="text">Maxes</MenuButton>
+                        <MenuButton routeTo={MAX_ROUTE} ariaLabel={"maxes"} variant="text">Maxes</MenuButton>
                     </MenuItem>
                 </Menu>
             </Box>

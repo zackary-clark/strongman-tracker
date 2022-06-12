@@ -1,18 +1,14 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { CssBaseline, StyledEngineProvider, ThemeProvider, } from "@mui/material";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { HashRouter } from "react-router-dom";
-import {
-    CssBaseline,
-    ThemeProvider,
-    StyledEngineProvider,
-} from "@mui/material";
-
-import { Root } from "./components/Root";
+import { NavBar } from "./components/navBar/NavBar";
+import { Snackbar } from "./components/snackBar/Snackbar";
 import { SnackbarContextProvider } from "./context/snackbarContext";
 import { getHostAddress } from "./env/getters";
+import { Routes } from "./pages/Routes";
 import { theme } from "./theme";
-
 
 // We do this recursion so that env.js has "time" to alter the global window
 // This almost always loops 0 or 1 times
@@ -33,7 +29,9 @@ const waitForEnv = () => {
                     <ApolloProvider client={client()}>
                         <HashRouter>
                             <SnackbarContextProvider>
-                                <Root />
+                                <Snackbar/>
+                                <NavBar/>
+                                <Routes />
                             </SnackbarContextProvider>
                         </HashRouter>
                     </ApolloProvider>

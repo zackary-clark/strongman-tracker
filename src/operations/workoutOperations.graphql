@@ -12,6 +12,20 @@ query AllWorkouts {
     }
 }
 
+query OneWorkout($input: SingleWorkoutInput!) {
+    workout(input: $input) {
+        id
+        date
+        lifts {
+            id
+            name
+            reps
+            sets
+            weight
+        }
+    }
+}
+
 mutation AddWorkout($input: AddWorkoutInput!) {
     addWorkout(input: $input) {
         workout {

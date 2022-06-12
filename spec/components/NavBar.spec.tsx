@@ -1,37 +1,36 @@
 import React from "react";
-import { Router } from "react-router-dom";
+import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import { screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material";
 import { NavBar } from "../../src/components/navBar/NavBar";
-import { maxRoute, workoutsRoute } from "../../src/components/routes";
-import { renderWithRouter } from "../test-helpers/testUtils";
+import { MAX_ROUTE, WORKOUT_ROUTE } from "../../src/pages/constants";
 import { theme } from "../../src/theme";
 
 describe("NavBar", () => {
     it("should route to /workouts when Workouts button is clicked", () => {
         const history = createMemoryHistory();
-        renderWithRouter(
+        render(
             <ThemeProvider theme={theme}>
-                <Router history={history}>
+                <HistoryRouter history={history}>
                     <NavBar />
-                </Router>
+                </HistoryRouter>
             </ThemeProvider>
         );
         screen.getByText("Workouts").click();
-        expect(history.location.pathname).toBe(workoutsRoute);
+        expect(history.location.pathname).toBe(WORKOUT_ROUTE);
     });
 
     it("should route to /maxes when Maxes button is clicked", () => {
         const history = createMemoryHistory();
-        renderWithRouter(
+        render(
             <ThemeProvider theme={theme}>
-                <Router history={history}>
+                <HistoryRouter history={history}>
                     <NavBar />
-                </Router>
+                </HistoryRouter>
             </ThemeProvider>
         );
         screen.getByText("Maxes").click();
-        expect(history.location.pathname).toBe(maxRoute);
+        expect(history.location.pathname).toBe(MAX_ROUTE);
     });
 });

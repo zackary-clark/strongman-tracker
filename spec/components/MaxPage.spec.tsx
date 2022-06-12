@@ -11,7 +11,7 @@ import {
     DeleteMaxMutation
 } from "../../generated/schema";
 import { MaxComponent } from "../../src/components/maxes/MaxComponent";
-import { renderWithApollo, renderWithSnackbarAndApollo } from "../test-helpers/testUtils";
+import { renderWithApollo, renderWithSnackbarAndApollo } from "../testUtils";
 
 const allMaxesQueryMock: MockedResponse<AllMaxesQuery> = {
     request: {
@@ -33,7 +33,7 @@ const allMaxesQueryMock: MockedResponse<AllMaxesQuery> = {
     }
 };
 
-describe("maxComponent", () => {
+describe("Max Page", () => {
     it("should display data in table", async () => {
         renderWithApollo(<MaxComponent />, [allMaxesQueryMock]);
 
