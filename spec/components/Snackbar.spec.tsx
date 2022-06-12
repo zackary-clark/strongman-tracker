@@ -38,7 +38,7 @@ describe("Snackbar", () => {
         render(<SUT autoHideDuration={50}/>);
         screen.getByTitle("Open Snackbar").click();
         await waitFor(() => expect(screen.getByText(defaultSnackbarMessage)));
-        await waitForElementToBeRemoved(() => screen.getByText(defaultSnackbarMessage));
+        await waitForElementToBeRemoved(() => screen.queryByText(defaultSnackbarMessage));
     });
 
     it("should Close Snackbar when 'X' is clicked", async () => {
@@ -46,7 +46,7 @@ describe("Snackbar", () => {
         screen.getByTitle("Open Snackbar").click();
         await waitFor(() => expect(screen.getByText(defaultSnackbarMessage)));
         screen.getByTitle("Close").click();
-        await waitForElementToBeRemoved(() => screen.getByText(defaultSnackbarMessage));
+        await waitForElementToBeRemoved(() => screen.queryByText(defaultSnackbarMessage));
     });
 
     it("should display custom error messages", async () => {

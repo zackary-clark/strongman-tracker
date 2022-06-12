@@ -1,14 +1,13 @@
 import { MockedResponse } from "@apollo/client/testing";
 import { screen } from "@testing-library/react";
-import { createMemoryHistory } from "history";
 import * as React from "react";
-import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { AllWorkoutsDocument, AllWorkoutsQuery } from "../../generated/schema";
-import { ADD_WORKOUT_ROUTE } from "../../src/components/routes";
 import { WorkoutList } from "../../src/components/workouts/WorkoutList";
-import { renderWithAllProviders, renderWithApollo, renderWithRouterAndApollo } from "../test-helpers/testUtils";
+import { WORKOUT_ROUTE } from "../../src/pages/constants";
+import { WorkoutPage } from "../../src/pages/WorkoutPage";
+import { renderPage, renderWithAllProviders, renderWithRouterAndApollo } from "../testUtils";
 
-describe("workoutComponent", () => {
+describe("Workout Page", () => {
     const allWorkoutsQueryMock: MockedResponse<AllWorkoutsQuery> = {
         request: {
             query: AllWorkoutsDocument
@@ -52,22 +51,16 @@ describe("workoutComponent", () => {
     };
 
     it("should default to list view, and switch to add view on FAB click", async () => {
-        const history = createMemoryHistory();
-        renderWithApollo(
-            <HistoryRouter history={history}>
-                <WorkoutList />
-            </HistoryRouter>,
-            [allWorkoutsQueryMock]
-        );
+        renderPage(WorkoutPage, WORKOUT_ROUTE, [allWorkoutsQueryMock]);
 
         expect(await screen.findByText("3 April 2022")).toBeInTheDocument();
 
         screen.getByTestId("add-workout").click();
 
-        expect(history.location.pathname).toBe(ADD_WORKOUT_ROUTE);
+        expect(await screen.findByText("Text that might be on an add page")).toBeInTheDocument();
     });
 
-    describe("tables", () => {
+    describe("Workout List", () => {
         it("should show snackbar when AllWorkoutsQuery fails due to network error", async () => {
             const mocks: MockedResponse[] = [
                 {

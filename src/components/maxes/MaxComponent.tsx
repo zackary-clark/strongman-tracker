@@ -10,7 +10,7 @@ import {
     useAllMaxesQuery
 } from "../../../generated/schema";
 import { useOpenSnackbar } from "../../context/snackbarContext";
-import { LoadingScreen } from "../LoadingScreen";
+import { LoadingScreen } from "../common/LoadingScreen";
 import { AddDialog } from "./AddDialog";
 import { MaxRow } from "./MaxRow";
 

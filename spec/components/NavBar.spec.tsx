@@ -4,7 +4,7 @@ import { createMemoryHistory } from "history";
 import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material";
 import { NavBar } from "../../src/components/navBar/NavBar";
-import { MAX_ROUTE, WORKOUT_ROUTE } from "../../src/components/routes";
+import { MAX_ROUTE, WORKOUT_ROUTE } from "../../src/pages/constants";
 import { theme } from "../../src/theme";
 
 describe("NavBar", () => {

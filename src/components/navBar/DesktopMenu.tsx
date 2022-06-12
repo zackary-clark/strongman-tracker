@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React, { FunctionComponent } from "react";
-import { MAX_ROUTE, WORKOUT_ROUTE } from "../routes";
+import { MAX_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
 import { Logo } from "./Logo";
 import { MenuButton } from "./MenuButton";
 

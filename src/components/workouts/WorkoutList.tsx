@@ -6,8 +6,8 @@ import { FunctionComponent, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAllWorkoutsQuery } from "../../../generated/schema";
 import { useOpenSnackbar } from "../../context/snackbarContext";
-import { LoadingScreen } from "../LoadingScreen";
-import { ADD_WORKOUT_ROUTE } from "../routes";
+import { ADD_WORKOUT_ROUTE } from "../../pages/constants";
+import { LoadingScreen } from "../common/LoadingScreen";
 import { WorkoutTable } from "./WorkoutTable";
 
 export const WorkoutList: FunctionComponent = () => {

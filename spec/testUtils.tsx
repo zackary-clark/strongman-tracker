@@ -1,9 +1,9 @@
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import React from "react";
 import { render, RenderResult } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import { Snackbar } from "../../src/components/snackBar/Snackbar";
-import { SnackbarContextProvider } from "../../src/context/snackbarContext";
+import { MemoryRouter, Routes } from "react-router-dom";
+import { Snackbar } from "../src/components/snackBar/Snackbar";
+import { SnackbarContextProvider } from "../src/context/snackbarContext";
 
 export const renderWithRouter = (component: React.ReactElement, path?: string): RenderResult => {
     return render(component, {wrapper: createRoutingWrapper(path)});
@@ -55,6 +55,10 @@ export const renderWithAllProviders = (component: React.ReactElement, mocks?: Mo
         </RoutingWrapper>
     );
     return render(component, {wrapper: Wrapper});
+};
+
+export const renderPage = (page: React.ReactElement, path: string, mocks?: MockedResponse[]): RenderResult => {
+    return renderWithAllProviders(<Routes>{page}</Routes>, mocks, path);
 };
 
 const createApolloProviderWrapper = (mocks?: MockedResponse[]): React.FunctionComponent => ({children}) => {

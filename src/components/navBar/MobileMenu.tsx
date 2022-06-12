@@ -1,7 +1,7 @@
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { Box, IconButton, Menu, MenuItem } from "@mui/material";
 import React, { FunctionComponent, useState } from "react";
-import { MAX_ROUTE, WORKOUT_ROUTE } from "../routes";
+import { MAX_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
 import { Logo } from "./Logo";
 import { MenuButton } from "./MenuButton";
 
