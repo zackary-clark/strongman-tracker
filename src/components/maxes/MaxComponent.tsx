@@ -61,7 +61,7 @@ export const MaxComponent: FunctionComponent = () => {
                 }
             });
         } catch (e) {
-            // suppress, since graphql errors are really handled with the mutationError handling above
+            // suppress, since graphql errors are really handled with mutationErrors
         }
     };
 

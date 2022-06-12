@@ -1,6 +1,6 @@
 import { Button, IconButton } from "@mui/material";
 import React, { FunctionComponent } from "react";
-import { Link, LinkProps } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface Props {
     routeTo: string;
@@ -8,15 +8,11 @@ interface Props {
     variant?: "contained" | "outlined" | "text";
 }
 
-const LinkForward = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => (
-    <Link innerRef={ref} {...props} />
-));
-
 export const MenuButton: FunctionComponent<Props> = ({routeTo, ariaLabel, variant, children}) => (
     <Button
         href="#"
         variant={variant ?? "contained"}
-        component={LinkForward}
+        component={Link}
         to={routeTo}
         aria-label={ariaLabel}
         color="neutral"
@@ -30,7 +26,7 @@ export const MenuButton: FunctionComponent<Props> = ({routeTo, ariaLabel, varian
 
 export const MenuIconButton: FunctionComponent<Props> = ({routeTo, ariaLabel, children}) => (
     <IconButton
-        component={LinkForward}
+        component={Link}
         to={routeTo}
         aria-label={ariaLabel}
         sx={{

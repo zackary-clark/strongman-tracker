@@ -17,6 +17,19 @@ export const renderWithSnackbar = (component: React.ReactElement): RenderResult 
     return render(component, {wrapper: SnackbarWrapper});
 };
 
+export const renderWithRouterAndApollo = (component: React.ReactElement, mocks?: MockedResponse[], path?: string): RenderResult => {
+    const ApolloWrapper = createApolloProviderWrapper(mocks);
+    const RoutingWrapper = createRoutingWrapper(path);
+    const Wrapper: React.FunctionComponent = ({children}) => (
+        <RoutingWrapper>
+            <ApolloWrapper>
+                {children}
+            </ApolloWrapper>
+        </RoutingWrapper>
+    );
+    return render(component, {wrapper: Wrapper});
+};
+
 export const renderWithSnackbarAndApollo = (component: React.ReactElement, mocks?: MockedResponse[]): RenderResult => {
     const ApolloWrapper = createApolloProviderWrapper(mocks);
     const Wrapper: React.FunctionComponent = ({children}) => (
@@ -25,6 +38,21 @@ export const renderWithSnackbarAndApollo = (component: React.ReactElement, mocks
                 {children}
             </SnackbarWrapper>
         </ApolloWrapper>
+    );
+    return render(component, {wrapper: Wrapper});
+};
+
+export const renderWithAllProviders = (component: React.ReactElement, mocks?: MockedResponse[], path?: string): RenderResult => {
+    const ApolloWrapper = createApolloProviderWrapper(mocks);
+    const RoutingWrapper = createRoutingWrapper(path);
+    const Wrapper: React.FunctionComponent = ({children}) => (
+        <RoutingWrapper>
+            <SnackbarWrapper>
+                <ApolloWrapper>
+                    {children}
+                </ApolloWrapper>
+            </SnackbarWrapper>
+        </RoutingWrapper>
     );
     return render(component, {wrapper: Wrapper});
 };
@@ -39,7 +67,7 @@ const createApolloProviderWrapper = (mocks?: MockedResponse[]): React.FunctionCo
 
 const createRoutingWrapper = (path?: string): React.FunctionComponent => ({children}) => {
     return (
-        <MemoryRouter initialEntries={[path ? path : "/"]}>
+        <MemoryRouter initialEntries={[path ?? "/"]}>
             {children}
         </MemoryRouter>
     );
