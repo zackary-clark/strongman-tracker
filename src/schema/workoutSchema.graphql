@@ -1,5 +1,6 @@
 extend type Query {
     workouts: [Workout!]!
+    workout(input: SingleWorkoutInput!): Workout
 }
 
 extend type Mutation {
@@ -21,6 +22,10 @@ type Lift {
     reps: Int!
     sets: Int!
     weight: Int!
+}
+
+input SingleWorkoutInput {
+    id: Int!
 }
 
 input AddWorkoutInput {

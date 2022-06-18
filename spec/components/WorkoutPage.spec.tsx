@@ -1,7 +1,18 @@
 import { MockedResponse } from "@apollo/client/testing";
 import { screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import * as React from "react";
-import { AllWorkoutsDocument, AllWorkoutsQuery } from "../../generated/schema";
+import {
+    AddLiftDocument,
+    AddLiftMutation,
+    AddWorkoutDocument,
+    AddWorkoutMutation,
+    AllWorkoutsDocument,
+    AllWorkoutsQuery,
+    OneWorkoutDocument,
+    OneWorkoutQuery,
+    Workout
+} from "../../generated/schema";
 import { WorkoutList } from "../../src/components/workouts/WorkoutList";
 import { WORKOUT_ROUTE } from "../../src/pages/constants";
 import { WorkoutPage } from "../../src/pages/WorkoutPage";
@@ -50,16 +61,6 @@ describe("Workout Page", () => {
         }
     };
 
-    it("should default to list view, and switch to add view on FAB click", async () => {
-        renderPage(WorkoutPage, WORKOUT_ROUTE, [allWorkoutsQueryMock]);
-
-        expect(await screen.findByText("3 April 2022")).toBeInTheDocument();
-
-        screen.getByTestId("add-workout").click();
-
-        expect(await screen.findByText("Text that might be on an add page")).toBeInTheDocument();
-    });
-
     describe("Workout List", () => {
         it("should show snackbar when AllWorkoutsQuery fails due to network error", async () => {
             const mocks: MockedResponse[] = [
@@ -104,8 +105,98 @@ describe("Workout Page", () => {
     });
 
     describe("Add Workout", () => {
-        it("should do", () => {
-            expect(true).toBe(false);
+        const workout: Workout = {
+            id: 5,
+            date: "2022-06-13",
+            lifts: []
+        };
+
+        const oneWorkoutQueryMock: MockedResponse<OneWorkoutQuery> = {
+            request: {
+                query: OneWorkoutDocument,
+                variables: {
+                    input: {
+                        id: workout.id
+                    }
+                }
+            },
+            result: {
+                data: {
+                    workout
+                }
+            }
+        };
+
+        const addWorkoutMutationMock: MockedResponse<AddWorkoutMutation> = {
+            request: {
+                query: AddWorkoutDocument,
+                variables: {
+                    input: {
+                        date: workout.date
+                    }
+                }
+            },
+            result: {
+                data: {
+                    addWorkout: {
+                        workout: {
+                            id: workout.id,
+                            date: workout.date
+                        }
+                    }
+                }
+            }
+        };
+
+        const addLiftMutationMock: MockedResponse<AddLiftMutation> = {
+            request: {
+                query: AddLiftDocument,
+                variables: {
+                    input: {
+                        workout: workout.id,
+                        name: "Deadlift",
+                        weight: 315,
+                        sets: 3,
+                        reps: 3
+                    }
+                }
+            },
+            result: {
+                data: {
+                    addLift: {
+                        workout: workout.id,
+                        lift: {
+                            id: 11,
+                            name: "Deadlift",
+                            weight: 315,
+                            sets: 3,
+                            reps: 3
+                        }
+                    }
+                }
+            }
+        };
+
+        it("should save new workout and allow adding lifts to it", async () => {
+            renderPage(WorkoutPage, WORKOUT_ROUTE, [allWorkoutsQueryMock, oneWorkoutQueryMock, addWorkoutMutationMock, addLiftMutationMock]);
+
+            expect(await screen.findByText("3 April 2022")).toBeInTheDocument();
+
+            userEvent.clear(screen.getByLabelText("Date"));
+            userEvent.type(screen.getByLabelText("Date"), "06132022");
+            screen.getByTestId("add-workout").click();
+
+            expect(await screen.findByLabelText("save")).toBeInTheDocument();
+
+            userEvent.type(screen.getByLabelText("Name"), "Deadlift");
+            userEvent.type(screen.getByLabelText("Weight"), "315");
+            userEvent.type(screen.getByLabelText("Sets"), "3");
+            userEvent.type(screen.getByLabelText("Reps"), "3");
+            screen.getByLabelText("save").click();
+
+            await new Promise(resolve => setTimeout(resolve, 10)); // need to "wait" for save to go through to make sure it did not fail
+
+            expect(screen.queryByText("Save Failed!")).not.toBeInTheDocument();
         });
     });
 });

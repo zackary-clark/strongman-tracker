@@ -5,6 +5,7 @@ import format from "date-fns/format";
 import { FunctionComponent, MouseEventHandler, useEffect } from "react";
 import * as React from "react";
 import { AllMaxesDocument, AllMaxesQuery, Max, useDeleteMaxMutation } from "../../../generated/schema";
+import { DATE_FORMAT } from "../../constants";
 import { useOpenSnackbar } from "../../context/snackbarContext";
 
 interface Props {
@@ -70,6 +71,6 @@ export const MaxRow: FunctionComponent<Props> = ({max}) => {
 };
 
 const formatDateCell = (date: any) => {
-    if (typeof date !== "string" || !isMatch(date, "yyyy-MM-dd")) throw new Error(`Date ${date} is in an unexpected format!`);
+    if (typeof date !== "string" || !isMatch(date, DATE_FORMAT)) throw new Error(`Date ${date} is in an unexpected format!`);
     return format(parseISO(date), "MM/dd/yyyy");
 };

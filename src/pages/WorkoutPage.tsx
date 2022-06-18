@@ -1,12 +1,12 @@
 import * as React from "react";
 import { Route } from "react-router-dom";
-import { AddWorkout } from "../components/workouts/AddWorkout";
+import { WorkoutForm } from "../components/workouts/WorkoutForm";
 import { WorkoutList } from "../components/workouts/WorkoutList";
-import { ADD_RELATIVE_ROUTE, WORKOUT_ROUTE } from "./constants";
+import { WORKOUT_ID_PARAM, WORKOUT_ROUTE } from "./constants";
 
 export const WorkoutPage = (
     <Route path={WORKOUT_ROUTE}>
-        <Route path="" element={<WorkoutList />} />
-        <Route path={ADD_RELATIVE_ROUTE} element={<AddWorkout />} />
+        <Route index element={<WorkoutList />} />
+        <Route path={`:${WORKOUT_ID_PARAM}`} element={<WorkoutForm />} />
     </Route>
 );
