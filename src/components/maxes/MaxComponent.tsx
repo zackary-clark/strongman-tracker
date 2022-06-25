@@ -9,13 +9,13 @@ import {
     useAddMaxMutation,
     useAllMaxesQuery
 } from "../../../generated/schema";
-import { useOpenSnackbar } from "../../context/snackbarContext";
+import { useSnackbar } from "../../context/snackbarContext";
 import { LoadingScreen } from "../common/LoadingScreen";
 import { AddDialog } from "./AddDialog";
 import { MaxRow } from "./MaxRow";
 
 export const MaxComponent: FunctionComponent = () => {
-    const openSnackbar = useOpenSnackbar();
+    const openSnackbar = useSnackbar();
     const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
 
     const { loading, error: queryError, data } = useAllMaxesQuery();
@@ -37,14 +37,14 @@ export const MaxComponent: FunctionComponent = () => {
     useEffect(() => {
         if (queryError) {
             console.error("Max Query Failed");
-            openSnackbar("Network Error!");
+            openSnackbar("error", "Network Error!");
         }
     }, [queryError]);
 
     useEffect(() => {
         if (mutationError) {
             console.error("Mutation Failed! Check graphql response for details");
-            openSnackbar("Save Failed!");
+            openSnackbar("error", "Save Failed!");
         }
     }, [mutationError]);
 

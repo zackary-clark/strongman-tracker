@@ -6,14 +6,14 @@ import { FunctionComponent, MouseEventHandler, useEffect } from "react";
 import * as React from "react";
 import { AllMaxesDocument, AllMaxesQuery, Max, useDeleteMaxMutation } from "../../../generated/schema";
 import { DATE_FORMAT } from "../../constants";
-import { useOpenSnackbar } from "../../context/snackbarContext";
+import { useSnackbar } from "../../context/snackbarContext";
 
 interface Props {
     max: Max;
 }
 
 export const MaxRow: FunctionComponent<Props> = ({max}) => {
-    const openSnackbar = useOpenSnackbar();
+    const openSnackbar = useSnackbar();
 
     const [deleteMax, { error }] = useDeleteMaxMutation({
         variables: { input: { id: max.id } },
@@ -42,7 +42,7 @@ export const MaxRow: FunctionComponent<Props> = ({max}) => {
     useEffect(() => {
         if (error) {
             console.error("Delete Failed! Check graphql response for details");
-            openSnackbar("Delete Failed!");
+            openSnackbar("error", "Delete Failed!");
         }
     }, [error]);
 

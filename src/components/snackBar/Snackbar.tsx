@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const Snackbar: FunctionComponent<Props> = ({autoHideDuration}) => {
-    const {isSnackbarOpen, closeSnackbar, snackbarMessage} = useContext(SnackbarContext);
+    const {isSnackbarOpen, closeSnackbar, message, type} = useContext(SnackbarContext);
 
     return (
         <Box className={"snackbar"}>
@@ -18,8 +18,8 @@ export const Snackbar: FunctionComponent<Props> = ({autoHideDuration}) => {
                 open={isSnackbarOpen}
                 onClose={closeSnackbar}
             >
-                <Alert severity={"error"} variant={"filled"} onClose={closeSnackbar}>
-                    {snackbarMessage}
+                <Alert severity={type} variant="filled" onClose={closeSnackbar}>
+                    {message}
                 </Alert>
             </MUISnackbar>
         </Box>

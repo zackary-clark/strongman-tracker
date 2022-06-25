@@ -13,7 +13,7 @@ describe("Snackbar", () => {
                 <Snackbar autoHideDuration={props.autoHideDuration || 20000}/>
                 <Button
                     title={"Open Snackbar"}
-                    onClick={() => openSnackbar(props.customMessage)}
+                    onClick={() => openSnackbar("error", props.customMessage)}
                 >
                     Open Snackbar
                 </Button>

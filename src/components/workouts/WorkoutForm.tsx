@@ -6,13 +6,13 @@ import * as React from "react";
 import { FunctionComponent, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAddLiftMutation, useOneWorkoutQuery } from "../../../generated/schema";
-import { useOpenSnackbar } from "../../context/snackbarContext";
+import { useSnackbar } from "../../context/snackbarContext";
 import { WORKOUT_ID_PARAM } from "../../pages/constants";
 import { LoadingScreen } from "../common/LoadingScreen";
 import { LiftForm, LiftView } from "./LiftForm";
 
 export const WorkoutForm: FunctionComponent = () => {
-    const openSnackbar = useOpenSnackbar();
+    const openSnackbar = useSnackbar();
     const params = useParams();
     const workoutIdParam = params[WORKOUT_ID_PARAM];
     const workoutId = workoutIdParam ? parseInt(workoutIdParam) : undefined;
@@ -41,19 +41,19 @@ export const WorkoutForm: FunctionComponent = () => {
     useEffect(() => {
         if (oneWorkoutError) {
             console.error("One Workout Query Failed");
-            openSnackbar("Network Error!");
+            openSnackbar("error", "Network Error!");
         }
     }, [oneWorkoutError]);
 
     useEffect(() => {
         if (addLiftError) {
             console.error("Mutation Failed! Check graphql response for details");
-            openSnackbar("Save Failed!");
+            openSnackbar("error", "Save Failed!");
         }
     }, [addLiftError]);
 
     const onDateChange = (): void => {
-        openSnackbar("Can't change dates (yet)!"); // TODO: Should be a warning, not an error
+        openSnackbar("warning", "Sorry! Can't change dates (yet)!");
     };
 
     if (loading) return <LoadingScreen />;

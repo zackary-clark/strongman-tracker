@@ -1,43 +1,52 @@
-import React, { SyntheticEvent, useContext, useState } from "react";
+import React, { FunctionComponent, SyntheticEvent, useContext, useState } from "react";
 import { SnackbarCloseReason } from "@mui/material";
+
+type SnackbarType = "error" | "warning" | "info" | "success";
 
 type MUIClickHandler = (event: Event | SyntheticEvent, reason?: SnackbarCloseReason) => void;
 
+type OpenSnackbar = (type?: SnackbarType, message?: string) => void;
+
 interface ISnackbarContext {
     isSnackbarOpen: boolean,
-    snackbarMessage: string,
+    type: SnackbarType,
+    message: string,
     closeSnackbar: MUIClickHandler,
-    openSnackbar: (message?: string) => void,
+    openSnackbar: OpenSnackbar,
 }
 
 export const defaultSnackbarMessage = "An Error Occurred";
 
 const defaultSnackbarContext: ISnackbarContext = {
     isSnackbarOpen: false,
-    snackbarMessage: defaultSnackbarMessage,
+    type: "error",
+    message: defaultSnackbarMessage,
     closeSnackbar: () => {},
     openSnackbar: () => {},
 };
 
 export const SnackbarContext = React.createContext(defaultSnackbarContext);
 
-export const SnackbarContextProvider: React.FunctionComponent = ({children}) => {
+export const SnackbarContextProvider: FunctionComponent = ({children}) => {
     const [isSnackbarOpen, setIsSnackbarOpen] = useState(defaultSnackbarContext.isSnackbarOpen);
-    const [snackbarMessage, setSnackbarMessage] = useState(defaultSnackbarContext.snackbarMessage);
+    const [type, setType] = useState(defaultSnackbarContext.type);
+    const [message, setMessage] = useState(defaultSnackbarContext.message);
 
     const closeSnackbar = () => {
         setIsSnackbarOpen(false);
     };
 
-    const openSnackbar = (message?: string) => {
-        setSnackbarMessage(message || defaultSnackbarContext.snackbarMessage);
+    const openSnackbar: OpenSnackbar = (type?: SnackbarType, message?: string) => {
+        setType(type ?? defaultSnackbarContext.type);
+        setMessage(message ?? defaultSnackbarContext.message);
         setIsSnackbarOpen(true);
     };
 
     return (
         <SnackbarContext.Provider value={{
             isSnackbarOpen,
-            snackbarMessage,
+            message,
+            type,
             closeSnackbar: closeSnackbar,
             openSnackbar: openSnackbar
         }}>
@@ -46,10 +55,10 @@ export const SnackbarContextProvider: React.FunctionComponent = ({children}) => 
     );
 };
 
-export const useOpenSnackbar = (): (message?: string) => void => {
+export const useSnackbar = (): OpenSnackbar => {
     const context = useContext(SnackbarContext);
     if (context === undefined) {
-        throw new Error("useOpenSnackbar must be used within a SnackbarContextProvider");
+        throw new Error("useSnackbar must be used within a SnackbarContextProvider");
     }
     return context.openSnackbar;
 };

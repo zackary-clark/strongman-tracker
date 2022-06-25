@@ -14,7 +14,7 @@ import {
     useAllWorkoutsQuery
 } from "../../../generated/schema";
 import { DATE_FORMAT } from "../../constants";
-import { useOpenSnackbar } from "../../context/snackbarContext";
+import { useSnackbar } from "../../context/snackbarContext";
 import { LoadingScreen } from "../common/LoadingScreen";
 import { WorkoutTable } from "./WorkoutTable";
 
@@ -22,7 +22,7 @@ export const WorkoutList: FunctionComponent = () => {
     const [date, setDate] = useState<Date | null>(new Date());
 
     const navigate = useNavigate();
-    const openSnackbar = useOpenSnackbar();
+    const openSnackbar = useSnackbar();
     const { loading, error: queryError, data } = useAllWorkoutsQuery();
 
     const [addWorkout, { error: mutationError }] = useAddWorkoutMutation({
@@ -61,14 +61,14 @@ export const WorkoutList: FunctionComponent = () => {
     useEffect(() => {
         if (queryError) {
             console.error("Workout Query Failed");
-            openSnackbar("Network Error!");
+            openSnackbar("error", "Network Error!");
         }
     }, [queryError]);
 
     useEffect(() => {
         if (mutationError) {
             console.error("Mutation Failed! Check graphql response for details");
-            openSnackbar("Save Failed!");
+            openSnackbar("error", "Save Failed!");
         }
     }, [mutationError]);
 
