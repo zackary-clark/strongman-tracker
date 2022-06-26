@@ -1,14 +1,15 @@
 import { Delete, Save } from "@mui/icons-material";
-import { Box, IconButton, Stack, TextField, Tooltip } from "@mui/material";
+import { Box, IconButton, Stack, TextField } from "@mui/material";
 import * as React from "react";
 import { FunctionComponent, useState } from "react";
 import { Lift } from "../../../generated/schema";
 
 interface LiftViewProps {
     lift: Lift;
+    onDelete: (id: number) => void;
 }
 
-export const LiftView: FunctionComponent<LiftViewProps> = ({lift}) => (
+export const LiftView: FunctionComponent<LiftViewProps> = ({lift, onDelete}) => (
     <Box sx={{display: "flex", justifyContent: "center"}}>
         <Stack direction="row">
             <TextField
@@ -39,11 +40,9 @@ export const LiftView: FunctionComponent<LiftViewProps> = ({lift}) => (
                 sx={{margin: 1, width: "10ch"}}
             />
             <Box sx={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                <Tooltip title="Deletes (and edits) are coming soon!" enterTouchDelay={50} placement="bottom-start">
-                    <IconButton aria-label={`delete lift ${lift.id}`}>
-                        <Delete />
-                    </IconButton>
-                </Tooltip>
+                <IconButton aria-label={`delete lift ${lift.id}`} onClick={() => onDelete(lift.id)}>
+                    <Delete />
+                </IconButton>
             </Box>
         </Stack>
     </Box>

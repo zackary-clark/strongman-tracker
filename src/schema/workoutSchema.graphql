@@ -55,14 +55,16 @@ input DeleteWorkoutInput {
     id: Int!
 }
 
-type DeleteWorkoutPayload implements MutationPayload {
+type DeleteWorkoutPayload implements DeletePayload {
     success: Boolean!
+    id: Int!
 }
 
 input DeleteLiftInput {
     id: Int!
 }
 
-type DeleteLiftPayload implements MutationPayload {
+type DeleteLiftPayload implements DeletePayload {
     success: Boolean!
+    id: Int!
 }

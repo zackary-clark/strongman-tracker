@@ -51,11 +51,13 @@ mutation AddLift($input: AddLiftInput!) {
 mutation DeleteWorkout($input: DeleteWorkoutInput!) {
     deleteWorkout(input: $input) {
         success
+        id
     }
 }
 
 mutation DeleteLift($input: DeleteLiftInput!) {
     deleteLift(input: $input) {
         success
+        id
     }
 }

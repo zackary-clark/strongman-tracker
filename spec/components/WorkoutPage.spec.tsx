@@ -1,5 +1,5 @@
 import { MockedResponse } from "@apollo/client/testing";
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import {
@@ -8,7 +8,7 @@ import {
     AddWorkoutDocument,
     AddWorkoutMutation,
     AllWorkoutsDocument,
-    AllWorkoutsQuery,
+    AllWorkoutsQuery, DeleteLiftDocument, DeleteLiftMutation, Lift,
     OneWorkoutDocument,
     OneWorkoutQuery,
     Workout
@@ -105,10 +105,18 @@ describe("Workout Page", () => {
     });
 
     describe("Add Workout", () => {
+        const lift: Lift = {
+            id: 12,
+            name: "existing lift",
+            weight: 225,
+            sets: 4,
+            reps: 4
+        };
+
         const workout: Workout = {
             id: 5,
             date: "2022-06-13",
-            lifts: []
+            lifts: [lift]
         };
 
         const oneWorkoutQueryMock: MockedResponse<OneWorkoutQuery> = {
@@ -127,57 +135,57 @@ describe("Workout Page", () => {
             }
         };
 
-        const addWorkoutMutationMock: MockedResponse<AddWorkoutMutation> = {
-            request: {
-                query: AddWorkoutDocument,
-                variables: {
-                    input: {
-                        date: workout.date
-                    }
-                }
-            },
-            result: {
-                data: {
-                    addWorkout: {
-                        workout: {
-                            id: workout.id,
+        it("should save new workout and allow adding lifts to it", async () => {
+            const addWorkoutMutationMock: MockedResponse<AddWorkoutMutation> = {
+                request: {
+                    query: AddWorkoutDocument,
+                    variables: {
+                        input: {
                             date: workout.date
                         }
                     }
-                }
-            }
-        };
-
-        const addLiftMutationMock: MockedResponse<AddLiftMutation> = {
-            request: {
-                query: AddLiftDocument,
-                variables: {
-                    input: {
-                        workout: workout.id,
-                        name: "Deadlift",
-                        weight: 315,
-                        sets: 3,
-                        reps: 3
+                },
+                result: {
+                    data: {
+                        addWorkout: {
+                            workout: {
+                                id: workout.id,
+                                date: workout.date
+                            }
+                        }
                     }
                 }
-            },
-            result: {
-                data: {
-                    addLift: {
-                        workout: workout.id,
-                        lift: {
-                            id: 11,
+            };
+
+            const addLiftMutationMock: MockedResponse<AddLiftMutation> = {
+                request: {
+                    query: AddLiftDocument,
+                    variables: {
+                        input: {
+                            workout: workout.id,
                             name: "Deadlift",
                             weight: 315,
                             sets: 3,
                             reps: 3
                         }
                     }
+                },
+                result: {
+                    data: {
+                        addLift: {
+                            workout: workout.id,
+                            lift: {
+                                id: 11,
+                                name: "Deadlift",
+                                weight: 315,
+                                sets: 3,
+                                reps: 3
+                            }
+                        }
+                    }
                 }
-            }
-        };
+            };
 
-        it("should save new workout and allow adding lifts to it", async () => {
             renderPage(WorkoutPage, WORKOUT_ROUTE, [allWorkoutsQueryMock, oneWorkoutQueryMock, addWorkoutMutationMock, addLiftMutationMock]);
 
             expect(await screen.findByText("3 April 2022")).toBeInTheDocument();
@@ -188,15 +196,51 @@ describe("Workout Page", () => {
 
             expect(await screen.findByLabelText("save")).toBeInTheDocument();
 
-            userEvent.type(screen.getByLabelText("Name"), "Deadlift");
-            userEvent.type(screen.getByLabelText("Weight"), "315");
-            userEvent.type(screen.getByLabelText("Sets"), "3");
-            userEvent.type(screen.getByLabelText("Reps"), "3");
+            expect(screen.getAllByLabelText("Name")[0]).toHaveDisplayValue("existing lift");
+            expect(screen.getAllByLabelText("Weight")[0]).toHaveDisplayValue("225");
+            expect(screen.getAllByLabelText("Sets")[0]).toHaveDisplayValue("4");
+            expect(screen.getAllByLabelText("Reps")[0]).toHaveDisplayValue("4");
+
+            userEvent.type(screen.getAllByLabelText("Name")[1], "Deadlift");
+            userEvent.type(screen.getAllByLabelText("Weight")[1], "315");
+            userEvent.type(screen.getAllByLabelText("Sets")[1], "3");
+            userEvent.type(screen.getAllByLabelText("Reps")[1], "3");
             screen.getByLabelText("save").click();
 
-            await new Promise(resolve => setTimeout(resolve, 10)); // need to "wait" for save to go through to make sure it did not fail
+            await act(async () => {
+                await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for save to go through to make sure it did not fail
+            });
 
             expect(screen.queryByText("Save Failed!")).not.toBeInTheDocument();
+        });
+
+        it("should delete workout on trash button click", async () => {
+            const deleteLiftMutationMock: MockedResponse<DeleteLiftMutation> = {
+                request: {
+                    query: DeleteLiftDocument,
+                    variables: {
+                        input: {
+                            id: lift.id
+                        }
+                    }
+                },
+                result: {
+                    data: {
+                        deleteLift: {
+                            success: true,
+                            id: lift.id
+                        }
+                    }
+                }
+            };
+
+            renderPage(WorkoutPage, WORKOUT_ROUTE + "/5", [oneWorkoutQueryMock, deleteLiftMutationMock]);
+
+            expect(await screen.findByLabelText("save")).toBeInTheDocument();
+
+            screen.getByLabelText("delete lift 12").click();
+
+            expect(await screen.findByText("Lift Deleted!")).toBeInTheDocument();
         });
     });
 });

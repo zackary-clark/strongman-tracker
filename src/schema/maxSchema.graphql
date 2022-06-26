@@ -33,6 +33,7 @@ input DeleteMaxInput {
     id: Int!
 }
 
-type DeleteMaxPayload implements MutationPayload {
+type DeleteMaxPayload implements DeletePayload {
     success: Boolean!
+    id: Int!
 }

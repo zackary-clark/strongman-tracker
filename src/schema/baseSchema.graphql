@@ -4,6 +4,11 @@ interface MutationPayload {
     success: Boolean!
 }
 
+interface DeletePayload {
+    success: Boolean!
+    id: Int!
+}
+
 type Query
 
 type Mutation
