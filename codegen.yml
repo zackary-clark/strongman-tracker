@@ -1,10 +1,14 @@
 schema: 'src/schema/**/*.graphql'
 documents: 'src/operations/**/*.graphql'
 generates:
-    ./generated/schema.ts:
-        plugins:
-            - typescript
-            - typescript-operations
-            - typescript-react-apollo
-        config:
-            fetcher: fetch
+  ./generated/schema.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      fetcher: fetch
+      hooksSuffix: '__generated'
+      strictScalars: true
+      scalars:
+        Date: '../src/operations/scalars#DateScalar'

@@ -1,52 +1,18 @@
 import { Add } from "@mui/icons-material";
 import { Box, Fab, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import * as React from "react";
-import { FunctionComponent, useEffect, useState } from "react";
-import {
-    AddMaxInput,
-    AllMaxesDocument,
-    AllMaxesQuery,
-    useAddMaxMutation,
-    useAllMaxesQuery
-} from "../../../generated/schema";
-import { useSnackbar } from "../../context/snackbarContext";
+import { FunctionComponent, useState } from "react";
+import { AddMaxInput } from "../../../generated/schema";
+import { useAddMaxMutation, useAllMaxesQuery } from "../../operations/maxOperations";
 import { LoadingScreen } from "../common/LoadingScreen";
 import { AddDialog } from "./AddDialog";
 import { MaxRow } from "./MaxRow";
 
 export const MaxComponent: FunctionComponent = () => {
-    const openSnackbar = useSnackbar();
     const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
 
-    const { loading, error: queryError, data } = useAllMaxesQuery();
-    const [addMax, { error: mutationError }] = useAddMaxMutation({
-        update(cache, {data}) {
-            const newMax = data?.addMax?.max;
-            if (newMax) {
-                const existingMaxesQuery: AllMaxesQuery | null = cache.readQuery({query: AllMaxesDocument});
-                cache.writeQuery({
-                    query: AllMaxesDocument,
-                    data: {
-                        maxes: existingMaxesQuery ? [...existingMaxesQuery.maxes, newMax] : [newMax]
-                    }
-                });
-            }
-        }
-    });
-
-    useEffect(() => {
-        if (queryError) {
-            console.error("Max Query Failed");
-            openSnackbar("error", "Network Error!");
-        }
-    }, [queryError]);
-
-    useEffect(() => {
-        if (mutationError) {
-            console.error("Mutation Failed! Check graphql response for details");
-            openSnackbar("error", "Save Failed!");
-        }
-    }, [mutationError]);
+    const { loading, data } = useAllMaxesQuery();
+    const [addMax] = useAddMaxMutation();
 
     if (loading) return <LoadingScreen />;
 
@@ -54,15 +20,7 @@ export const MaxComponent: FunctionComponent = () => {
 
     const addEntry = async (input: AddMaxInput) => {
         setIsAddDialogOpen(false);
-        try {
-            await addMax({
-                variables: {
-                    input
-                }
-            });
-        } catch (e) {
-            // suppress, since graphql errors are really handled with mutationErrors
-        }
+        await addMax({ variables: { input } });
     };
 
     return (

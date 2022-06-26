@@ -5,16 +5,10 @@ import { Box, Fab, Stack, TextField } from "@mui/material";
 import { compareDesc, parseISO } from "date-fns";
 import format from "date-fns/format";
 import * as React from "react";
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-    AllWorkoutsDocument,
-    AllWorkoutsQuery,
-    useAddWorkoutMutation,
-    useAllWorkoutsQuery
-} from "../../../generated/schema";
 import { DATE_FORMAT } from "../../constants";
-import { useSnackbar } from "../../context/snackbarContext";
+import { useAddWorkoutMutation, useAllWorkoutsQuery } from "../../operations/workoutOperations";
 import { LoadingScreen } from "../common/LoadingScreen";
 import { WorkoutTable } from "./WorkoutTable";
 
@@ -22,55 +16,23 @@ export const WorkoutList: FunctionComponent = () => {
     const [date, setDate] = useState<Date | null>(new Date());
 
     const navigate = useNavigate();
-    const openSnackbar = useSnackbar();
-    const { loading, error: queryError, data } = useAllWorkoutsQuery();
+    const { loading, data } = useAllWorkoutsQuery();
 
-    const [addWorkout, { error: mutationError }] = useAddWorkoutMutation({
-        update(cache, {data}) {
-            const newWorkout = data?.addWorkout?.workout;
-            if (newWorkout) {
-                const existingWorkoutsQuery: AllWorkoutsQuery | null = cache.readQuery({query: AllWorkoutsDocument});
-                cache.writeQuery({
-                    query: AllWorkoutsDocument,
-                    data: {
-                        workouts: existingWorkoutsQuery ? [...existingWorkoutsQuery.workouts, {...newWorkout, lifts: []}] : [newWorkout]
-                    }
-                });
-            }
-        }
-    });
+    const [addWorkout] = useAddWorkoutMutation();
 
     const onPlusClick = async () => {
         if (date) {
-            try {
-                const payload = await addWorkout({
-                    variables: {
-                        input: {
-                            date: format(date, DATE_FORMAT)
-                        }
+            const payload = await addWorkout({
+                variables: {
+                    input: {
+                        date: format(date, DATE_FORMAT)
                     }
-                });
-                const workoutId = payload.data?.addWorkout?.workout?.id;
-                if (workoutId) navigate(workoutId.toString());
-            } catch (e) {
-                // suppressing graphql errors
-            }
+                }
+            });
+            const workoutId = payload.data?.addWorkout?.workout?.id;
+            if (workoutId) navigate(workoutId.toString());
         }
     };
-
-    useEffect(() => {
-        if (queryError) {
-            console.error("Workout Query Failed");
-            openSnackbar("error", "Network Error!");
-        }
-    }, [queryError]);
-
-    useEffect(() => {
-        if (mutationError) {
-            console.error("Mutation Failed! Check graphql response for details");
-            openSnackbar("error", "Save Failed!");
-        }
-    }, [mutationError]);
 
     if (loading) return <LoadingScreen />;
 

@@ -212,7 +212,8 @@ describe("Max Page", () => {
                 result: {
                     data: {
                         deleteMax: {
-                            success: true
+                            success: true,
+                            id: 1
                         }
                     }
                 }

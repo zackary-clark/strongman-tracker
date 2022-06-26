@@ -25,5 +25,6 @@ mutation AddMax($input: AddMaxInput!) {
 mutation DeleteMax($input: DeleteMaxInput!) {
     deleteMax(input: $input) {
         success
+        id
     }
 }

@@ -1,13 +1,12 @@
-import { ApolloCache, Reference } from "@apollo/client";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/lab";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import { Box, CircularProgress, Container, TextField } from "@mui/material";
 import { parseISO } from "date-fns";
 import * as React from "react";
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent } from "react";
 import { useParams } from "react-router-dom";
-import { useAddLiftMutation, useDeleteLiftMutation, useOneWorkoutQuery, Workout } from "../../../generated/schema";
 import { useSnackbar } from "../../context/snackbarContext";
+import { useAddLiftMutation, useDeleteLiftMutation, useOneWorkoutQuery } from "../../operations/workoutOperations";
 import { WORKOUT_ID_PARAM } from "../../pages/constants";
 import { LoadingScreen } from "../common/LoadingScreen";
 import { LiftForm, LiftView } from "./LiftForm";
@@ -20,117 +19,41 @@ export const WorkoutForm: FunctionComponent = () => {
 
     if (workoutId === undefined) return <ErrorPage />;
 
-    const { loading, error: oneWorkoutError, data } = useOneWorkoutQuery({variables: {input: {id: workoutId}}});
-    const [addLift, { loading: addLiftLoading, error: addLiftError }] = useAddLiftMutation({
-        update(cache, {data: mutationData}) {
-            const newLift = mutationData?.addLift?.lift;
-            const newWorkoutId = mutationData?.addLift?.workout;
-            const workout = data?.workout;
-            if (newWorkoutId && newLift && workout) {
-                cache.modify({
-                    id: cache.identify(workout),
-                    fields: {
-                        lifts(cachedLiftRefs) {
-                            return [...cachedLiftRefs, newLift];
-                        }
-                    }
-                });
-            }
-        }
-    });
-    const [deleteLift, { error: deleteLiftError }] = useDeleteLiftMutation({
-        onCompleted(data) {
-            if (data.deleteLift?.success) {
-                openSnackbar("success", "Lift Deleted!");
-            }
-        },
-        update(cache, {data: mutationData}) {
-            const success = mutationData?.deleteLift?.success;
-            const liftId = mutationData?.deleteLift?.id;
-            const workout = data?.workout;
-            if (success && workout && liftId) {
-                removeLiftFromCache(cache, workout, liftId);
-            }
-        }
-    });
-
-    const removeLiftFromCache = (cache: ApolloCache<any>, workout: Workout, liftId: number) => {
-        cache.modify({
-            id: cache.identify(workout),
-            fields: {
-                lifts(cachedLiftRefs, {readField}) {
-                    return cachedLiftRefs.filter((liftRef: Reference) =>  liftId !== readField("id", liftRef));
-                }
-            }
-        });
-        const liftStoreObject = workout.lifts.find(lift => lift.id === liftId);
-        if (liftStoreObject) {
-            const liftCacheId = cache.identify(liftStoreObject);
-            if (liftCacheId) cache.evict({ id: liftCacheId });
-        }
-    };
-
-    useEffect(() => {
-        if (oneWorkoutError) {
-            console.error("One Workout Query Failed");
-            openSnackbar("error", "Network Error!");
-        }
-    }, [oneWorkoutError]);
-
-    useEffect(() => {
-        if (addLiftError) {
-            console.error("Mutation Failed! Check graphql response for details");
-            openSnackbar("error", "Save Failed!");
-        }
-    }, [addLiftError]);
-
-    useEffect(() => {
-        if (deleteLiftError) {
-            console.error("Mutation Failed! Check graphql response for details");
-            openSnackbar("error", "Delete Failed!");
-        }
-    }, [deleteLiftError]);
-
-    const onDateChange = (): void => {
-        openSnackbar("warning", "Sorry! Can't change dates (yet)!");
-    };
-
-    if (loading) return <LoadingScreen />;
+    const { loading, data } = useOneWorkoutQuery({ variables: { input: { id: workoutId } } });
 
     const workout = data?.workout;
+
+    const [addLift, { loading: addLiftLoading }] = useAddLiftMutation(workout);
+    const [deleteLift] = useDeleteLiftMutation(workout);
+
+    const onDateChange = (): void => openSnackbar("warning", "Sorry! Can't change dates (yet)!");
+
+    if (loading) return <LoadingScreen />;
 
     if (!workout) return <ErrorPage />;
 
     const onLiftSave = async (name: string, weight: number, sets: number, reps: number) => {
-        try {
-            await addLift({
-                variables: {
-                    input: {
-                        workout: workoutId,
-                        name,
-                        weight,
-                        sets,
-                        reps
-                    }
+        await addLift({
+            variables: {
+                input: {
+                    workout: workoutId,
+                    name,
+                    weight,
+                    sets,
+                    reps
                 }
-            });
-        } catch (e) {
-            // suppressed graphql errors
-        }
+            }
+        });
     };
 
     const onLiftDelete = async (id: number) => {
-        try {
-            await deleteLift({
-                variables: {
-                    input: {
-                        id
-                    }
+        await deleteLift({
+            variables: {
+                input: {
+                    id
                 }
-            });
-        } catch (e) {
-            // suppressed graphql errors
-        }
+            }
+        });
     };
 
     return (
