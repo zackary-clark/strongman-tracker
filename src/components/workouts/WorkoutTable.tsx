@@ -1,6 +1,7 @@
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { format, parseISO } from "date-fns";
 import React, { FunctionComponent } from "react";
+import { Link } from "react-router-dom";
 import { Workout } from "../../../generated/schema";
 
 interface Props {
@@ -8,10 +9,10 @@ interface Props {
 }
 
 export const WorkoutTable: FunctionComponent<Props> = ({workout}) => (
-    <Box data-testid="workout-table" margin={4}>
-        <Box my={2}>
+    <Paper data-testid="workout-table" sx={{ marginX: 4, marginY: 1 }} elevation={0}>
+        <Button variant="text" color="neutral" size="large" href="#" component={Link} to={`./${workout.id}`}>
             {format(parseISO(workout.date), "d MMMM y")}
-        </Box>
+        </Button>
         <TableContainer component={Paper}>
             <Table size="small">
                 <TableHead>
@@ -35,5 +36,5 @@ export const WorkoutTable: FunctionComponent<Props> = ({workout}) => (
                 </TableBody>
             </Table>
         </TableContainer>
-    </Box>
+    </Paper>
 );

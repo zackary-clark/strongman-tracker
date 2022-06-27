@@ -19,6 +19,27 @@ import { WorkoutPage } from "../../src/pages/WorkoutPage";
 import { renderPage, renderWithAllProviders, renderWithRouterAndApollo } from "../testUtils";
 
 describe("Workout Page", () => {
+    const benchNSquat = {
+        id: 1,
+        date: "2022-04-03",
+        lifts: [
+            {
+                id: 1,
+                name: "bench press",
+                reps: 5,
+                sets: 5,
+                weight: 135
+            },
+            {
+                id: 2,
+                name: "squat",
+                reps: 10,
+                sets: 3,
+                weight: 225
+            }
+        ]
+    };
+
     const allWorkoutsQueryMock: MockedResponse<AllWorkoutsQuery> = {
         request: {
             query: AllWorkoutsDocument
@@ -26,26 +47,7 @@ describe("Workout Page", () => {
         result: {
             data: {
                 workouts: [
-                    {
-                        id: 1,
-                        date: "2022-04-03",
-                        lifts: [
-                            {
-                                id: 1,
-                                name: "bench press",
-                                reps: 5,
-                                sets: 5,
-                                weight: 135
-                            },
-                            {
-                                id: 2,
-                                name: "squat",
-                                reps: 10,
-                                sets: 3,
-                                weight: 225
-                            }
-                        ]
-                    },
+                    benchNSquat,
                     {
                         id: 2,
                         date: "2022-03-30",
@@ -61,7 +63,24 @@ describe("Workout Page", () => {
         }
     };
 
+
     describe("Workout List", () => {
+        const oneWorkoutQueryMock: MockedResponse<OneWorkoutQuery> = {
+            request: {
+                query: OneWorkoutDocument,
+                variables: {
+                    input: {
+                        id: benchNSquat.id
+                    }
+                }
+            },
+            result: {
+                data: {
+                    workout: benchNSquat
+                }
+            }
+        };
+
         it("should show snackbar when AllWorkoutsQuery fails due to network error", async () => {
             const mocks: MockedResponse[] = [
                 {
@@ -101,6 +120,20 @@ describe("Workout Page", () => {
             expect(workout).toHaveTextContent("135");
             expect(workout).toHaveTextContent("5x5");
             expect(workout).toHaveTextContent("squat");
+        });
+        it("should show workout form on date click", async () => {
+            renderPage(WorkoutPage, WORKOUT_ROUTE, [allWorkoutsQueryMock, oneWorkoutQueryMock]);
+
+            expect(await screen.findByText("3 April 2022")).toBeInTheDocument();
+
+            screen.getByText("3 April 2022").click();
+
+            expect(await screen.findByLabelText("save")).toBeInTheDocument();
+
+            expect(screen.getAllByLabelText("Name")[0]).toHaveDisplayValue("bench press");
+            expect(screen.getAllByLabelText("Weight")[0]).toHaveDisplayValue("135");
+            expect(screen.getAllByLabelText("Sets")[0]).toHaveDisplayValue("5");
+            expect(screen.getAllByLabelText("Reps")[0]).toHaveDisplayValue("5");
         });
     });
 
