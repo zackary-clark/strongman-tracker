@@ -8,7 +8,12 @@ import {
     AddWorkoutDocument,
     AddWorkoutMutation,
     AllWorkoutsDocument,
-    AllWorkoutsQuery, DeleteLiftDocument, DeleteLiftMutation, Lift,
+    AllWorkoutsQuery,
+    DeleteLiftDocument,
+    DeleteLiftMutation,
+    DeleteWorkoutDocument,
+    DeleteWorkoutMutation,
+    Lift,
     OneWorkoutDocument,
     OneWorkoutQuery,
     Workout
@@ -274,6 +279,36 @@ describe("Workout Page", () => {
             screen.getByLabelText("delete lift 12").click();
 
             expect(await screen.findByText("Lift Deleted!")).toBeInTheDocument();
+        });
+
+        it("should delete workout on Trash icon click", async () => {
+            const deleteWorkoutMutationMock: MockedResponse<DeleteWorkoutMutation> = {
+                request: {
+                    query: DeleteWorkoutDocument,
+                    variables: {
+                        input: {
+                            id: workout.id
+                        }
+                    }
+                },
+                result: {
+                    data: {
+                        deleteWorkout: {
+                            success: true,
+                            id: workout.id
+                        }
+                    }
+                }
+            };
+
+            renderPage(WorkoutPage, WORKOUT_ROUTE + "/5", [oneWorkoutQueryMock, deleteWorkoutMutationMock, allWorkoutsQueryMock]);
+
+            expect(await screen.findByLabelText("save")).toBeInTheDocument();
+
+            screen.getByLabelText("delete-workout").click();
+
+            expect(await screen.findByText("Workout Deleted!")).toBeInTheDocument();
+            expect(await screen.findByText("3 April 2022")).toBeInTheDocument();
         });
     });
 });

@@ -8,7 +8,7 @@ import {
     useAddLiftMutation__generated,
     useAddWorkoutMutation__generated,
     useAllWorkoutsQuery__generated,
-    useDeleteLiftMutation__generated,
+    useDeleteLiftMutation__generated, useDeleteWorkoutMutation__generated,
     useOneWorkoutQuery__generated,
     Workout
 } from "../../generated/schema";
@@ -114,6 +114,43 @@ export function useDeleteLiftMutation(workoutDeletingFrom: Workout | null | unde
                 if (liftStoreObject) {
                     const liftCacheId = cache.identify(liftStoreObject);
                     if (liftCacheId) cache.evict({id: liftCacheId});
+                }
+            }
+        }
+    });
+}
+
+export function useDeleteWorkoutMutation() {
+    const openSnackbar = useSnackbar();
+
+    return useDeleteWorkoutMutation__generated({
+        onCompleted(data) {
+            if (data.deleteWorkout?.success) {
+                openSnackbar("success", "Workout Deleted!");
+            }
+        },
+        onError() {
+            console.error("Mutation Failed! Check graphql response for details");
+            openSnackbar("error", "Delete Failed!");
+        },
+        update(cache, { data: mutationData }) {
+            const success = mutationData?.deleteWorkout?.success;
+            const workoutId = mutationData?.deleteWorkout?.id;
+            if (success && workoutId) {
+                const existingWorkoutsQuery: AllWorkoutsQuery | null = cache.readQuery({query: AllWorkoutsDocument});
+                if (existingWorkoutsQuery) {
+                    let deletedWorkout;
+                    cache.writeQuery({
+                        query: AllWorkoutsDocument,
+                        data: {
+                            workouts: existingWorkoutsQuery.workouts.filter(cachedWorkout => {
+                                const isDeleted = cachedWorkout.id === workoutId;
+                                if (isDeleted) deletedWorkout = cachedWorkout;
+                                return !isDeleted;
+                            })
+                        }
+                    });
+                    if (deletedWorkout) cache.evict({id: cache.identify(deletedWorkout)});
                 }
             }
         }

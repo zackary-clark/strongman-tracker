@@ -1,18 +1,25 @@
+import { Delete } from "@mui/icons-material";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/lab";
 import DateAdapter from "@mui/lab/AdapterDateFns";
-import { Box, CircularProgress, Container, TextField } from "@mui/material";
+import { Box, CircularProgress, Container, IconButton, TextField, Tooltip } from "@mui/material";
 import { parseISO } from "date-fns";
 import * as React from "react";
 import { FunctionComponent } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSnackbar } from "../../context/snackbarContext";
-import { useAddLiftMutation, useDeleteLiftMutation, useOneWorkoutQuery } from "../../operations/workoutOperations";
-import { WORKOUT_ID_PARAM } from "../../pages/constants";
+import {
+    useAddLiftMutation,
+    useDeleteLiftMutation,
+    useDeleteWorkoutMutation,
+    useOneWorkoutQuery
+} from "../../operations/workoutOperations";
+import { WORKOUT_ID_PARAM, WORKOUT_ROUTE } from "../../pages/constants";
 import { LoadingScreen } from "../common/LoadingScreen";
 import { LiftForm, LiftView } from "./LiftForm";
 
 export const WorkoutForm: FunctionComponent = () => {
     const openSnackbar = useSnackbar();
+    const navigate = useNavigate();
     const params = useParams();
     const workoutIdParam = params[WORKOUT_ID_PARAM];
     const workoutId = workoutIdParam ? parseInt(workoutIdParam) : undefined;
@@ -25,6 +32,7 @@ export const WorkoutForm: FunctionComponent = () => {
 
     const [addLift, { loading: addLiftLoading }] = useAddLiftMutation(workout);
     const [deleteLift] = useDeleteLiftMutation(workout);
+    const [deleteWorkout] = useDeleteWorkoutMutation();
 
     const onDateChange = (): void => openSnackbar("warning", "Sorry! Can't change dates (yet)!");
 
@@ -56,6 +64,19 @@ export const WorkoutForm: FunctionComponent = () => {
         });
     };
 
+    const onWorkoutDelete = async () => {
+        const result = await deleteWorkout({
+            variables: {
+                input: {
+                    id: workoutId
+                }
+            }
+        });
+        if (result.data?.deleteWorkout?.success) {
+            navigate(WORKOUT_ROUTE);
+        }
+    };
+
     return (
         <Container maxWidth="md" sx={{mt: 1}}>
             <Box sx={{display: "flex", justifyContent: "center"}}>
@@ -74,6 +95,19 @@ export const WorkoutForm: FunctionComponent = () => {
             {addLiftLoading
                 ? <Box sx={{display: "flex", justifyContent: "center", margin: 2}}><CircularProgress /></Box>
                 : <LiftForm onSave={onLiftSave} />}
+            <Box sx={{display: "flex", justifyContent: "center"}}>
+                <Tooltip title={"Delete Entire Workout"}>
+                    <IconButton
+                        aria-label="delete-workout"
+                        data-testid="delete-workout"
+                        color="error"
+                        onClick={onWorkoutDelete}
+                        size="small"
+                    >
+                        <Delete />
+                    </IconButton>
+                </Tooltip>
+            </Box>
         </Container>
     );
 };
