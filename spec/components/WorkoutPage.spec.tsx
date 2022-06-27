@@ -247,7 +247,7 @@ describe("Workout Page", () => {
             expect(screen.queryByText("Save Failed!")).not.toBeInTheDocument();
         });
 
-        it("should delete workout on trash button click", async () => {
+        it("should delete lift on trash button click", async () => {
             const deleteLiftMutationMock: MockedResponse<DeleteLiftMutation> = {
                 request: {
                     query: DeleteLiftDocument,
