@@ -6,15 +6,13 @@ import {
     useDeleteMaxMutation__generated
 } from "../../generated/schema";
 import { useSnackbar } from "../context/snackbarContext";
+import { onMutationError, onQueryError } from "./defaultOnErrors";
 
 export function useAllMaxesQuery() {
     const openSnackbar = useSnackbar();
 
     return useAllMaxesQuery__generated({
-        onError() {
-            console.error("Max Query Failed");
-            openSnackbar("error", "Network Error!");
-        }
+        onError: onQueryError(openSnackbar)
     });
 }
 
@@ -22,10 +20,7 @@ export function useAddMaxMutation() {
     const openSnackbar = useSnackbar();
 
     return useAddMaxMutation__generated({
-        onError() {
-            console.error("Mutation Failed! Check graphql response for details");
-            openSnackbar("error", "Save Failed!");
-        },
+        onError: onMutationError(openSnackbar),
         update(cache, {data}) {
             const newMax = data?.addMax?.max;
             if (newMax) {
@@ -50,10 +45,7 @@ export function useDeleteMaxMutation() {
                 openSnackbar("success", "Max Deleted!");
             }
         },
-        onError() {
-            console.error("Delete Failed! Check graphql response for details");
-            openSnackbar("error", "Delete Failed!");
-        },
+        onError: onMutationError(openSnackbar),
         update(cache, {data}) {
             const success = data?.deleteMax?.success;
             const deletedMaxId = data?.deleteMax?.id;

@@ -160,7 +160,7 @@ describe("Max Page", () => {
             userEvent.type(screen.getByLabelText("Press"), "135");
             screen.getByText("Save").click();
 
-            expect(await screen.findByText("Save Failed!")).toBeInTheDocument();
+            expect(await screen.findByText("Network Error!")).toBeInTheDocument();
             expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
         });
 
@@ -193,7 +193,7 @@ describe("Max Page", () => {
             userEvent.type(screen.getByLabelText("Press"), "135");
             screen.getByText("Save").click();
 
-            expect(await screen.findByText("Save Failed!")).toBeInTheDocument();
+            expect(await screen.findByText("Network Error!")).toBeInTheDocument();
             expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
         });
     });
@@ -246,7 +246,7 @@ describe("Max Page", () => {
 
             screen.getByLabelText("Delete").click();
 
-            expect(await screen.findByText("Delete Failed!")).toBeInTheDocument();
+            expect(await screen.findByText("Network Error!")).toBeInTheDocument();
             expect(screen.getByText("563")).toBeInTheDocument();
         });
     });

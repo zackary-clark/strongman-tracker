@@ -1,8 +1,10 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import { CssBaseline, StyledEngineProvider, ThemeProvider, } from "@mui/material";
+import Keycloak from "keycloak-js";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { NavBar } from "./components/navBar/NavBar";
 import { Snackbar } from "./components/snackBar/Snackbar";
 import { SnackbarContextProvider } from "./context/snackbarContext";
@@ -21,19 +23,26 @@ const waitForEnv = () => {
     } else {
         if (count >= 3000) {
             console.error("Host Address never loaded!");
+            return <div>Error!</div>;
         }
+        const keycloak = new Keycloak({
+            realm: "Tracker",
+            url: "http://localhost:8082/",
+            clientId: "tracker"
+        });
+        keycloak.init({ responseMode: "query" });
         ReactDOM.render(
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
-                    <ApolloProvider client={client()}>
-                        <HashRouter>
+                    <ApolloProvider client={client(keycloak)}>
+                        <BrowserRouter>
                             <SnackbarContextProvider>
-                                <Snackbar/>
-                                <NavBar/>
+                                <Snackbar />
+                                <NavBar keycloak={keycloak} />
                                 <Routes />
                             </SnackbarContextProvider>
-                        </HashRouter>
+                        </BrowserRouter>
                     </ApolloProvider>
                 </ThemeProvider>
             </StyledEngineProvider>,
@@ -42,9 +51,22 @@ const waitForEnv = () => {
     }
 };
 
-const client = () => new ApolloClient({
-    uri: getHostAddress(),
-    cache: new InMemoryCache()
-});
+const client = (keycloak: Keycloak) => {
+    const httpLink = createHttpLink({
+        uri: getHostAddress()
+    });
+
+    const authLink = setContext((_, { headers }) => ({
+        headers: {
+            ...headers,
+            authorization: `Bearer ${keycloak.token}`
+        }
+    }));
+
+    return new ApolloClient({
+        link: authLink.concat(httpLink),
+        cache: new InMemoryCache()
+    });
+};
 
 waitForEnv();

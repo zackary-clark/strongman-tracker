@@ -13,15 +13,13 @@ import {
     Workout
 } from "../../generated/schema";
 import { useSnackbar } from "../context/snackbarContext";
+import { onMutationError, onQueryError } from "./defaultOnErrors";
 
 export function useAllWorkoutsQuery() {
     const openSnackbar = useSnackbar();
 
     return useAllWorkoutsQuery__generated({
-        onError() {
-            console.error("Workout Query Failed");
-            openSnackbar("error", "Network Error!");
-        }
+        onError: onQueryError(openSnackbar)
     });
 }
 
@@ -29,10 +27,7 @@ export function useOneWorkoutQuery(baseOptions: QueryHookOptions<OneWorkoutQuery
     const openSnackbar = useSnackbar();
 
     return useOneWorkoutQuery__generated({
-        onError() {
-            console.error("One Workout Query Failed");
-            openSnackbar("error", "Network Error!");
-        },
+        onError: onQueryError(openSnackbar),
         ...baseOptions
     });
 }
@@ -41,10 +36,7 @@ export function useAddWorkoutMutation() {
     const openSnackbar = useSnackbar();
 
     return useAddWorkoutMutation__generated({
-        onError() {
-            console.error("Mutation Failed! Check graphql response for details");
-            openSnackbar("error", "Save Failed!");
-        },
+        onError: onMutationError(openSnackbar),
         update(cache, {data}) {
             const newWorkout = data?.addWorkout?.workout;
             if (newWorkout) {
@@ -64,10 +56,7 @@ export function useAddLiftMutation(workoutAddingTo: Workout | null | undefined) 
     const openSnackbar = useSnackbar();
 
     return useAddLiftMutation__generated({
-        onError() {
-            console.error("Mutation Failed! Check graphql response for details");
-            openSnackbar("error", "Save Failed!");
-        },
+        onError: onMutationError(openSnackbar),
         update(cache, { data: mutationData }) {
             const newLift = mutationData?.addLift?.lift;
             const newWorkoutId = mutationData?.addLift?.workout;
@@ -94,10 +83,7 @@ export function useDeleteLiftMutation(workoutDeletingFrom: Workout | null | unde
                 openSnackbar("success", "Lift Deleted!");
             }
         },
-        onError() {
-            console.error("Mutation Failed! Check graphql response for details");
-            openSnackbar("error", "Delete Failed!");
-        },
+        onError: onMutationError(openSnackbar),
         update(cache, { data: mutationData }) {
             const success = mutationData?.deleteLift?.success;
             const liftId = mutationData?.deleteLift?.id;
@@ -129,10 +115,7 @@ export function useDeleteWorkoutMutation() {
                 openSnackbar("success", "Workout Deleted!");
             }
         },
-        onError() {
-            console.error("Mutation Failed! Check graphql response for details");
-            openSnackbar("error", "Delete Failed!");
-        },
+        onError: onMutationError(openSnackbar),
         update(cache, { data: mutationData }) {
             const success = mutationData?.deleteWorkout?.success;
             const workoutId = mutationData?.deleteWorkout?.id;

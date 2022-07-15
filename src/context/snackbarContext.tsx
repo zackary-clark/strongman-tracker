@@ -5,7 +5,7 @@ type SnackbarType = "error" | "warning" | "info" | "success";
 
 type MUIClickHandler = (event: Event | SyntheticEvent, reason?: SnackbarCloseReason) => void;
 
-type OpenSnackbar = (type?: SnackbarType, message?: string) => void;
+export type OpenSnackbar = (type?: SnackbarType, message?: string) => void;
 
 interface ISnackbarContext {
     isSnackbarOpen: boolean,
