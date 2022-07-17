@@ -8,7 +8,7 @@ import { HashRouter } from "react-router-dom";
 import { NavBar } from "./components/navBar/NavBar";
 import { Snackbar } from "./components/snackBar/Snackbar";
 import { SnackbarContextProvider } from "./context/snackbarContext";
-import { getHostAddress } from "./env/getters";
+import { getHostAddress, getKeycloakClientId, getKeycloakRealm, getKeycloakURL } from "./env/getters";
 import { Routes } from "./pages/Routes";
 import { theme } from "./theme";
 
@@ -26,9 +26,9 @@ const waitForEnv = () => {
             return <div>Error!</div>;
         }
         const keycloak = new Keycloak({
-            realm: "Tracker",
-            url: "http://localhost:8082/",
-            clientId: "tracker"
+            realm: getKeycloakRealm(),
+            url: getKeycloakURL(),
+            clientId: getKeycloakClientId()
         });
         keycloak.init({ responseMode: "query" });
         ReactDOM.render(

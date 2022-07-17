@@ -5,7 +5,13 @@ export {};
 declare global {
     interface Window {
         REACT_APP_HOST_ADDRESS: string;
+        KC_REALM: string;
+        KC_URL: string;
+        KC_CLIENT_ID: string;
     }
 }
 
 window.REACT_APP_HOST_ADDRESS="/graphql";
+window.KC_REALM="Tracker";
+window.KC_URL="http://localhost:8082/";
+window.KC_CLIENT_ID="tracker";
