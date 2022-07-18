@@ -1,5 +1,5 @@
 import { PaletteOptions } from "@mui/material/styles";
-import { createTheme } from "@mui/material";
+import { BreakpointsOptions, createTheme } from "@mui/material";
 
 declare module "@mui/material/styles" {
     interface Palette {
@@ -132,4 +132,14 @@ const palette: PaletteOptions = {
     },
 };
 
-export const theme = createTheme({palette});
+const breakpoints: BreakpointsOptions = {
+    values: {
+        xs: 0,
+        sm: 680,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+    }
+};
+
+export const theme = createTheme({palette, breakpoints});

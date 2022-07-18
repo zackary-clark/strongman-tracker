@@ -1,11 +1,29 @@
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { ThemeProvider } from "@mui/material";
-import React from "react";
 import { render, RenderResult } from "@testing-library/react";
+import { match } from "css-mediaquery";
+import React from "react";
 import { MemoryRouter, Routes } from "react-router-dom";
 import { Snackbar } from "../src/components/snackBar/Snackbar";
 import { SnackbarContextProvider } from "../src/context/snackbarContext";
 import { theme } from "../src/theme";
+
+export type MatchMedia = (query: string) => MediaQueryList;
+
+export function createMatchMedia(width: string) {
+    return (query: string): MediaQueryList => ({
+        matches: match(query, {
+            width,
+        }),
+        media: "",
+        onchange: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        dispatchEvent: () => false,
+    });
+}
 
 export const renderWithRouter = (component: React.ReactElement, path?: string): RenderResult => {
     return render(component, {wrapper: createRoutingWrapper(path)});

@@ -21,7 +21,7 @@ export const MobileMenu: FunctionComponent = () => {
 
     return (
         <>
-            <Box sx={{ display: { xs: "block", sm: "none" } }}>
+            <Box>
                 <IconButton
                     aria-label="navigation menu"
                     aria-controls="menu-appbar"
@@ -44,7 +44,7 @@ export const MobileMenu: FunctionComponent = () => {
                     </MenuItem>
                 </Menu>
             </Box>
-            <Box sx={{ flexGrow: 1, display: {xs: "flex", sm: "none"}, justifyContent: "center" }}>
+            <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
                 <Logo />
             </Box>
         </>
