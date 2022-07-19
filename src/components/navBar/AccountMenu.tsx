@@ -1,15 +1,13 @@
 import { AccountCircle } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
-import Keycloak from "keycloak-js";
 import React, { FunctionComponent } from "react";
+import { useKeycloak } from "../../context/keycloakContext";
 
-interface Props {
-    keycloak?: Keycloak
-}
+export const AccountMenu: FunctionComponent = () => {
+    const keycloak = useKeycloak();
 
-export const AccountMenu: FunctionComponent<Props> = ({keycloak}) => {
     const onClick = () => {
-        keycloak?.login();
+        keycloak.login();
     };
 
     return (

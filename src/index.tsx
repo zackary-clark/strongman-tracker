@@ -11,6 +11,7 @@ import { SnackbarContextProvider } from "./context/snackbarContext";
 import { getHostAddress, getKeycloakClientId, getKeycloakRealm, getKeycloakURL } from "./env/getters";
 import { Routes } from "./pages/Routes";
 import { theme } from "./theme";
+import { KeycloakContext } from "./context/keycloakContext";
 
 // We do this recursion so that env.js has "time" to alter the global window
 // This almost always loops 0 or 1 times
@@ -37,11 +38,13 @@ const waitForEnv = () => {
                     <CssBaseline />
                     <ApolloProvider client={client(keycloak)}>
                         <HashRouter>
-                            <SnackbarContextProvider>
-                                <Snackbar />
-                                <NavBar keycloak={keycloak} />
-                                <Routes />
-                            </SnackbarContextProvider>
+                            <KeycloakContext.Provider value={keycloak}>
+                                <SnackbarContextProvider>
+                                    <Snackbar />
+                                    <NavBar />
+                                    <Routes />
+                                </SnackbarContextProvider>
+                            </KeycloakContext.Provider>
                         </HashRouter>
                     </ApolloProvider>
                 </ThemeProvider>
