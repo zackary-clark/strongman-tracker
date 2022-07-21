@@ -11,11 +11,30 @@ export const defaultFakeUser: UserInfo = {
     email: "fake@user.test"
 };
 
+const unauthenticatedFakeUser: UserInfo = {
+    id: "32f32bc7-bb46-4a46-9edd-f1f4c5f1d604",
+    username: "NotLoggedIn",
+    emailVerified: false
+};
+
+export const createUnauthenticatedKeycloakMock = (): Keycloak => {
+    return createMock(() => false, () => false, unauthenticatedFakeUser, false);
+};
+
 export const createKeycloakMock = (
     hasRealmRole: (role: string) => boolean = () => true,
     hasResourceRole: (role: string, resource?: string) => boolean = () => true,
     userInfo = defaultFakeUser,
     authenticated = true
+): Keycloak => {
+    return createMock(hasRealmRole, hasResourceRole, userInfo, authenticated);
+};
+
+const createMock = (
+    hasRealmRole: (role: string) => boolean,
+    hasResourceRole: (role: string, resource?: string) => boolean,
+    userInfo: UserInfo,
+    authenticated: boolean,
 ): Keycloak => {
     const tokenParsed = {
         sub: userInfo.id,

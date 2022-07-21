@@ -1,11 +1,13 @@
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { Box, IconButton, Menu, MenuItem } from "@mui/material";
 import React, { FunctionComponent, useState } from "react";
+import { useAuthenticated } from "../../context/keycloakContext";
 import { MAX_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
 import { Logo } from "./Logo";
 import { MenuButton } from "./MenuButton";
 
 export const MobileMenu: FunctionComponent = () => {
+    const authenticated = useAuthenticated();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -36,12 +38,16 @@ export const MobileMenu: FunctionComponent = () => {
                     onClose={handleClose}
                     anchorEl={anchorEl}
                 >
-                    <MenuItem onClick={handleClose}>
-                        <MenuButton routeTo={WORKOUT_ROUTE} ariaLabel={"workouts"} variant="text">Workouts</MenuButton>
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                        <MenuButton routeTo={MAX_ROUTE} ariaLabel={"maxes"} variant="text">Maxes</MenuButton>
-                    </MenuItem>
+                    {authenticated &&
+                        [
+                            <MenuItem key="workouts-menu-item" onClick={handleClose}>
+                                <MenuButton routeTo={WORKOUT_ROUTE} ariaLabel={"workouts"} variant="text">Workouts</MenuButton>
+                            </MenuItem>,
+                            <MenuItem key="maxes-menu-item" onClick={handleClose}>
+                                <MenuButton routeTo={MAX_ROUTE} ariaLabel={"maxes"} variant="text">Maxes</MenuButton>
+                            </MenuItem>
+                        ]
+                    }
                 </Menu>
             </Box>
             <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
