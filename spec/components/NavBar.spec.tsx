@@ -90,7 +90,7 @@ describe("NavBar", () => {
             expect(history.location.pathname).toBe(MAX_ROUTE);
         });
 
-        it("should not show menu items when not authenticated", () => {
+        it("should not show menu items when not authenticated", async () => {
             const mockKeycloak = createUnauthenticatedKeycloakMock();
 
             renderWithAllProviders(<NavBar />, [], undefined, mockKeycloak);
@@ -99,6 +99,7 @@ describe("NavBar", () => {
 
             screen.getByLabelText("navigation menu").click();
 
+            expect(await screen.findByText("Log In to see more!")).toBeInTheDocument();
             expect(screen.queryByText("Workouts")).not.toBeInTheDocument();
             expect(screen.queryByText("Maxes")).not.toBeInTheDocument();
         });
