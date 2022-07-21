@@ -21,7 +21,7 @@ import {
 import { WorkoutList } from "../../src/components/workouts/WorkoutList";
 import { WORKOUT_ROUTE } from "../../src/pages/constants";
 import { WorkoutPage } from "../../src/pages/WorkoutPage";
-import { renderPage, renderWithAllProviders, renderWithRouterAndApollo } from "../testUtils";
+import { renderPage, renderWithAllProviders, renderWithRouterAndApollo } from "../utils/renderWithProviders";
 
 describe("Workout Page", () => {
     const benchNSquat = {

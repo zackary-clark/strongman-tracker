@@ -11,7 +11,7 @@ import {
     DeleteMaxMutation
 } from "../../generated/schema";
 import { MaxComponent } from "../../src/components/maxes/MaxComponent";
-import { renderWithApollo, renderWithSnackbarAndApollo } from "../testUtils";
+import { renderWithApollo, renderWithSnackbarAndApollo } from "../utils/renderWithProviders";
 
 const allMaxesQueryMock: MockedResponse<AllMaxesQuery> = {
     request: {

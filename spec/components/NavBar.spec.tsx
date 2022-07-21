@@ -6,7 +6,9 @@ import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { NavBar } from "../../src/components/navBar/NavBar";
 import { MAX_ROUTE, WORKOUT_ROUTE } from "../../src/pages/constants";
 import { theme } from "../../src/theme";
-import { createMatchMedia, MatchMedia } from "../testUtils";
+import { createKeycloakMock, defaultFakeUser } from "../utils/keycloak";
+import { createMatchMedia, MatchMedia } from "../utils/matchMedia";
+import { renderWithAllProviders } from "../utils/renderWithProviders";
 
 describe("NavBar", () => {
     let matchMedia: MatchMedia;
@@ -48,6 +50,27 @@ describe("NavBar", () => {
             );
             screen.getByText("Maxes").click();
             expect(history.location.pathname).toBe(MAX_ROUTE);
+        });
+
+        it("should show login button before logging in, and call login on click", () => {
+            const mockKeycloak = createKeycloakMock(() => true, () => true, defaultFakeUser, false);
+
+            renderWithAllProviders(<NavBar />, [], undefined, mockKeycloak);
+
+            screen.getByText("Log In").click();
+
+            expect(mockKeycloak.login).toHaveBeenCalled();
+        });
+
+        it("should logout on clicking logout in account menu", () => {
+            const mockKeycloak = createKeycloakMock();
+
+            renderWithAllProviders(<NavBar />, [], undefined, mockKeycloak);
+
+            screen.getByLabelText("account icon").click();
+            screen.getByText("Log Out").click();
+
+            expect(mockKeycloak.logout).toHaveBeenCalled();
         });
     });
 

@@ -1,29 +1,14 @@
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { ThemeProvider } from "@mui/material";
 import { render, RenderResult } from "@testing-library/react";
-import { match } from "css-mediaquery";
+import Keycloak from "keycloak-js";
 import React from "react";
 import { MemoryRouter, Routes } from "react-router-dom";
-import { Snackbar } from "../src/components/snackBar/Snackbar";
-import { SnackbarContextProvider } from "../src/context/snackbarContext";
-import { theme } from "../src/theme";
-
-export type MatchMedia = (query: string) => MediaQueryList;
-
-export function createMatchMedia(width: string) {
-    return (query: string): MediaQueryList => ({
-        matches: match(query, {
-            width,
-        }),
-        media: "",
-        onchange: () => {},
-        addListener: () => {},
-        removeListener: () => {},
-        addEventListener: () => {},
-        removeEventListener: () => {},
-        dispatchEvent: () => false,
-    });
-}
+import { Snackbar } from "../../src/components/snackBar/Snackbar";
+import { KeycloakContext } from "../../src/context/keycloakContext";
+import { SnackbarContextProvider } from "../../src/context/snackbarContext";
+import { theme } from "../../src/theme";
+import { createKeycloakMock } from "./keycloak";
 
 export const renderWithRouter = (component: React.ReactElement, path?: string): RenderResult => {
     return render(component, {wrapper: createRoutingWrapper(path)});
@@ -66,17 +51,25 @@ export const renderWithSnackbarAndApollo = (component: React.ReactElement, mocks
     return render(component, {wrapper: Wrapper});
 };
 
-export const renderWithAllProviders = (component: React.ReactElement, mocks?: MockedResponse[], path?: string): RenderResult => {
+export const renderWithAllProviders = (
+    component: React.ReactElement,
+    mocks?: MockedResponse[],
+    path?: string,
+    keycloakMock: Keycloak = createKeycloakMock()
+): RenderResult => {
     const ApolloWrapper = createApolloProviderWrapper(mocks);
     const RoutingWrapper = createRoutingWrapper(path);
+    const KeycloakWrapper = createKeycloakWrapper(keycloakMock);
     const Wrapper: React.FunctionComponent = ({children}) => (
         <ThemeWrapper>
             <RoutingWrapper>
-                <SnackbarWrapper>
-                    <ApolloWrapper>
-                        {children}
-                    </ApolloWrapper>
-                </SnackbarWrapper>
+                <KeycloakWrapper>
+                    <SnackbarWrapper>
+                        <ApolloWrapper>
+                            {children}
+                        </ApolloWrapper>
+                    </SnackbarWrapper>
+                </KeycloakWrapper>
             </RoutingWrapper>
         </ThemeWrapper>
     );
@@ -87,33 +80,33 @@ export const renderPage = (page: React.ReactElement, path: string, mocks?: Mocke
     return renderWithAllProviders(<Routes>{page}</Routes>, mocks, path);
 };
 
-const createApolloProviderWrapper = (mocks?: MockedResponse[]): React.FunctionComponent => ({children}) => {
-    return (
-        <MockedProvider mocks={mocks} addTypename={false}>
-            {children}
-        </MockedProvider>
-    );
-};
+const createApolloProviderWrapper = (mocks?: MockedResponse[]): React.FunctionComponent => ({children}) => (
+    <MockedProvider mocks={mocks} addTypename={false}>
+        {children}
+    </MockedProvider>
+);
 
-const createRoutingWrapper = (path?: string): React.FunctionComponent => ({children}) => {
-    return (
-        <MemoryRouter initialEntries={[path ?? "/"]}>
-            {children}
-        </MemoryRouter>
-    );
-};
+const createRoutingWrapper = (path?: string): React.FunctionComponent => ({children}) => (
+    <MemoryRouter initialEntries={[path ?? "/"]}>
+        {children}
+    </MemoryRouter>
+);
 
-const SnackbarWrapper: React.FunctionComponent = ({children}) => {
-    return (
-        <SnackbarContextProvider>
-            <Snackbar />
-            {children}
-        </SnackbarContextProvider>
-    );
-};
+const SnackbarWrapper: React.FunctionComponent = ({children}) => (
+    <SnackbarContextProvider>
+        <Snackbar />
+        {children}
+    </SnackbarContextProvider>
+);
 
 const ThemeWrapper: React.FunctionComponent = ({children}) => (
     <ThemeProvider theme={theme}>
         {children}
     </ThemeProvider>
+);
+
+const createKeycloakWrapper = (keycloak: Keycloak): React.FunctionComponent => ({children}) => (
+    <KeycloakContext.Provider value={keycloak}>
+        {children}
+    </KeycloakContext.Provider>
 );

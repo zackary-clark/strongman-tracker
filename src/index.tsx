@@ -16,7 +16,7 @@ import { KeycloakContext } from "./context/keycloakContext";
 // We do this recursion so that env.js has "time" to alter the global window
 // This almost always loops 0 or 1 times
 let count = 0;
-const waitForEnv = () => {
+const waitForEnv = async () => {
     if (!window.REACT_APP_HOST_ADDRESS && count < 3000) {
         setTimeout(waitForEnv, 1);
         count++;
@@ -31,7 +31,7 @@ const waitForEnv = () => {
             url: getKeycloakURL(),
             clientId: getKeycloakClientId()
         });
-        keycloak.init({ responseMode: "query" });
+        await keycloak.init({ onLoad: "check-sso", responseMode: "query" });
         ReactDOM.render(
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>
