@@ -11,7 +11,7 @@ declare global {
     }
 }
 
-window.REACT_APP_HOST_ADDRESS="http://localhost:8080/graphql";
+window.REACT_APP_HOST_ADDRESS="http://localhost:8082/graphql";
 window.KC_REALM="Tracker";
-window.KC_URL="http://localhost:8082/";
+window.KC_URL="http://keycloak:8080/";
 window.KC_CLIENT_ID="tracker";
