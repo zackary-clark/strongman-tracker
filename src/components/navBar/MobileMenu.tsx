@@ -3,13 +3,13 @@ import { Box, IconButton, Menu, MenuItem } from "@mui/material";
 import React, { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticated } from "../../context/keycloakContext";
-import { useSnackbar } from "../../context/snackbarContext";
+import { useLoginWarning } from "../../context/snackbarContext";
 import { MAX_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
 import { Logo } from "./Logo";
 
 export const MobileMenu: FunctionComponent = () => {
     const authenticated = useAuthenticated();
-    const openSnackbar = useSnackbar();
+    const openLoginWarning = useLoginWarning();
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -19,7 +19,7 @@ export const MobileMenu: FunctionComponent = () => {
             setIsMenuOpen(!isMenuOpen);
             setAnchorEl(event.currentTarget);
         } else {
-            openSnackbar("warning", "Log In to see more!");
+            openLoginWarning();
         }
     };
 

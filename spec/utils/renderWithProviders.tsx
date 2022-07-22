@@ -7,6 +7,7 @@ import { MemoryRouter, Routes } from "react-router-dom";
 import { Snackbar } from "../../src/components/snackBar/Snackbar";
 import { KeycloakContext } from "../../src/context/keycloakContext";
 import { SnackbarContextProvider } from "../../src/context/snackbarContext";
+import { ROOT_ROUTE } from "../../src/pages/constants";
 import { theme } from "../../src/theme";
 import { createKeycloakMock } from "./keycloak";
 
@@ -87,7 +88,7 @@ const createApolloProviderWrapper = (mocks?: MockedResponse[]): React.FunctionCo
 );
 
 const createRoutingWrapper = (path?: string): React.FunctionComponent => ({children}) => (
-    <MemoryRouter initialEntries={[path ?? "/"]}>
+    <MemoryRouter initialEntries={[path ?? ROOT_ROUTE]}>
         {children}
     </MemoryRouter>
 );

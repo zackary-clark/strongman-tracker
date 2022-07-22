@@ -62,3 +62,8 @@ export const useSnackbar = (): OpenSnackbar => {
     }
     return context.openSnackbar;
 };
+
+export const useLoginWarning = (): () => void => {
+    const openSnackbar = useSnackbar();
+    return () => openSnackbar("warning", "Log In to see more!");
+};
