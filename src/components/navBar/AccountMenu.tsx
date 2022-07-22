@@ -37,7 +37,7 @@ export const AccountMenu: FunctionComponent = () => {
                     )}
             </Box>
             <Menu open={isMenuOpen} onClose={handleClose} anchorEl={anchorEl}>
-                <MenuItem onClick={() => keycloak.logout()}>
+                <MenuItem onClick={() => keycloak.logout({redirectUri: getLocationMinusHash()})}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
@@ -48,4 +48,11 @@ export const AccountMenu: FunctionComponent = () => {
             </Menu>
         </>
     );
+};
+
+const getLocationMinusHash = (): string => {
+    const hash = window.location.hash;
+    const fullHref = window.location.href;
+    const index = fullHref.indexOf(hash);
+    return fullHref.substring(0, index);
 };

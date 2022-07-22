@@ -1,19 +1,26 @@
 import { ChevronRight, GitHub } from "@mui/icons-material";
-import React, { FunctionComponent } from "react";
 import { Box, IconButton, Link, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import React, { FunctionComponent } from "react";
 
 export const ProjectDescription: FunctionComponent = () => (
     <Box margin={4}>
-        <IconButton>
-            <Link href="https://github.com/zackary-clark" color="inherit" variant="inherit">
-                <GitHub fontSize="large" />
-            </Link>
+        <IconButton component={Link} href="https://github.com/zackary-clark/strongman-tracker">
+            <GitHub fontSize="large" />
         </IconButton>
         <Typography variant="h4">
             What?
         </Typography>
         <Typography variant="body1" margin={4}>
-            This is my React / Apollo / MUI project for strongman/powerlifting workout tracking.
+            This is my React, Apollo and MUI project for strongman workout tracking.
+        </Typography>
+        <Typography variant="h4">
+            How?
+        </Typography>
+        <Typography variant="body1" mt={4} mx={4}>
+            To try out the app, login with the username <Typography variant="button" color="secondary">demo</Typography> and password <Typography variant="button" color="secondary">demo</Typography>.
+        </Typography>
+        <Typography variant="body1" mb={4} mx={4}>
+            Alternatively, you can register from within the login page to become a &quot;real&quot; user.
         </Typography>
         <Typography variant="h4">
             Why?
