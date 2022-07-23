@@ -11,13 +11,13 @@ extend type Mutation {
 }
 
 type Workout {
-    id: Int!
+    id: ID!
     date: Date!
     lifts: [Lift!]!
 }
 
 type Lift {
-    id: Int!
+    id: ID!
     name: String!
     reps: Int!
     sets: Int!
@@ -25,7 +25,7 @@ type Lift {
 }
 
 input SingleWorkoutInput {
-    id: Int!
+    id: ID!
 }
 
 input AddWorkoutInput {
@@ -38,7 +38,7 @@ type AddWorkoutPayload implements MutationPayload {
 }
 
 input AddLiftInput {
-    workout: Int!
+    workout: ID!
     name: String!
     reps: Int!
     sets: Int!
@@ -48,23 +48,23 @@ input AddLiftInput {
 type AddLiftPayload implements MutationPayload {
     success: Boolean!
     lift: Lift
-    workout: Int
+    workout: ID
 }
 
 input DeleteWorkoutInput {
-    id: Int!
+    id: ID!
 }
 
 type DeleteWorkoutPayload implements DeletePayload {
     success: Boolean!
-    id: Int!
+    id: ID!
 }
 
 input DeleteLiftInput {
-    id: Int!
+    id: ID!
 }
 
 type DeleteLiftPayload implements DeletePayload {
     success: Boolean!
-    id: Int!
+    id: ID!
 }

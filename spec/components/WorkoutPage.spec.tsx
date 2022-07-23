@@ -25,18 +25,18 @@ import { renderPage, renderWithAllProviders, renderWithRouterAndApollo } from ".
 
 describe("Workout Page", () => {
     const benchNSquat = {
-        id: 1,
+        id: "4f9207fd-d981-4a11-82ca-01515208a0bb",
         date: "2022-04-03",
         lifts: [
             {
-                id: 1,
+                id: "45a5f4ca-c6f9-4e54-a1dc-71fedd116a06",
                 name: "bench press",
                 reps: 5,
                 sets: 5,
                 weight: 135
             },
             {
-                id: 2,
+                id: "973ecff9-e192-4500-ab29-0c334837d7ad",
                 name: "squat",
                 reps: 10,
                 sets: 3,
@@ -54,12 +54,12 @@ describe("Workout Page", () => {
                 workouts: [
                     benchNSquat,
                     {
-                        id: 2,
+                        id: "3792bc41-da64-409d-9877-99f12d2e6930",
                         date: "2022-03-30",
                         lifts: []
                     },
                     {
-                        id: 3,
+                        id: "e133224e-deb9-4a3b-8d38-7f948dc1eb83",
                         date: "2022-04-01",
                         lifts: []
                     },
@@ -144,7 +144,7 @@ describe("Workout Page", () => {
 
     describe("Add Workout", () => {
         const lift: Lift = {
-            id: 12,
+            id: "05ba2809-3996-40ed-a622-40bd30bbffd2",
             name: "existing lift",
             weight: 225,
             sets: 4,
@@ -152,7 +152,7 @@ describe("Workout Page", () => {
         };
 
         const workout: Workout = {
-            id: 5,
+            id: "aac47a13-98cf-4485-bd99-5f59c481ecd3",
             date: "2022-06-13",
             lifts: [lift]
         };
@@ -213,7 +213,7 @@ describe("Workout Page", () => {
                         addLift: {
                             workout: workout.id,
                             lift: {
-                                id: 11,
+                                id: "00af4e6d-ce2c-44a3-971e-47d70aa463b6",
                                 name: "Deadlift",
                                 weight: 315,
                                 sets: 3,
@@ -272,11 +272,11 @@ describe("Workout Page", () => {
                 }
             };
 
-            renderPage(WorkoutPage, WORKOUT_ROUTE + "/5", [oneWorkoutQueryMock, deleteLiftMutationMock]);
+            renderPage(WorkoutPage, WORKOUT_ROUTE + `/${workout.id}`, [oneWorkoutQueryMock, deleteLiftMutationMock]);
 
             expect(await screen.findByLabelText("save")).toBeInTheDocument();
 
-            screen.getByLabelText("delete lift 12").click();
+            screen.getByLabelText("delete lift 05ba2809-3996-40ed-a622-40bd30bbffd2").click();
 
             expect(await screen.findByText("Lift Deleted!")).toBeInTheDocument();
         });
@@ -301,7 +301,7 @@ describe("Workout Page", () => {
                 }
             };
 
-            renderPage(WorkoutPage, WORKOUT_ROUTE + "/5", [oneWorkoutQueryMock, deleteWorkoutMutationMock, allWorkoutsQueryMock]);
+            renderPage(WorkoutPage, WORKOUT_ROUTE + `/${workout.id}`, [oneWorkoutQueryMock, deleteWorkoutMutationMock, allWorkoutsQueryMock]);
 
             expect(await screen.findByLabelText("save")).toBeInTheDocument();
 

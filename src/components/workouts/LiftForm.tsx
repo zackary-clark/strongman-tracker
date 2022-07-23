@@ -6,7 +6,7 @@ import { Lift } from "../../../generated/schema";
 
 interface LiftViewProps {
     lift: Lift;
-    onDelete: (id: number) => void;
+    onDelete: (id: string) => void;
 }
 
 export const LiftView: FunctionComponent<LiftViewProps> = ({lift, onDelete}) => (

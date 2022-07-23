@@ -24,7 +24,7 @@ const allMaxesQueryMock: MockedResponse<AllMaxesQuery> = {
                     bench1RM: null,
                     date: "2021-12-23",
                     deadlift1RM: null,
-                    id: 1,
+                    id: "64afa3bf-719c-4303-8a3a-47f4b7d134d5",
                     press1RM: null,
                     squat1RM: 563
                 }
@@ -105,7 +105,7 @@ describe("Max Page", () => {
                     data: {
                         addMax: {
                             max: {
-                                id: 100,
+                                id: "07058915-0a5f-40f9-84f6-53fb1b5540a7",
                                 date: "1993-01-05",
                                 squat1RM: 123456,
                                 deadlift1RM: 315,
@@ -205,7 +205,7 @@ describe("Max Page", () => {
                     query: DeleteMaxDocument,
                     variables: {
                         input: {
-                            id: 1
+                            id: "64afa3bf-719c-4303-8a3a-47f4b7d134d5"
                         }
                     }
                 },
@@ -213,7 +213,7 @@ describe("Max Page", () => {
                     data: {
                         deleteMax: {
                             success: true,
-                            id: 1
+                            id: "64afa3bf-719c-4303-8a3a-47f4b7d134d5"
                         }
                     }
                 }
@@ -233,7 +233,7 @@ describe("Max Page", () => {
                     query: DeleteMaxDocument,
                     variables: {
                         input: {
-                            id: 1
+                            id: "64afa3bf-719c-4303-8a3a-47f4b7d134d5"
                         }
                     }
                 },

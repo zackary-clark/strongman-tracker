@@ -21,8 +21,7 @@ export const WorkoutForm: FunctionComponent = () => {
     const openSnackbar = useSnackbar();
     const navigate = useNavigate();
     const params = useParams();
-    const workoutIdParam = params[WORKOUT_ID_PARAM];
-    const workoutId = workoutIdParam ? parseInt(workoutIdParam) : undefined;
+    const workoutId = params[WORKOUT_ID_PARAM];
 
     if (workoutId === undefined) return <ErrorPage />;
 
@@ -54,7 +53,7 @@ export const WorkoutForm: FunctionComponent = () => {
         });
     };
 
-    const onLiftDelete = async (id: number) => {
+    const onLiftDelete = async (id: string) => {
         await deleteLift({
             variables: {
                 input: {

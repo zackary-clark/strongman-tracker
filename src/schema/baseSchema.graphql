@@ -9,7 +9,7 @@ interface MutationPayload {
 
 interface DeletePayload {
     success: Boolean!
-    id: Int!
+    id: ID!
 }
 
 type Query
