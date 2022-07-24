@@ -2,8 +2,8 @@ import * as React from "react";
 import { useContext } from "react";
 import { Box, Button } from "@mui/material";
 import { render, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
-import { defaultSnackbarMessage, SnackbarContext, SnackbarContextProvider } from "../../src/context/snackbarContext";
-import { Snackbar } from "../../src/components/snackBar/Snackbar";
+import { defaultSnackbarMessage, SnackbarContext, SnackbarContextProvider } from "../../context/snackbarContext";
+import { Snackbar } from "./Snackbar";
 
 describe("Snackbar", () => {
     function TestComponent(props: any) {

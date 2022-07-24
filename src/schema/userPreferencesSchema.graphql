@@ -1,0 +1,25 @@
+extend type Query {
+    preferences: UserPreferences!
+}
+
+extend type Mutation {
+    changeWeightUnitPreference(input: ChangeWeightUnitPreferenceInput!): UserPreferencesEditPayload
+}
+
+input ChangeWeightUnitPreferenceInput {
+    weightUnit: WeightUnit!
+}
+
+type UserPreferencesEditPayload implements MutationPayload {
+    success: Boolean!
+    preferences: UserPreferences
+}
+
+type UserPreferences {
+    weightUnit: WeightUnit!
+}
+
+enum WeightUnit {
+    kg
+    lb
+}

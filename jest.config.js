@@ -1,6 +1,6 @@
 module.exports = {
     "setupFilesAfterEnv": [
-        "<rootDir>/spec/setupTests"
+        "<rootDir>/src/setupTests"
     ],
     "moduleNameMapper": {
         "\\.(css|less|scss)$": "identity-obj-proxy"

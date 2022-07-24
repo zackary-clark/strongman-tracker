@@ -1,5 +1,5 @@
 import Keycloak from "keycloak-js";
-import { UserInfo } from "../../src/context/keycloakContext";
+import { UserInfo } from "../context/keycloakContext";
 
 export const defaultFakeUser: UserInfo = {
     id: "6fcb064d-e78d-4a48-ba90-8ad6ecbead40",

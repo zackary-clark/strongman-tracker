@@ -1,16 +1,18 @@
+import { MockedResponse } from "@apollo/client/testing";
 import { ThemeProvider } from "@mui/material";
 import { render, screen } from "@testing-library/react";
 import { createMemoryHistory, MemoryHistory } from "history";
 import Keycloak from "keycloak-js";
 import React from "react";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
-import { NavBar } from "../../src/components/navBar/NavBar";
-import { KeycloakContext } from "../../src/context/keycloakContext";
-import { MAX_ROUTE, WORKOUT_ROUTE } from "../../src/pages/constants";
-import { theme } from "../../src/theme";
-import { createKeycloakMock, createUnauthenticatedKeycloakMock } from "../utils/keycloak";
-import { createMatchMedia, MatchMedia } from "../utils/matchMedia";
-import { renderWithAllProviders } from "../utils/renderWithProviders";
+import { UserPreferencesDocument, UserPreferencesQuery, WeightUnit } from "../../../generated/schema";
+import { KeycloakContext } from "../../context/keycloakContext";
+import { MAX_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
+import { theme } from "../../theme";
+import { createKeycloakMock, createUnauthenticatedKeycloakMock } from "../../testUtils/keycloak";
+import { createMatchMedia, MatchMedia } from "../../testUtils/matchMedia";
+import { renderWithAllProviders } from "../../testUtils/renderWithProviders";
+import { NavBar } from "./NavBar";
 
 describe("NavBar", () => {
     let matchMedia: MatchMedia;
@@ -73,6 +75,29 @@ describe("NavBar", () => {
             screen.getByText("Log Out").click();
 
             expect(mockKeycloak.logout).toHaveBeenCalled();
+        });
+
+        it("should open Preferences drawer on settings click", () => {
+            const userPreferencesMock: MockedResponse<UserPreferencesQuery> = {
+                request: {
+                    query: UserPreferencesDocument
+                },
+                result: {
+                    data: {
+                        preferences: {
+                            weightUnit: WeightUnit.Kg
+                        }
+                    }
+                }
+            };
+            const mockKeycloak = createKeycloakMock();
+
+            renderWithAllProviders(<NavBar />, [userPreferencesMock], undefined, mockKeycloak);
+
+            screen.getByLabelText("account icon").click();
+            screen.getByText("Preferences").click();
+
+            expect(screen.getByTestId("preferences drawer")).toBeInTheDocument();
         });
     });
 

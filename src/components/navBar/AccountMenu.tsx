@@ -1,29 +1,36 @@
-import { AccountCircle, Logout } from "@mui/icons-material";
-import { Box, Button, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
+import { AccountCircle, Logout, Settings } from "@mui/icons-material";
+import { Box, Button, Divider, Drawer, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
 import React, { FunctionComponent, MouseEvent, useState } from "react";
 import { useAuthenticated, useKeycloak } from "../../context/keycloakContext";
+import { PreferencesForm } from "./PreferencesForm";
 
 export const AccountMenu: FunctionComponent = () => {
     const keycloak = useKeycloak();
     const authenticated = useAuthenticated();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isPreferencesDrawerOpen, setIsPreferencesDrawerOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-    const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
+    const handleOpenMenu = (event: MouseEvent<HTMLButtonElement>) => {
         setIsMenuOpen(!isMenuOpen);
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
+    const handleCloseMenu = () => {
         setIsMenuOpen(false);
         setAnchorEl(null);
+    };
+
+    const handleOpenPreferencesDrawer = () => {
+        setIsMenuOpen(false);
+        setIsPreferencesDrawerOpen(true);
     };
 
     return (
         <>
             <Box sx={{display: "flex"}}>
                 {authenticated ? (
-                        <IconButton onClick={handleOpen} aria-label="account icon">
+                        <IconButton onClick={handleOpenMenu} aria-label="account icon">
                             <AccountCircle fontSize="large" />
                         </IconButton>
                     ) : (
@@ -36,16 +43,39 @@ export const AccountMenu: FunctionComponent = () => {
                         </Button>
                     )}
             </Box>
-            <Menu open={isMenuOpen} onClose={handleClose} anchorEl={anchorEl}>
-                <MenuItem onClick={() => keycloak.logout({redirectUri: getLocationMinusHash()})}>
-                    <ListItemIcon>
-                        <Logout fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>
-                        Log Out
-                    </ListItemText>
-                </MenuItem>
-            </Menu>
+            {authenticated && (
+                <>
+                    <Menu open={isMenuOpen} onClose={handleCloseMenu} anchorEl={anchorEl}>
+                        <MenuItem onClick={handleOpenPreferencesDrawer}>
+                            <ListItemIcon>
+                                <Settings fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText>
+                                Preferences
+                            </ListItemText>
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem onClick={() => keycloak.logout({redirectUri: getLocationMinusHash()})}>
+                            <ListItemIcon>
+                                <Logout fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText>
+                                Log Out
+                            </ListItemText>
+                        </MenuItem>
+                    </Menu>
+                    <Drawer
+                        data-testid="preferences drawer"
+                        anchor="right"
+                        open={isPreferencesDrawerOpen}
+                        onClose={() => setIsPreferencesDrawerOpen(false)}
+                    >
+                        <Box sx={{ minWidth: 240 }}>
+                            <PreferencesForm />
+                        </Box>
+                    </Drawer>
+                </>
+            )}
         </>
     );
 };

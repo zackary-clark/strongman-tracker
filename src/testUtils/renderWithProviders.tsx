@@ -4,11 +4,11 @@ import { render, RenderResult } from "@testing-library/react";
 import Keycloak from "keycloak-js";
 import React from "react";
 import { MemoryRouter, Routes } from "react-router-dom";
-import { Snackbar } from "../../src/components/snackBar/Snackbar";
-import { KeycloakContext } from "../../src/context/keycloakContext";
-import { SnackbarContextProvider } from "../../src/context/snackbarContext";
-import { ROOT_ROUTE } from "../../src/pages/constants";
-import { theme } from "../../src/theme";
+import { Snackbar } from "../components/snackBar/Snackbar";
+import { KeycloakContext } from "../context/keycloakContext";
+import { SnackbarContextProvider } from "../context/snackbarContext";
+import { ROOT_ROUTE } from "../pages/constants";
+import { theme } from "../theme";
 import { createKeycloakMock } from "./keycloak";
 
 export const renderWithRouter = (component: React.ReactElement, path?: string): RenderResult => {

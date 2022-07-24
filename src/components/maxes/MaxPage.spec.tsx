@@ -9,9 +9,9 @@ import {
     AllMaxesDocument,
     AllMaxesQuery, DeleteMaxDocument,
     DeleteMaxMutation
-} from "../../generated/schema";
-import { MaxComponent } from "../../src/components/maxes/MaxComponent";
-import { renderWithApollo, renderWithSnackbarAndApollo } from "../utils/renderWithProviders";
+} from "../../../generated/schema";
+import { renderWithApollo, renderWithSnackbarAndApollo } from "../../testUtils/renderWithProviders";
+import { MaxComponent } from "./MaxComponent";
 
 const allMaxesQueryMock: MockedResponse<AllMaxesQuery> = {
     request: {

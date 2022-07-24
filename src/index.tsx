@@ -9,6 +9,7 @@ import { NavBar } from "./components/navBar/NavBar";
 import { Snackbar } from "./components/snackBar/Snackbar";
 import { SnackbarContextProvider } from "./context/snackbarContext";
 import { getHostAddress, getKeycloakClientId, getKeycloakRealm, getKeycloakURL } from "./env/getters";
+import { typePolicies } from "./operations/typePolicies";
 import { Routes } from "./pages/Routes";
 import { theme } from "./theme";
 import { KeycloakContext } from "./context/keycloakContext";
@@ -68,7 +69,7 @@ const client = (keycloak: Keycloak) => {
 
     return new ApolloClient({
         link: authLink.concat(httpLink),
-        cache: new InMemoryCache()
+        cache: new InMemoryCache({typePolicies})
     });
 };
 

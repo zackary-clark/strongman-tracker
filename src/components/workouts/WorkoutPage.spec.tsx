@@ -17,11 +17,11 @@ import {
     OneWorkoutDocument,
     OneWorkoutQuery,
     Workout
-} from "../../generated/schema";
-import { WorkoutList } from "../../src/components/workouts/WorkoutList";
-import { WORKOUT_ROUTE } from "../../src/pages/constants";
-import { WorkoutPage } from "../../src/pages/WorkoutPage";
-import { renderPage, renderWithAllProviders, renderWithRouterAndApollo } from "../utils/renderWithProviders";
+} from "../../../generated/schema";
+import { WORKOUT_ROUTE } from "../../pages/constants";
+import { WorkoutPage } from "../../pages/WorkoutPage";
+import { renderPage, renderWithAllProviders, renderWithRouterAndApollo } from "../../testUtils/renderWithProviders";
+import { WorkoutList } from "./WorkoutList";
 
 describe("Workout Page", () => {
     const benchNSquat = {
