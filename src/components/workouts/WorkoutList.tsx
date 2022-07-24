@@ -1,6 +1,6 @@
 import { Add } from "@mui/icons-material";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/lab";
-import DateAdapter from "@mui/lab/AdapterDateFns";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Box, Fab, Stack, TextField } from "@mui/material";
 import { compareDesc, parseISO } from "date-fns";
 import format from "date-fns/format";
@@ -43,14 +43,14 @@ export const WorkoutList: FunctionComponent = () => {
         <Box mt={1}>
             <Stack>
                 <Box sx={{display: "flex", justifyContent: "center"}}>
-                    <LocalizationProvider dateAdapter={DateAdapter}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DesktopDatePicker
                             label="Date"
                             value={date}
-                            onChange={(newValue) => {
+                            onChange={(newValue: Date | null) => {
                                 setDate(newValue);
                             }}
-                            renderInput={(params) => <TextField
+                            renderInput={(params: any) => <TextField
                                 data-testid="date-text-field"
                                 sx={{margin: 1, width: "20ch"}} {...params} />}
                         />

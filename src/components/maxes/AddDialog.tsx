@@ -1,5 +1,5 @@
-import { DesktopDatePicker, LocalizationProvider } from "@mui/lab";
-import DateAdapter from "@mui/lab/AdapterDateFns";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from "@mui/material";
 import format from "date-fns/format";
 import { FunctionComponent } from "react";
@@ -38,14 +38,14 @@ export const AddDialog: FunctionComponent<Props> = ({open, onClose, addMax}) => 
             <DialogTitle>Add New Max</DialogTitle>
             <DialogContent>
                 <Stack>
-                    <LocalizationProvider dateAdapter={DateAdapter}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DesktopDatePicker
                             label="Date"
                             value={date}
-                            onChange={(newValue) => {
+                            onChange={(newValue: Date | null) => {
                                 setDate(newValue);
                             }}
-                            renderInput={(params) => <TextField
+                            renderInput={(params: any) => <TextField
                                 data-testid="date-text-field"
                                 sx={{margin: 1, width: "20ch"}} {...params} />}
                         />

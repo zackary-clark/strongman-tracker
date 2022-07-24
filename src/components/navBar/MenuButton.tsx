@@ -1,8 +1,9 @@
 import { Button, IconButton } from "@mui/material";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 interface Props {
+    children: ReactNode;
     routeTo: string;
     ariaLabel?: string;
     variant?: "contained" | "outlined" | "text";

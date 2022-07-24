@@ -1,6 +1,6 @@
 import { Delete } from "@mui/icons-material";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/lab";
-import DateAdapter from "@mui/lab/AdapterDateFns";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Box, CircularProgress, Container, IconButton, TextField, Tooltip } from "@mui/material";
 import { parseISO } from "date-fns";
 import * as React from "react";
@@ -79,12 +79,12 @@ export const WorkoutForm: FunctionComponent = () => {
     return (
         <Container maxWidth="md" sx={{mt: 1}}>
             <Box sx={{display: "flex", justifyContent: "center"}}>
-                <LocalizationProvider dateAdapter={DateAdapter}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
                         label="Date"
                         onChange={onDateChange}
                         value={parseISO(workout.date)}
-                        renderInput={(params) => <TextField
+                        renderInput={(params: any) => <TextField
                             data-testid="date-text-field"
                             sx={{margin: 1, width: "20ch"}} {...params} />}
                     />

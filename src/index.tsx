@@ -2,8 +2,8 @@ import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@ap
 import { setContext } from "@apollo/client/link/context";
 import { CssBaseline, StyledEngineProvider, ThemeProvider, } from "@mui/material";
 import Keycloak from "keycloak-js";
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React from "react";
+import { createRoot } from "react-dom/client";
 import { HashRouter } from "react-router-dom";
 import { NavBar } from "./components/navBar/NavBar";
 import { Snackbar } from "./components/snackBar/Snackbar";
@@ -33,7 +33,8 @@ const waitForEnv = async () => {
             clientId: getKeycloakClientId()
         });
         await keycloak.init({ onLoad: "check-sso", responseMode: "query" });
-        ReactDOM.render(
+        const root = createRoot(document.getElementById("root")!);
+        root.render(
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
@@ -49,8 +50,7 @@ const waitForEnv = async () => {
                         </HashRouter>
                     </ApolloProvider>
                 </ThemeProvider>
-            </StyledEngineProvider>,
-            document.getElementById("root"),
+            </StyledEngineProvider>
         );
     }
 };

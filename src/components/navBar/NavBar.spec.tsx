@@ -66,18 +66,18 @@ describe("NavBar", () => {
             expect(mockKeycloak.login).toHaveBeenCalled();
         });
 
-        it("should logout on clicking logout in account menu", () => {
+        it("should logout on clicking logout in account menu", async () => {
             const mockKeycloak = createKeycloakMock();
 
             renderWithAllProviders(<NavBar />, [], undefined, mockKeycloak);
 
             screen.getByLabelText("account icon").click();
-            screen.getByText("Log Out").click();
+            (await screen.findByText("Log Out")).click();
 
             expect(mockKeycloak.logout).toHaveBeenCalled();
         });
 
-        it("should open Preferences drawer on settings click", () => {
+        it("should open Preferences drawer on settings click", async () => {
             const userPreferencesMock: MockedResponse<UserPreferencesQuery> = {
                 request: {
                     query: UserPreferencesDocument
@@ -95,9 +95,9 @@ describe("NavBar", () => {
             renderWithAllProviders(<NavBar />, [userPreferencesMock], undefined, mockKeycloak);
 
             screen.getByLabelText("account icon").click();
-            screen.getByText("Preferences").click();
+            (await screen.findByText("Preferences")).click();
 
-            expect(screen.getByTestId("preferences drawer")).toBeInTheDocument();
+            expect(await screen.findByTestId("preferences drawer")).toBeInTheDocument();
         });
     });
 
@@ -106,12 +106,12 @@ describe("NavBar", () => {
             window.matchMedia = createMatchMedia("600px");
         });
 
-        it("should open menu on hamburger click, then route correctly on menuitem click", () => {
+        it("should open menu on hamburger click, then route correctly on menuitem click", async () => {
             const history = createMemoryHistory();
             const mockKeycloak = createKeycloakMock();
             renderWithHistory(history, mockKeycloak);
             screen.getByLabelText("navigation menu").click();
-            screen.getByText("Maxes").click();
+            (await screen.findByText("Maxes")).click();
             expect(history.location.pathname).toBe(MAX_ROUTE);
         });
 

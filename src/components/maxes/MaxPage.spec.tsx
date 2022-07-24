@@ -84,7 +84,7 @@ describe("Max Page", () => {
 
             screen.getByText("Cancel").click();
 
-            expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
+            await waitForElementToBeRemoved(() => screen.queryByText("Add New Max"));
         });
 
         it("should add new max to table", async () => {
@@ -123,11 +123,11 @@ describe("Max Page", () => {
             screen.getByTestId("add-max").click();
             expect(await screen.findByText("Add New Max")).toBeInTheDocument();
 
-            userEvent.type(screen.getByLabelText("Date"), "01051993");
-            userEvent.type(screen.getByLabelText("Squat"), "123456");
-            userEvent.type(screen.getByLabelText("Bench"), "185");
-            userEvent.type(screen.getByLabelText("Deadlift"), "315");
-            userEvent.type(screen.getByLabelText("Press"), "135");
+            await userEvent.type(screen.getByLabelText("Date"), "01051993");
+            await userEvent.type(screen.getByLabelText("Squat"), "123456");
+            await userEvent.type(screen.getByLabelText("Bench"), "185");
+            await userEvent.type(screen.getByLabelText("Deadlift"), "315");
+            await userEvent.type(screen.getByLabelText("Press"), "135");
             screen.getByText("Save").click();
 
             expect(await screen.findByText("01/05/1993")).toBeInTheDocument();
@@ -153,11 +153,11 @@ describe("Max Page", () => {
             expect(await screen.findByText("563")).toBeInTheDocument();
 
             screen.getByTestId("add-max").click();
-            userEvent.type(screen.getByLabelText("Date"), "01051993");
-            userEvent.type(screen.getByLabelText("Squat"), "123456");
-            userEvent.type(screen.getByLabelText("Bench"), "185");
-            userEvent.type(screen.getByLabelText("Deadlift"), "315");
-            userEvent.type(screen.getByLabelText("Press"), "135");
+            await userEvent.type((await screen.findByLabelText("Date")), "01051993");
+            await userEvent.type(screen.getByLabelText("Squat"), "123456");
+            await userEvent.type(screen.getByLabelText("Bench"), "185");
+            await userEvent.type(screen.getByLabelText("Deadlift"), "315");
+            await userEvent.type(screen.getByLabelText("Press"), "135");
             screen.getByText("Save").click();
 
             expect(await screen.findByText("Network Error!")).toBeInTheDocument();
@@ -186,11 +186,11 @@ describe("Max Page", () => {
             expect(await screen.findByText("563")).toBeInTheDocument();
 
             screen.getByTestId("add-max").click();
-            userEvent.type(screen.getByLabelText("Date"), "01051993");
-            userEvent.type(screen.getByLabelText("Squat"), "123456");
-            userEvent.type(screen.getByLabelText("Bench"), "185");
-            userEvent.type(screen.getByLabelText("Deadlift"), "315");
-            userEvent.type(screen.getByLabelText("Press"), "135");
+            await userEvent.type((await screen.findByLabelText("Date")), "01051993");
+            await userEvent.type(screen.getByLabelText("Squat"), "123456");
+            await userEvent.type(screen.getByLabelText("Bench"), "185");
+            await userEvent.type(screen.getByLabelText("Deadlift"), "315");
+            await userEvent.type(screen.getByLabelText("Press"), "135");
             screen.getByText("Save").click();
 
             expect(await screen.findByText("Network Error!")).toBeInTheDocument();

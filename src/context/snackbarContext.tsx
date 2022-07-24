@@ -1,5 +1,5 @@
-import React, { FunctionComponent, SyntheticEvent, useContext, useState } from "react";
 import { SnackbarCloseReason } from "@mui/material";
+import React, { FunctionComponent, PropsWithChildren, SyntheticEvent, useContext, useState } from "react";
 
 type SnackbarType = "error" | "warning" | "info" | "success";
 
@@ -27,7 +27,7 @@ const defaultSnackbarContext: ISnackbarContext = {
 
 export const SnackbarContext = React.createContext(defaultSnackbarContext);
 
-export const SnackbarContextProvider: FunctionComponent = ({children}) => {
+export const SnackbarContextProvider: FunctionComponent<PropsWithChildren> = ({children}) => {
     const [isSnackbarOpen, setIsSnackbarOpen] = useState(defaultSnackbarContext.isSnackbarOpen);
     const [type, setType] = useState(defaultSnackbarContext.type);
     const [message, setMessage] = useState(defaultSnackbarContext.message);
