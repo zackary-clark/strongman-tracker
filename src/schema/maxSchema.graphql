@@ -1,5 +1,5 @@
 extend type Query {
-    maxes: [Max!]!
+    maxes(input: MaxesInput): [Max!]!
 }
 
 extend type Mutation {
@@ -7,21 +7,37 @@ extend type Mutation {
     deleteMax(input: DeleteMaxInput!): DeleteMaxPayload
 }
 
+enum MaxType {
+    bench
+    deadlift
+    press
+    squat
+}
+
 type Max {
     id: ID!
     date: Date!
-    squat1RM: Float
-    bench1RM: Float
-    deadlift1RM: Float
-    press1RM: Float
+    weight: Int!
+    type: MaxType!
+}
+
+input MaxesInput {
+    filter: MaxFilter!
+    sort: MaxSort!
+}
+
+input MaxFilter {
+    type: MaxType!
+}
+
+input MaxSort {
+    date: Sort!
 }
 
 input AddMaxInput {
     date: Date!
-    squat1RM: Float
-    bench1RM: Float
-    deadlift1RM: Float
-    press1RM: Float
+    weight: Int!
+    type: MaxType!
 }
 
 type AddMaxPayload implements MutationPayload {

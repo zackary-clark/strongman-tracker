@@ -15,3 +15,8 @@ interface DeletePayload {
 type Query
 
 type Mutation
+
+enum Sort {
+    asc
+    desc
+}

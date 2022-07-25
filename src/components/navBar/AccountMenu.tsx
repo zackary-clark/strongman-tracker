@@ -28,21 +28,19 @@ export const AccountMenu: FunctionComponent = () => {
 
     return (
         <>
-            <Box sx={{display: "flex"}}>
-                {authenticated ? (
-                        <IconButton onClick={handleOpenMenu} aria-label="account icon">
-                            <AccountCircle fontSize="large" />
-                        </IconButton>
-                    ) : (
-                        <Button
-                            variant="contained"
-                            onClick={() => keycloak.login()}
-                            color="neutral"
-                        >
-                            Log In
-                        </Button>
-                    )}
-            </Box>
+            {authenticated ? (
+                    <IconButton onClick={handleOpenMenu} aria-label="account icon">
+                        <AccountCircle fontSize="large" />
+                    </IconButton>
+                ) : (
+                    <Button
+                        variant="contained"
+                        onClick={() => keycloak.login()}
+                        color="neutral"
+                    >
+                        Log In
+                    </Button>
+                )}
             {authenticated && (
                 <>
                     <Menu open={isMenuOpen} onClose={handleCloseMenu} anchorEl={anchorEl}>

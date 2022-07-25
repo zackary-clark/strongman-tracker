@@ -1,10 +1,11 @@
 import { FitnessCenter } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 import React, { FunctionComponent } from "react";
+import { Link } from "react-router-dom";
 import { ROOT_ROUTE } from "../../pages/constants";
-import { MenuIconButton } from "./MenuButton";
 
 export const Logo: FunctionComponent = () => (
-    <MenuIconButton routeTo={ROOT_ROUTE} ariaLabel="home">
+    <IconButton component={Link} to={ROOT_ROUTE} aria-label="home">
         <FitnessCenter fontSize="large" />
-    </MenuIconButton>
+    </IconButton>
 );

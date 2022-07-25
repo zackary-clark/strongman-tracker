@@ -10,7 +10,9 @@ export const DesktopMenu: FunctionComponent = () => {
     return (
         <>
             <Box>
-                <Logo />
+                <Box sx={{ mr: 2 }} component="span">
+                    <Logo />
+                </Box>
                 {authenticated &&
                     <>
                         <MenuButton routeTo={WORKOUT_ROUTE} ariaLabel={"workouts"}>Workouts</MenuButton>

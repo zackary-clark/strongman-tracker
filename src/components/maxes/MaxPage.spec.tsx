@@ -1,5 +1,5 @@
 import { MockedResponse } from "@apollo/client/testing";
-import { fireEvent, screen, waitForElementToBeRemoved } from "@testing-library/react";
+import { fireEvent, getByRole, screen, waitForElementToBeRemoved } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { GraphQLError } from "graphql";
 import * as React from "react";
@@ -7,9 +7,12 @@ import {
     AddMaxDocument,
     AddMaxMutation,
     AllMaxesDocument,
-    AllMaxesQuery, DeleteMaxDocument,
-    DeleteMaxMutation
+    AllMaxesQuery,
+    DeleteMaxDocument,
+    DeleteMaxMutation,
+    MaxType
 } from "../../../generated/schema";
+import { userPreferencesKgMock, userPreferencesLbMock } from "../../testUtils/commonApolloMocks";
 import { renderWithApollo, renderWithSnackbarAndApollo } from "../../testUtils/renderWithProviders";
 import { MaxComponent } from "./MaxComponent";
 
@@ -19,29 +22,27 @@ const allMaxesQueryMock: MockedResponse<AllMaxesQuery> = {
     },
     result: {
         data: {
-            maxes: [
+            benchMaxes: [],
+            pressMaxes: [],
+            deadliftMaxes: [],
+            squatMaxes: [
                 {
-                    bench1RM: null,
-                    date: "2021-12-23",
-                    deadlift1RM: null,
                     id: "64afa3bf-719c-4303-8a3a-47f4b7d134d5",
-                    press1RM: null,
-                    squat1RM: 563
+                    date: "2021-12-23",
+                    weight: 563000,
+                    type: MaxType.Squat
                 }
-            ]
+            ],
         }
     }
 };
 
 describe("Max Page", () => {
     it("should display data in table", async () => {
-        renderWithApollo(<MaxComponent />, [allMaxesQueryMock]);
+        renderWithApollo(<MaxComponent />, [allMaxesQueryMock, userPreferencesKgMock]);
 
-        expect(await screen.findByText("12/23/2021")).toBeInTheDocument();
-        expect(screen.getByTestId("squat1RM")).toHaveTextContent("563");
-        expect(screen.getByTestId("bench1RM")).toBeEmptyDOMElement();
-        expect(screen.getByTestId("deadlift1RM")).toBeEmptyDOMElement();
-        expect(screen.getByTestId("press1RM")).toBeEmptyDOMElement();
+        expect(await screen.findByText("23 Dec 2021")).toBeInTheDocument();
+        expect(screen.getByText("563")).toBeInTheDocument();
     });
 
     it("should show snackbar when AllMaxesQuery fails due to network error", async () => {
@@ -60,7 +61,7 @@ describe("Max Page", () => {
 
     describe("Add Max", () => {
         it("should open Add Modal on Add Icon click and close again on escape key", async () => {
-            renderWithApollo(<MaxComponent />, [allMaxesQueryMock]);
+            renderWithApollo(<MaxComponent />, [allMaxesQueryMock, userPreferencesKgMock]);
             expect(await screen.findByText("563")).toBeInTheDocument();
             expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
 
@@ -74,7 +75,7 @@ describe("Max Page", () => {
         });
 
         it("should open Add Modal on Add Icon click and close again on cancel click", async () => {
-            renderWithApollo(<MaxComponent />, [allMaxesQueryMock]);
+            renderWithApollo(<MaxComponent />, [allMaxesQueryMock, userPreferencesKgMock]);
             expect(await screen.findByText("563")).toBeInTheDocument();
             expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
 
@@ -94,10 +95,8 @@ describe("Max Page", () => {
                     variables: {
                         input: {
                             date: "1993-01-05",
-                            squat1RM: 123456,
-                            bench1RM: 185,
-                            deadlift1RM: 315,
-                            press1RM: 135
+                            type: MaxType.Deadlift,
+                            weight: 224528
                         }
                     }
                 },
@@ -107,30 +106,29 @@ describe("Max Page", () => {
                             max: {
                                 id: "07058915-0a5f-40f9-84f6-53fb1b5540a7",
                                 date: "1993-01-05",
-                                squat1RM: 123456,
-                                deadlift1RM: 315,
-                                press1RM: 135,
-                                bench1RM: 185
+                                type: MaxType.Deadlift,
+                                weight: 224528
                             }
                         }
                     }
                 }
             };
 
-            renderWithApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationMock]);
-            expect(await screen.findByText("563")).toBeInTheDocument();
+            renderWithApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationMock, userPreferencesLbMock]);
+            expect(await screen.findByText("1241")).toBeInTheDocument();
 
             screen.getByTestId("add-max").click();
             expect(await screen.findByText("Add New Max")).toBeInTheDocument();
 
-            await userEvent.type(screen.getByLabelText("Date"), "01051993");
-            await userEvent.type(screen.getByLabelText("Squat"), "123456");
-            await userEvent.type(screen.getByLabelText("Bench"), "185");
-            await userEvent.type(screen.getByLabelText("Deadlift"), "315");
-            await userEvent.type(screen.getByLabelText("Press"), "135");
+            await userEvent.clear(await screen.findByLabelText("Date"));
+            await userEvent.type((await screen.findByLabelText("Date")), "01051993");
+            await userEvent.type(screen.getByLabelText("Weight (lbs)"), "495");
+            // eslint-disable-next-line testing-library/prefer-screen-queries
+            await userEvent.click(getByRole(screen.getByTestId("max-lift-type"), "button"));
+            await userEvent.click(await screen.findByText("deadlift"));
             screen.getByText("Save").click();
 
-            expect(await screen.findByText("01/05/1993")).toBeInTheDocument();
+            expect(await screen.findByText("5 Jan 1993")).toBeInTheDocument();
         });
 
         it("should show snackbar and close modal when save fails due to network error", async () => {
@@ -140,24 +138,24 @@ describe("Max Page", () => {
                     variables: {
                         input: {
                             date: "1993-01-05",
-                            squat1RM: 123456,
-                            bench1RM: 185,
-                            deadlift1RM: 315,
-                            press1RM: 135
+                            type: MaxType.Press,
+                            weight: 315000
                         }
                     }
                 },
                 error: new Error("Network Error")
             };
-            renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationErrorMock]);
+            renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationErrorMock, userPreferencesKgMock]);
             expect(await screen.findByText("563")).toBeInTheDocument();
 
             screen.getByTestId("add-max").click();
+
+            await userEvent.clear(await screen.findByLabelText("Date"));
             await userEvent.type((await screen.findByLabelText("Date")), "01051993");
-            await userEvent.type(screen.getByLabelText("Squat"), "123456");
-            await userEvent.type(screen.getByLabelText("Bench"), "185");
-            await userEvent.type(screen.getByLabelText("Deadlift"), "315");
-            await userEvent.type(screen.getByLabelText("Press"), "135");
+            await userEvent.type(screen.getByLabelText("Weight (kgs)"), "315");
+            // eslint-disable-next-line testing-library/prefer-screen-queries
+            await userEvent.click(getByRole(screen.getByTestId("max-lift-type"), "button"));
+            await userEvent.click(await screen.findByText("press"));
             screen.getByText("Save").click();
 
             expect(await screen.findByText("Network Error!")).toBeInTheDocument();
@@ -171,10 +169,8 @@ describe("Max Page", () => {
                     variables: {
                         input: {
                             date: "1993-01-05",
-                            squat1RM: 123456,
-                            bench1RM: 185,
-                            deadlift1RM: 315,
-                            press1RM: 135
+                            type: MaxType.Deadlift,
+                            weight: 142882
                         }
                     }
                 },
@@ -182,15 +178,16 @@ describe("Max Page", () => {
                     errors: [new GraphQLError("Error")],
                 }
             };
-            renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationErrorMock]);
-            expect(await screen.findByText("563")).toBeInTheDocument();
+            renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationErrorMock, userPreferencesLbMock]);
+            expect(await screen.findByText("1241")).toBeInTheDocument();
 
             screen.getByTestId("add-max").click();
+
             await userEvent.type((await screen.findByLabelText("Date")), "01051993");
-            await userEvent.type(screen.getByLabelText("Squat"), "123456");
-            await userEvent.type(screen.getByLabelText("Bench"), "185");
-            await userEvent.type(screen.getByLabelText("Deadlift"), "315");
-            await userEvent.type(screen.getByLabelText("Press"), "135");
+            await userEvent.type(screen.getByLabelText("Weight (lbs)"), "315");
+            // eslint-disable-next-line testing-library/prefer-screen-queries
+            await userEvent.click(getByRole(screen.getByTestId("max-lift-type"), "button"));
+            await userEvent.click(await screen.findByText("deadlift"));
             screen.getByText("Save").click();
 
             expect(await screen.findByText("Network Error!")).toBeInTheDocument();

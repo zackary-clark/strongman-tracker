@@ -15,11 +15,12 @@ import {
     DeleteWorkoutMutation,
     Lift,
     OneWorkoutDocument,
-    OneWorkoutQuery, UserPreferencesDocument, UserPreferencesQuery, WeightUnit,
+    OneWorkoutQuery,
     Workout
 } from "../../../generated/schema";
 import { WORKOUT_ROUTE } from "../../pages/constants";
 import { WorkoutPage } from "../../pages/WorkoutPage";
+import { userPreferencesKgMock, userPreferencesLbMock } from "../../testUtils/commonApolloMocks";
 import { renderPage, renderWithAllProviders, renderWithRouterAndApollo } from "../../testUtils/renderWithProviders";
 import { WorkoutList } from "./WorkoutList";
 
@@ -64,32 +65,6 @@ describe("Workout Page", () => {
                         lifts: []
                     },
                 ]
-            }
-        }
-    };
-
-    const userPreferencesKgMock: MockedResponse<UserPreferencesQuery> = {
-        request: {
-            query: UserPreferencesDocument
-        },
-        result: {
-            data: {
-                preferences: {
-                    weightUnit: WeightUnit.Kg
-                }
-            }
-        }
-    };
-
-    const userPreferencesLbMock: MockedResponse<UserPreferencesQuery> = {
-        request: {
-            query: UserPreferencesDocument
-        },
-        result: {
-            data: {
-                preferences: {
-                    weightUnit: WeightUnit.Lb
-                }
             }
         }
     };

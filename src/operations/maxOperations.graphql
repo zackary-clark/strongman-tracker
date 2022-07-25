@@ -1,11 +1,47 @@
 query AllMaxes {
-    maxes {
+    benchMaxes: maxes(input:
+        {
+            filter: { type: bench }
+            sort: { date: desc }
+        }
+    ) {
         id
         date
-        squat1RM
-        deadlift1RM
-        press1RM
-        bench1RM
+        weight
+        type
+    }
+    pressMaxes: maxes(input:
+        {
+            filter: { type: press }
+            sort: { date: desc }
+        }
+    ) {
+        id
+        date
+        weight
+        type
+    }
+    deadliftMaxes: maxes(input:
+        {
+            filter: { type: deadlift }
+            sort: { date: desc }
+        }
+    ) {
+        id
+        date
+        weight
+        type
+    }
+    squatMaxes: maxes(input:
+        {
+            filter: { type: squat }
+            sort: { date: desc }
+        }
+    ) {
+        id
+        date
+        weight
+        type
     }
 }
 
@@ -14,10 +50,8 @@ mutation AddMax($input: AddMaxInput!) {
         max {
             id
             date
-            squat1RM
-            deadlift1RM
-            press1RM
-            bench1RM
+            weight
+            type
         }
     }
 }

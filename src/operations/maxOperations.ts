@@ -1,6 +1,8 @@
+import { compareDesc, parseISO } from "date-fns";
 import {
     AllMaxesDocument,
     AllMaxesQuery,
+    MaxType,
     useAddMaxMutation__generated,
     useAllMaxesQuery__generated,
     useDeleteMaxMutation__generated
@@ -24,11 +26,16 @@ export function useAddMaxMutation() {
         update(cache, {data}) {
             const newMax = data?.addMax?.max;
             if (newMax) {
+                const type = newMax.type;
                 const existingMaxesQuery: AllMaxesQuery | null = cache.readQuery({query: AllMaxesDocument});
+                const field = getFieldName(type);
                 cache.writeQuery({
                     query: AllMaxesDocument,
                     data: {
-                        maxes: existingMaxesQuery ? [...existingMaxesQuery.maxes, newMax] : [newMax]
+                        [field]: existingMaxesQuery
+                            ? [...existingMaxesQuery[field], newMax].sort(
+                                (a, b) => compareDesc(parseISO(a.date), parseISO(b.date)))
+                            : [newMax]
                     }
                 });
             }
@@ -56,7 +63,22 @@ export function useDeleteMaxMutation() {
                     cache.writeQuery({
                         query: AllMaxesDocument,
                         data: {
-                            maxes: existingMaxesQuery.maxes.filter(cachedMax => {
+                            benchMaxes: existingMaxesQuery.benchMaxes.filter(cachedMax => {
+                                const isDeleted = cachedMax.id === deletedMaxId;
+                                if (isDeleted) deletedMax = cachedMax;
+                                return !isDeleted;
+                            }),
+                            pressMaxes: existingMaxesQuery.pressMaxes.filter(cachedMax => {
+                                const isDeleted = cachedMax.id === deletedMaxId;
+                                if (isDeleted) deletedMax = cachedMax;
+                                return !isDeleted;
+                            }),
+                            deadliftMaxes: existingMaxesQuery.deadliftMaxes.filter(cachedMax => {
+                                const isDeleted = cachedMax.id === deletedMaxId;
+                                if (isDeleted) deletedMax = cachedMax;
+                                return !isDeleted;
+                            }),
+                            squatMaxes: existingMaxesQuery.squatMaxes.filter(cachedMax => {
                                 const isDeleted = cachedMax.id === deletedMaxId;
                                 if (isDeleted) deletedMax = cachedMax;
                                 return !isDeleted;
@@ -69,3 +91,9 @@ export function useDeleteMaxMutation() {
         }
     });
 }
+
+type FieldName = "deadliftMaxes" | "squatMaxes" | "pressMaxes" | "benchMaxes";
+
+const getFieldName = (type: MaxType): FieldName => {
+    return `${type}Maxes`;
+};

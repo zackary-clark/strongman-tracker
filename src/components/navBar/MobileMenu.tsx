@@ -63,9 +63,10 @@ export const MobileMenu: FunctionComponent = () => {
                     </MenuItem>
                 </Menu>
             </Box>
-            <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+            <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
                 <Logo />
             </Box>
+            <Box sx={{ flexGrow: 1 }} />
         </>
     );
 };
