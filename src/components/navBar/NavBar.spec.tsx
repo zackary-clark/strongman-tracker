@@ -1,17 +1,16 @@
-import { MockedResponse } from "@apollo/client/testing";
 import { ThemeProvider } from "@mui/material";
 import { render, screen } from "@testing-library/react";
 import { createMemoryHistory, MemoryHistory } from "history";
 import Keycloak from "keycloak-js";
 import React from "react";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
-import { UserPreferencesDocument, UserPreferencesQuery, WeightUnit } from "../../../generated/schema";
 import { KeycloakContext } from "../../context/keycloakContext";
 import { MAX_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
-import { theme } from "../../theme";
+import { userPreferencesKgMock } from "../../testUtils/commonApolloMocks";
 import { createKeycloakMock, createUnauthenticatedKeycloakMock } from "../../testUtils/keycloak";
 import { createMatchMedia, MatchMedia } from "../../testUtils/matchMedia";
 import { renderWithAllProviders } from "../../testUtils/renderWithProviders";
+import { theme } from "../../theme";
 import { NavBar } from "./NavBar";
 
 describe("NavBar", () => {
@@ -78,21 +77,9 @@ describe("NavBar", () => {
         });
 
         it("should open Preferences drawer on settings click", async () => {
-            const userPreferencesMock: MockedResponse<UserPreferencesQuery> = {
-                request: {
-                    query: UserPreferencesDocument
-                },
-                result: {
-                    data: {
-                        preferences: {
-                            weightUnit: WeightUnit.Kg
-                        }
-                    }
-                }
-            };
             const mockKeycloak = createKeycloakMock();
 
-            renderWithAllProviders(<NavBar />, [userPreferencesMock], undefined, mockKeycloak);
+            renderWithAllProviders(<NavBar />, [userPreferencesKgMock], undefined, mockKeycloak);
 
             screen.getByLabelText("account icon").click();
             (await screen.findByText("Preferences")).click();

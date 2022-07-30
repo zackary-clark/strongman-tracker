@@ -49,17 +49,17 @@ function convertFromLb(weightInPounds: number) {
 }
 
 function convertKgStringToGrams(weightString: string) {
-    const weightValue = parseFloat(weightString);
-    if (isNaN(weightValue)) throw new Error("weight is NaN!");
-    const nearestHalf = Math.round(weightValue * 2) / 2;
-    return convertFromKg(nearestHalf);
+    return convertFromKg(fromStringToNumber(weightString));
 }
 
 function convertLbStringToGrams(weightString: string) {
+    return convertFromLb(fromStringToNumber(weightString));
+}
+
+function fromStringToNumber(weightString: string) {
     const weightValue = parseFloat(weightString);
     if (isNaN(weightValue)) throw new Error("weight is NaN!");
-    const nearestHalf = Math.round(weightValue * 2) / 2;
-    return convertFromLb(nearestHalf);
+    return roundHalf(weightValue);
 }
 
 function roundHalf(num: number) {

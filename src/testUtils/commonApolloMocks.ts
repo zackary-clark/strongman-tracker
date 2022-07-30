@@ -1,5 +1,5 @@
 import { MockedResponse } from "@apollo/client/testing";
-import { UserPreferencesDocument, UserPreferencesQuery, WeightUnit } from "../../generated/schema";
+import { LengthUnit, UserPreferencesDocument, UserPreferencesQuery, WeightUnit } from "../../generated/schema";
 
 export const userPreferencesKgMock: MockedResponse<UserPreferencesQuery> = {
     request: {
@@ -8,7 +8,8 @@ export const userPreferencesKgMock: MockedResponse<UserPreferencesQuery> = {
     result: {
         data: {
             preferences: {
-                weightUnit: WeightUnit.Kg
+                weightUnit: WeightUnit.Kg,
+                lengthUnit: LengthUnit.Cm
             }
         }
     }
@@ -21,7 +22,8 @@ export const userPreferencesLbMock: MockedResponse<UserPreferencesQuery> = {
     result: {
         data: {
             preferences: {
-                weightUnit: WeightUnit.Lb
+                weightUnit: WeightUnit.Lb,
+                lengthUnit: LengthUnit.In
             }
         }
     }

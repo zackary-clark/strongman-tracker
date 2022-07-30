@@ -4,10 +4,15 @@ extend type Query {
 
 extend type Mutation {
     changeWeightUnitPreference(input: ChangeWeightUnitPreferenceInput!): UserPreferencesEditPayload
+    changeLengthUnitPreference(input: ChangeLengthUnitPreferenceInput!): UserPreferencesEditPayload
 }
 
 input ChangeWeightUnitPreferenceInput {
     weightUnit: WeightUnit!
+}
+
+input ChangeLengthUnitPreferenceInput {
+    lengthUnit: LengthUnit!
 }
 
 type UserPreferencesEditPayload implements MutationPayload {
@@ -17,9 +22,15 @@ type UserPreferencesEditPayload implements MutationPayload {
 
 type UserPreferences {
     weightUnit: WeightUnit!
+    lengthUnit: LengthUnit!
 }
 
 enum WeightUnit {
     kg
     lb
+}
+
+enum LengthUnit {
+    cm
+    in
 }

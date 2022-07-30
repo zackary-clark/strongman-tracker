@@ -1,28 +1,15 @@
-import { MockedResponse } from "@apollo/client/testing";
 import { act, renderHook } from "@testing-library/react";
-import { UserPreferencesDocument, UserPreferencesQuery, WeightUnit } from "../../generated/schema";
+import { WeightUnit } from "../../generated/schema";
+import { userPreferencesKgMock, userPreferencesLbMock } from "../testUtils/commonApolloMocks";
 import { createAllProviderWrapper } from "../testUtils/renderWithProviders";
 import { useConvertWeight } from "./useConvertWeight";
 
 describe("useConvertWeight", () => {
     describe("when User's WeightUnit is kg", () => {
         it("should convert weights correctly", async () => {
-            const userPreferencesMock: MockedResponse<UserPreferencesQuery> = {
-                request: {
-                    query: UserPreferencesDocument
-                },
-                result: {
-                    data: {
-                        preferences: {
-                            weightUnit: WeightUnit.Kg
-                        }
-                    }
-                }
-            };
-
             const { result } = renderHook(
                 useConvertWeight,
-                { wrapper: createAllProviderWrapper([userPreferencesMock]) }
+                { wrapper: createAllProviderWrapper([userPreferencesKgMock]) }
             );
 
             await act(async () => {
@@ -50,22 +37,9 @@ describe("useConvertWeight", () => {
 
     describe("when User's WeightUnit is lb", () => {
         it("should convert weights correctly", async () => {
-            const userPreferencesMock: MockedResponse<UserPreferencesQuery> = {
-                request: {
-                    query: UserPreferencesDocument
-                },
-                result: {
-                    data: {
-                        preferences: {
-                            weightUnit: WeightUnit.Lb
-                        }
-                    }
-                }
-            };
-
             const { result } = renderHook(
                 useConvertWeight,
-                { wrapper: createAllProviderWrapper([userPreferencesMock]) }
+                { wrapper: createAllProviderWrapper([userPreferencesLbMock]) }
             );
 
             await act(async () => {

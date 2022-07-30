@@ -1,6 +1,7 @@
 query UserPreferences {
     preferences {
         weightUnit
+        lengthUnit
     }
 }
 
@@ -8,6 +9,16 @@ mutation ChangeWeightUnitPreference($input: ChangeWeightUnitPreferenceInput!) {
     changeWeightUnitPreference(input: $input) {
         preferences {
             weightUnit
+            lengthUnit
+        }
+    }
+}
+
+mutation ChangeLengthUnitPreference($input: ChangeLengthUnitPreferenceInput!) {
+    changeLengthUnitPreference(input: $input) {
+        preferences {
+            weightUnit
+            lengthUnit
         }
     }
 }

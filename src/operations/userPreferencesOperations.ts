@@ -1,5 +1,6 @@
 import { ApolloCache } from "@apollo/client";
 import {
+    useChangeLengthUnitPreferenceMutation__generated,
     useChangeWeightUnitPreferenceMutation__generated,
     UserPreferences,
     UserPreferencesDocument,
@@ -24,6 +25,19 @@ export function useChangeWeightUnitPreferenceMutation() {
         update(cache, {data}) {
             if (data?.changeWeightUnitPreference?.preferences) {
                 updatePreferencesInCache(cache, data.changeWeightUnitPreference.preferences);
+            }
+        }
+    });
+}
+
+export function useChangeLengthUnitPreferenceMutation() {
+    const openSnackbar = useSnackbar();
+
+    return useChangeLengthUnitPreferenceMutation__generated({
+        onError: onMutationError(openSnackbar),
+        update(cache, {data}) {
+            if (data?.changeLengthUnitPreference?.preferences) {
+                updatePreferencesInCache(cache, data.changeLengthUnitPreference.preferences);
             }
         }
     });
