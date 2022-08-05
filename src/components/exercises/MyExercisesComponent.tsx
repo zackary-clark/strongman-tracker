@@ -1,4 +1,4 @@
-import { Box, capitalize, List, ListItem, ListItemText } from "@mui/material";
+import { Box, capitalize, List, ListItemButton, ListItemText } from "@mui/material";
 import * as React from "react";
 import { FunctionComponent } from "react";
 import { Exercise } from "../../../generated/schema";
@@ -14,7 +14,7 @@ export const MyExercisesComponent: FunctionComponent = () => {
         <Box sx={{ display: "flex", justifyContent: "center" }}>
             <List sx={{ width: "100%", maxWidth: 400, bgcolor: "background.paper" }}>
                 {data.exercises.map((exercise: Exercise) => (
-                    <ListItem key={exercise.id}>
+                    <ListItemButton key={exercise.id}>
                         <ListItemText
                             inset
                             primary={exercise.name}
@@ -22,7 +22,7 @@ export const MyExercisesComponent: FunctionComponent = () => {
                             secondary={exercise.focusGroups.map(e => capitalize(e)).join(", ")}
                             secondaryTypographyProps={{ noWrap: true }}
                         />
-                    </ListItem>
+                    </ListItemButton>
                 ))}
             </List>
         </Box>
