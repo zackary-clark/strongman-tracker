@@ -12,14 +12,14 @@ interface Props {
 export const WorkoutTable: FunctionComponent<Props> = ({workout}) => {
     const { unit, convertToUserUnit } = useConvertWeight();
     return (
-        <Paper data-testid="workout-table" sx={{ marginX: 4, marginY: 1 }} elevation={0}>
+        <Paper data-testid="workout-table" sx={{ margin: 1, width: "100%", maxWidth: 400 }} elevation={4}>
             <Button variant="text" color="neutral" size="large" href="#" component={Link} to={`./${workout.id}`}>
                 {format(parseISO(workout.date), "d MMMM y")}
             </Button>
             <TableContainer component={Paper}>
                 <Table size="small">
                     <TableHead>
-                        <TableRow sx={{ backgroundColor: "gruv.BG1", fontWeight: "bold" }}>
+                        <TableRow sx={{ fontWeight: "bold" }}>
                             <TableCell>Lift</TableCell>
                             <TableCell>Weight ({unit}s)</TableCell>
                             <TableCell>Scheme</TableCell>

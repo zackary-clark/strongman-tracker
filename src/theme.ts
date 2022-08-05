@@ -99,7 +99,7 @@ const palette: PaletteOptions = {
     },
     background: {
         default: GRUVBOX.BG,
-        paper: GRUVBOX.BG2,
+        paper: GRUVBOX.BG,
     },
     text: {
         primary: GRUVBOX.FG0,
@@ -110,9 +110,9 @@ const palette: PaletteOptions = {
         active: GRUVBOX.FG,
     },
     neutral: {
-        light: GRUVBOX.FG1,
-        main: GRUVBOX.FG2,
-        dark: GRUVBOX.FG3,
+        light: GRUVBOX.FG0,
+        main: GRUVBOX.FG1,
+        dark: GRUVBOX.FG2,
         contrastText: GRUVBOX.BG,
     },
     grey: {

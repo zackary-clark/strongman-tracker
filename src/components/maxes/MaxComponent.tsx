@@ -50,7 +50,7 @@ export const MaxComponent: FunctionComponent = () => {
                 {Object.values(MaxType).map((type: MaxType) => {
                     const maxes: Max[] = data ? data[getFieldName(type)] : [];
                     return (
-                        <Paper key={getFieldName(type)} sx={{ marginX: 4, marginY: 1, width: 300 }} elevation={0}>
+                        <Paper key={getFieldName(type)} sx={{ marginX: 4, marginY: 1, width: "100%", maxWidth: 300 }} elevation={4}>
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <Typography variant="subtitle1">
                                     {capitalize(type)}
@@ -59,7 +59,7 @@ export const MaxComponent: FunctionComponent = () => {
                             <TableContainer component={Paper}>
                                 <Table size="small">
                                     <TableHead>
-                                        <TableRow sx={{backgroundColor: "gruv.BG1", fontWeight: "bold"}}>
+                                        <TableRow sx={{fontWeight: "bold"}}>
                                             <TableCell>Date</TableCell>
                                             <TableCell>{`Weight (${unit}s)`}</TableCell>
                                             <TableCell />
