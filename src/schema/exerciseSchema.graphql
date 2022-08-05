@@ -1,0 +1,78 @@
+extend type Query {
+    exercises(input: ExercisesInput): [Exercise!]!
+    exercise(input: SingleExerciseInput!): Exercise
+}
+
+extend type Mutation {
+    addExercise(input: AddExerciseInput!): ExerciseMutationPayload
+    renameExercise(input: RenameExerciseInput!): ExerciseMutationPayload
+    changeExerciseDescription(input: ChangeExerciseDescriptionInput!): ExerciseMutationPayload
+    changeExerciseFocusGroup(input: ChangeExerciseFocusGroupInput!): ExerciseMutationPayload
+}
+
+type Exercise {
+    id: ID!
+    name: String!
+    description: String
+    focusGroups: [MuscleGroup!]!
+}
+
+input SingleExerciseInput {
+    id: ID!
+}
+
+input ExercisesInput {
+    filter: ExerciseFilter!
+    sort: ExerciseSort!
+}
+
+input ExerciseFilter {
+    focusGroup: MuscleGroup
+    custom: Boolean
+}
+
+input ExerciseSort {
+    name: Sort!
+}
+
+input AddExerciseInput {
+    name: String!
+    description: String
+    focusGroups: [MuscleGroup!]!
+}
+
+input RenameExerciseInput {
+    id: ID!
+    name: String!
+}
+
+input ChangeExerciseDescriptionInput {
+    id: ID!
+    description: String!
+}
+
+input ChangeExerciseFocusGroupInput {
+    id: ID!
+    focusGroups: [MuscleGroup!]!
+}
+
+type ExerciseMutationPayload implements MutationPayload {
+    success: Boolean!
+    exercise: Exercise
+}
+
+enum MuscleGroup {
+    abs
+    biceps
+    butt
+    calves
+    chest
+    forearms
+    hamstrings
+    lowerBack
+    quads
+    shoulders
+    traps
+    triceps
+    upperBack
+}

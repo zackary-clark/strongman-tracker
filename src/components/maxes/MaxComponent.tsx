@@ -1,6 +1,7 @@
 import { Add } from "@mui/icons-material";
 import {
     Box,
+    capitalize,
     Fab,
     Paper,
     Table,
@@ -79,10 +80,6 @@ export const MaxComponent: FunctionComponent = () => {
                 <AddDialog open={isAddDialogOpen} onClose={() => setIsAddDialogOpen(false)} addMax={addEntry} />}
         </Box>
     );
-};
-
-const capitalize = (word: string): string => {
-    return word.replace(/^\w/, (c) => c.toUpperCase());
 };
 
 type FieldName = "deadliftMaxes" | "squatMaxes" | "pressMaxes" | "benchMaxes";

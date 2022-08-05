@@ -1,0 +1,8 @@
+query MyExercises {
+    exercises(input: { sort: { name: asc }, filter: { custom: true } }) {
+        id
+        name
+        description
+        focusGroups
+    }
+}

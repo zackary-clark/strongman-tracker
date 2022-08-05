@@ -5,7 +5,7 @@ import Keycloak from "keycloak-js";
 import React from "react";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { KeycloakContext } from "../../context/keycloakContext";
-import { MAX_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
+import { MAX_ROUTE, MY_EXERCISE_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
 import { userPreferencesKgMock } from "../../testUtils/commonApolloMocks";
 import { createKeycloakMock, createUnauthenticatedKeycloakMock } from "../../testUtils/keycloak";
 import { createMatchMedia, MatchMedia } from "../../testUtils/matchMedia";
@@ -85,6 +85,18 @@ describe("NavBar", () => {
             (await screen.findByText("Preferences")).click();
 
             expect(await screen.findByTestId("preferences drawer")).toBeInTheDocument();
+        });
+
+        it("should route to My Exercises on account menu item click", async () => {
+            const history = createMemoryHistory();
+            const mockKeycloak = createKeycloakMock();
+
+            renderWithHistory(history, mockKeycloak);
+
+            screen.getByLabelText("account icon").click();
+            (await screen.findByText("My Exercises")).click();
+
+            expect(history.location.pathname).toBe(MY_EXERCISE_ROUTE);
         });
     });
 

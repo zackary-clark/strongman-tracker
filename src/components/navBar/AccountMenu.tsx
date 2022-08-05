@@ -1,7 +1,9 @@
-import { AccountCircle, Logout, Settings } from "@mui/icons-material";
+import { AccountCircle, FitnessCenter, Logout, Settings } from "@mui/icons-material";
 import { Box, Button, Divider, Drawer, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
 import React, { FunctionComponent, MouseEvent, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuthenticated, useKeycloak } from "../../context/keycloakContext";
+import { MY_EXERCISE_ROUTE } from "../../pages/constants";
 import { PreferencesForm } from "./PreferencesForm";
 
 export const AccountMenu: FunctionComponent = () => {
@@ -44,6 +46,14 @@ export const AccountMenu: FunctionComponent = () => {
             {authenticated && (
                 <>
                     <Menu open={isMenuOpen} onClose={handleCloseMenu} anchorEl={anchorEl}>
+                        <MenuItem component={Link} to={MY_EXERCISE_ROUTE} onClick={() => setIsMenuOpen(false)}>
+                            <ListItemIcon>
+                                <FitnessCenter fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText>
+                                My Exercises
+                            </ListItemText>
+                        </MenuItem>
                         <MenuItem onClick={handleOpenPreferencesDrawer}>
                             <ListItemIcon>
                                 <Settings fontSize="small" />
