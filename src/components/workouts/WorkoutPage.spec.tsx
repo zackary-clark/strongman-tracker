@@ -259,7 +259,7 @@ describe("Workout Page", () => {
                 await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for save to go through to make sure it did not fail
             });
 
-            expect(screen.queryByText("Save Failed!")).not.toBeInTheDocument();
+            expect(screen.queryByText("Network Error!")).not.toBeInTheDocument();
         });
 
         it("should delete lift on trash button click", async () => {

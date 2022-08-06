@@ -2,11 +2,13 @@ import { AddCircle } from "@mui/icons-material";
 import { Box, capitalize, List, ListItemButton, ListItemIcon, ListItemText, Paper } from "@mui/material";
 import * as React from "react";
 import { FunctionComponent } from "react";
+import { useNavigate } from "react-router-dom";
 import { Exercise } from "../../../generated/schema";
 import { useMyExercisesQuery } from "../../operations/exerciseOperations";
 import { LoadingScreen } from "../common/LoadingScreen";
 
 export const MyExercisesComponent: FunctionComponent = () => {
+    const navigate = useNavigate();
     const { loading, data } = useMyExercisesQuery();
 
     if (loading || !data) return <LoadingScreen />;
@@ -26,8 +28,10 @@ export const MyExercisesComponent: FunctionComponent = () => {
                             />
                         </ListItemButton>
                     ))}
-                    <ListItemButton>
-                        <ListItemIcon><AddCircle color="secondary" fontSize="large" /></ListItemIcon>
+                    <ListItemButton onClick={() => navigate("./new")}>
+                        <ListItemIcon>
+                            <AddCircle color="secondary" fontSize="large" />
+                        </ListItemIcon>
                         <ListItemText
                             primary="Add Custom Exercise"
                             primaryTypographyProps={{ noWrap: true }}

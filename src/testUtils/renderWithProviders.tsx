@@ -58,22 +58,7 @@ export const renderWithAllProviders = (
     path?: string,
     keycloakMock: Keycloak = createKeycloakMock()
 ): RenderResult => {
-    const ApolloWrapper = createApolloProviderWrapper(mocks);
-    const RoutingWrapper = createRoutingWrapper(path);
-    const KeycloakWrapper = createKeycloakWrapper(keycloakMock);
-    const Wrapper: FunctionComponent<PropsWithChildren> = ({children}) => (
-        <ThemeWrapper>
-            <RoutingWrapper>
-                <KeycloakWrapper>
-                    <SnackbarWrapper>
-                        <ApolloWrapper>
-                            {children}
-                        </ApolloWrapper>
-                    </SnackbarWrapper>
-                </KeycloakWrapper>
-            </RoutingWrapper>
-        </ThemeWrapper>
-    );
+    const Wrapper = createAllProviderWrapper(mocks, path, keycloakMock);
     return render(component, {wrapper: Wrapper});
 };
 

@@ -6,3 +6,15 @@ query MyExercises {
         focusGroups
     }
 }
+
+mutation AddMyExercise($input: AddExerciseInput!) {
+    addExercise(input: $input) {
+        success
+        exercise {
+            id
+            name
+            description
+            focusGroups
+        }
+    }
+}

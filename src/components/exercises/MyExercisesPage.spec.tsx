@@ -1,12 +1,21 @@
-import React from "react";
 import { MockedResponse } from "@apollo/client/testing";
-import { screen } from "@testing-library/react";
-import { MuscleGroup, MyExercisesDocument, MyExercisesQuery } from "../../../generated/schema";
-import { renderWithApollo } from "../../testUtils/renderWithProviders";
+import { getByRole, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import React from "react";
+import {
+    AddMyExerciseDocument,
+    AddMyExerciseMutation,
+    MuscleGroup,
+    MyExercisesDocument,
+    MyExercisesQuery
+} from "../../../generated/schema";
+import { MY_EXERCISE_ROUTE } from "../../pages/constants";
+import { MyExercisePage } from "../../pages/MyExercisePage";
+import { renderPage, renderWithApollo } from "../../testUtils/renderWithProviders";
 import { MyExercisesComponent } from "./MyExercisesComponent";
 
 describe("MyExercisesPage", () => {
-    const customExercisesQueryMock: MockedResponse<MyExercisesQuery> = {
+    const myExercisesQueryMock: MockedResponse<MyExercisesQuery> = {
         request: {
             query: MyExercisesDocument
         },
@@ -28,12 +37,60 @@ describe("MyExercisesPage", () => {
             }
         }
     };
+
     it("should list custom exercises", async () => {
-        renderWithApollo(<MyExercisesComponent />, [customExercisesQueryMock]);
+        renderWithApollo(<MyExercisesComponent />, [myExercisesQueryMock]);
 
         expect(await screen.findByText("super cool custom exercise")).toBeInTheDocument();
         expect(screen.getByText("Biceps"));
 
         expect(screen.getByText("Another Cool Exercise"));
+    });
+
+    it("should allow adding new custom exercises", async () => {
+        const addMyExerciseMutationMock: MockedResponse<AddMyExerciseMutation> = {
+            request: {
+                query: AddMyExerciseDocument,
+                variables: {
+                    input: {
+                        name: "New and Different Press",
+                        description: "super cool description",
+                        focusGroups: [MuscleGroup.Shoulders]
+                    }
+                }
+            },
+            result: {
+                data: {
+                    addExercise: {
+                        success: true,
+                        exercise: {
+                            id: "2fb4c0ed-b0e1-4d19-8c24-f79cf5f1d56d",
+                            name: "New and Different Press",
+                            description: "super cool description",
+                            focusGroups: [MuscleGroup.Shoulders]
+                        }
+                    }
+                }
+            }
+        };
+
+
+        renderPage(MyExercisePage, MY_EXERCISE_ROUTE, [myExercisesQueryMock, addMyExerciseMutationMock, myExercisesQueryMock, myExercisesQueryMock]);
+
+        expect(await screen.findByText("super cool custom exercise")).toBeInTheDocument();
+        screen.getByText("Add Custom Exercise").click();
+
+        expect(await screen.findByText("New Exercise")).toBeInTheDocument();
+        expect(screen.getByLabelText("add-exercise")).toBeDisabled();
+        await userEvent.type(screen.getByLabelText("Name *"), "New and Different Press");
+        await userEvent.type(screen.getByLabelText("Description"), "super cool description");
+        // eslint-disable-next-line testing-library/prefer-screen-queries
+        await userEvent.click(getByRole(screen.getByTestId("focus-group-select"), "button"));
+        (await screen.findByText("Shoulders")).click();
+        (await screen.findByRole("presentation")).click();
+
+        screen.getByLabelText("add-exercise").click();
+
+        expect(await screen.findByText("super cool custom exercise")).toBeInTheDocument();
     });
 });
