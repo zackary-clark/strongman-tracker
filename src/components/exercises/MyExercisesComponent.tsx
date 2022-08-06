@@ -18,7 +18,7 @@ export const MyExercisesComponent: FunctionComponent = () => {
             <Paper elevation={4} sx={{ width: "100%", maxWidth: 400 }}>
                 <List aria-label="my-exercises" disablePadding>
                     {data.exercises.map((exercise: Exercise) => (
-                        <ListItemButton key={exercise.id}>
+                        <ListItemButton key={exercise.id} onClick={() => navigate("./" + exercise.id)}>
                             <ListItemText
                                 inset
                                 primary={exercise.name}

@@ -14,6 +14,7 @@ import {
     useOneWorkoutQuery
 } from "../../operations/workoutOperations";
 import { WORKOUT_ID_PARAM, WORKOUT_ROUTE } from "../../pages/constants";
+import { ErrorScreen } from "../common/ErrorScreen";
 import { LoadingScreen } from "../common/LoadingScreen";
 import { LiftForm, LiftView } from "./LiftForm";
 
@@ -23,7 +24,7 @@ export const WorkoutForm: FunctionComponent = () => {
     const params = useParams();
     const workoutId = params[WORKOUT_ID_PARAM];
 
-    if (workoutId === undefined) return <ErrorPage />;
+    if (workoutId === undefined) return <ErrorScreen />;
 
     const { loading, data } = useOneWorkoutQuery({ variables: { input: { id: workoutId } } });
 
@@ -37,7 +38,7 @@ export const WorkoutForm: FunctionComponent = () => {
 
     if (loading) return <LoadingScreen />;
 
-    if (!workout) return <ErrorPage />;
+    if (!workout) return <ErrorScreen />;
 
     const onLiftSave = async (name: string, weight: number, sets: number, reps: number) => {
         await addLift({
@@ -110,7 +111,3 @@ export const WorkoutForm: FunctionComponent = () => {
         </Container>
     );
 };
-
-const ErrorPage: FunctionComponent = () => (
-    <Box>Error Loading Workout</Box>
-);

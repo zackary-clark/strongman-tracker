@@ -7,9 +7,51 @@ query MyExercises {
     }
 }
 
+query Exercise($input: SingleExerciseInput!) {
+    exercise(input: $input) {
+        id
+        name
+        description
+        focusGroups
+    }
+}
+
 mutation AddMyExercise($input: AddExerciseInput!) {
     addExercise(input: $input) {
         success
+        exercise {
+            id
+            name
+            description
+            focusGroups
+        }
+    }
+}
+
+mutation RenameExercise($input: RenameExerciseInput!) {
+    renameExercise(input: $input) {
+        exercise {
+            id
+            name
+            description
+            focusGroups
+        }
+    }
+}
+
+mutation ChangeExerciseDescription($input: ChangeExerciseDescriptionInput!) {
+    changeExerciseDescription(input: $input) {
+        exercise {
+            id
+            name
+            description
+            focusGroups
+        }
+    }
+}
+
+mutation ChangeExerciseFocusGroups($input: ChangeExerciseFocusGroupInput!) {
+    changeExerciseFocusGroup(input: $input) {
         exercise {
             id
             name
