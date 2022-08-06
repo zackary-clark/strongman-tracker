@@ -11,7 +11,7 @@ import {
 } from "../../../generated/schema";
 import { MY_EXERCISE_ROUTE } from "../../pages/constants";
 import { MyExercisePage } from "../../pages/MyExercisePage";
-import { renderPage, renderWithApollo } from "../../testUtils/renderWithProviders";
+import { renderPage, renderWithRouterAndApollo } from "../../testUtils/renderWithProviders";
 import { MyExercisesComponent } from "./MyExercisesComponent";
 
 describe("MyExercisesPage", () => {
@@ -39,7 +39,7 @@ describe("MyExercisesPage", () => {
     };
 
     it("should list custom exercises", async () => {
-        renderWithApollo(<MyExercisesComponent />, [myExercisesQueryMock]);
+        renderWithRouterAndApollo(<MyExercisesComponent />, [myExercisesQueryMock]);
 
         expect(await screen.findByText("super cool custom exercise")).toBeInTheDocument();
         expect(screen.getByText("Biceps"));
