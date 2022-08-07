@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
 import React, { FunctionComponent } from "react";
 import { useAuthenticated } from "../../context/keycloakContext";
-import { MAX_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
 import { Logo } from "./Logo";
 import { MenuButton } from "./MenuButton";
+import { navbarLinks } from "./navbarLinks";
 
 export const DesktopMenu: FunctionComponent = () => {
     const authenticated = useAuthenticated();
@@ -15,8 +15,9 @@ export const DesktopMenu: FunctionComponent = () => {
                 </Box>
                 {authenticated &&
                     <>
-                        <MenuButton routeTo={WORKOUT_ROUTE} ariaLabel={"workouts"}>Workouts</MenuButton>
-                        <MenuButton routeTo={MAX_ROUTE} ariaLabel={"maxes"}>Maxes</MenuButton>
+                        {navbarLinks.map(link => (
+                            <MenuButton key={link.label + "_link"} routeTo={link.route} ariaLabel={link.label}>{link.label}</MenuButton>
+                        ))}
                     </>
                 }
             </Box>

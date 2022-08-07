@@ -4,8 +4,8 @@ import React, { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticated } from "../../context/keycloakContext";
 import { useLoginWarning } from "../../context/snackbarContext";
-import { MAX_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
 import { Logo } from "./Logo";
+import { navbarLinks } from "./navbarLinks";
 
 export const MobileMenu: FunctionComponent = () => {
     const authenticated = useAuthenticated();
@@ -45,22 +45,17 @@ export const MobileMenu: FunctionComponent = () => {
                     onClose={handleClose}
                     anchorEl={anchorEl}
                 >
-                    <MenuItem
-                        onClick={() => {
-                            navigate(WORKOUT_ROUTE);
-                            setIsMenuOpen(false);
-                        }}
-                    >
-                        Workouts
-                    </MenuItem>
-                    <MenuItem
-                        onClick={() => {
-                            navigate(MAX_ROUTE);
-                            setIsMenuOpen(false);
-                        }}
-                    >
-                        Maxes
-                    </MenuItem>
+                    {navbarLinks.map(link => (
+                        <MenuItem
+                            key={link.label + "_link"}
+                            onClick={() => {
+                                navigate(link.route);
+                                setIsMenuOpen(false);
+                            }}
+                        >
+                            {link.label}
+                        </MenuItem>
+                    ))}
                 </Menu>
             </Box>
             <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
