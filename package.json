@@ -1,7 +1,7 @@
 {
     "name": "strongman-tracker",
     "version": "0.1.26",
-    "license": "MIT",
+    "license": "GPL-3.0-only",
     "scripts": {
         "analyze": "webpack --json > stats.json",
         "prebuild": "npm install && npm run generate",
