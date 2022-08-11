@@ -1,5 +1,6 @@
 import { MockedResponse } from "@apollo/client/testing";
 import { screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import React from "react";
 import {
     ChangeLengthUnitPreferenceDocument,
@@ -58,7 +59,7 @@ describe("Preferences Form", () => {
         expect(screen.getByLabelText("Kilos")).toBeChecked();
         expect(screen.getByLabelText("Pounds")).not.toBeChecked();
 
-        screen.getByText("Pounds").click();
+        await userEvent.click(screen.getByText("Pounds"));
 
         await waitFor(() => expect(screen.getByLabelText("Pounds")).toBeChecked());
         expect(screen.getByLabelText("Kilos")).not.toBeChecked();
@@ -93,7 +94,7 @@ describe("Preferences Form", () => {
         expect(screen.getByLabelText("Centimeters")).toBeChecked();
         expect(screen.getByLabelText("Inches")).not.toBeChecked();
 
-        screen.getByText("Inches").click();
+        await userEvent.click(screen.getByText("Inches"));
 
         await waitFor(() => expect(screen.getByLabelText("Inches")).toBeChecked());
         expect(screen.getByLabelText("Centimeters")).not.toBeChecked();

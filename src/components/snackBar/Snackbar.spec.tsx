@@ -1,3 +1,4 @@
+import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { useContext } from "react";
 import { Box, Button } from "@mui/material";
@@ -30,28 +31,28 @@ describe("Snackbar", () => {
 
     it("should Open Snackbar on 'Open Snackbar' click with default message", async () => {
         render(<SUT />);
-        screen.getByTitle("Open Snackbar").click();
+        await userEvent.click(screen.getByTitle("Open Snackbar"));
         await waitFor(() => expect(screen.getByText(defaultSnackbarMessage)));
     });
 
     it("should Close Snackbar automatically after 50ms", async () => {
         render(<SUT autoHideDuration={50}/>);
-        screen.getByTitle("Open Snackbar").click();
+        await userEvent.click(screen.getByTitle("Open Snackbar"));
         await waitFor(() => expect(screen.getByText(defaultSnackbarMessage)));
         await waitForElementToBeRemoved(() => screen.queryByText(defaultSnackbarMessage));
     });
 
     it("should Close Snackbar when 'X' is clicked", async () => {
         render(<SUT />);
-        screen.getByTitle("Open Snackbar").click();
+        await userEvent.click(screen.getByTitle("Open Snackbar"));
         await waitFor(() => expect(screen.getByText(defaultSnackbarMessage)));
-        screen.getByTitle("Close").click();
+        await userEvent.click(screen.getByTitle("Close"));
         await waitForElementToBeRemoved(() => screen.queryByText(defaultSnackbarMessage));
     });
 
     it("should display custom error messages", async () => {
         render(<SUT customMessage={"Custom Message"} />);
-        screen.getByTitle("Open Snackbar").click();
+        await userEvent.click(screen.getByTitle("Open Snackbar"));
         await waitFor(() => expect(screen.getByText("Custom Message")));
     });
 });

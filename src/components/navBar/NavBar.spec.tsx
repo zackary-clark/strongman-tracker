@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@mui/material";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { createMemoryHistory, MemoryHistory } from "history";
 import Keycloak from "keycloak-js";
 import React from "react";
@@ -39,64 +40,20 @@ describe("NavBar", () => {
             expect(screen.queryByText("Maxes")).not.toBeInTheDocument();
         });
 
-        it("should route to /workouts when Workouts button is clicked", () => {
+        it("should route to /workouts when Workouts button is clicked", async () => {
             const history = createMemoryHistory();
             const mockKeycloak = createKeycloakMock();
             renderWithHistory(history, mockKeycloak);
-            screen.getByText("Workouts").click();
+            await userEvent.click(screen.getByText("Workouts"));
             expect(history.location.pathname).toBe(WORKOUT_ROUTE);
         });
 
-        it("should route to /maxes when Maxes button is clicked", () => {
+        it("should route to /maxes when Maxes button is clicked", async () => {
             const history = createMemoryHistory();
             const mockKeycloak = createKeycloakMock();
             renderWithHistory(history, mockKeycloak);
-            screen.getByText("Maxes").click();
+            await userEvent.click(screen.getByText("Maxes"));
             expect(history.location.pathname).toBe(MAX_ROUTE);
-        });
-
-        it("should show login button before logging in, and call login on click", () => {
-            const mockKeycloak = createUnauthenticatedKeycloakMock();
-
-            renderWithAllProviders(<NavBar />, [], undefined, mockKeycloak);
-
-            screen.getByText("Log In").click();
-
-            expect(mockKeycloak.login).toHaveBeenCalled();
-        });
-
-        it("should logout on clicking logout in account menu", async () => {
-            const mockKeycloak = createKeycloakMock();
-
-            renderWithAllProviders(<NavBar />, [], undefined, mockKeycloak);
-
-            screen.getByLabelText("account icon").click();
-            (await screen.findByText("Log Out")).click();
-
-            expect(mockKeycloak.logout).toHaveBeenCalled();
-        });
-
-        it("should open Preferences drawer on settings click", async () => {
-            const mockKeycloak = createKeycloakMock();
-
-            renderWithAllProviders(<NavBar />, [userPreferencesKgMock], undefined, mockKeycloak);
-
-            screen.getByLabelText("account icon").click();
-            (await screen.findByText("Preferences")).click();
-
-            expect(await screen.findByTestId("preferences drawer")).toBeInTheDocument();
-        });
-
-        it("should route to My Exercises on account menu item click", async () => {
-            const history = createMemoryHistory();
-            const mockKeycloak = createKeycloakMock();
-
-            renderWithHistory(history, mockKeycloak);
-
-            screen.getByLabelText("account icon").click();
-            (await screen.findByText("My Exercises")).click();
-
-            expect(history.location.pathname).toBe(MY_EXERCISE_ROUTE);
         });
     });
 
@@ -109,8 +66,8 @@ describe("NavBar", () => {
             const history = createMemoryHistory();
             const mockKeycloak = createKeycloakMock();
             renderWithHistory(history, mockKeycloak);
-            screen.getByLabelText("navigation menu").click();
-            (await screen.findByText("Maxes")).click();
+            await userEvent.click(screen.getByLabelText("navigation menu"));
+            await userEvent.click(await screen.findByText("Maxes"));
             expect(history.location.pathname).toBe(MAX_ROUTE);
         });
 
@@ -121,11 +78,61 @@ describe("NavBar", () => {
 
             expect(screen.getByText("Log In")).toBeInTheDocument();
 
-            screen.getByLabelText("navigation menu").click();
+            await userEvent.click(screen.getByLabelText("navigation menu"));
 
             expect(await screen.findByText("Log In to see more!")).toBeInTheDocument();
             expect(screen.queryByText("Workouts")).not.toBeInTheDocument();
             expect(screen.queryByText("Maxes")).not.toBeInTheDocument();
+        });
+    });
+
+    describe("Account Menu", () => {
+        beforeAll(() => {
+            window.matchMedia = createMatchMedia("700px");
+        });
+
+        it("should show login button before logging in, and call login on click", async () => {
+            const mockKeycloak = createUnauthenticatedKeycloakMock();
+
+            renderWithAllProviders(<NavBar />, [], undefined, mockKeycloak);
+
+            await userEvent.click(screen.getByText("Log In"));
+
+            expect(mockKeycloak.login).toHaveBeenCalled();
+        });
+
+        it("should logout on clicking logout in account menu", async () => {
+            const mockKeycloak = createKeycloakMock();
+
+            renderWithAllProviders(<NavBar />, [], undefined, mockKeycloak);
+
+            await userEvent.click(screen.getByLabelText("account icon"));
+            await userEvent.click(await screen.findByText("Log Out"));
+
+            expect(mockKeycloak.logout).toHaveBeenCalled();
+        });
+
+        it("should open Preferences drawer on settings click", async () => {
+            const mockKeycloak = createKeycloakMock();
+
+            renderWithAllProviders(<NavBar />, [userPreferencesKgMock], undefined, mockKeycloak);
+
+            await userEvent.click(screen.getByLabelText("account icon"));
+            await userEvent.click(await screen.findByText("Preferences"));
+
+            expect(await screen.findByTestId("preferences drawer")).toBeInTheDocument();
+        });
+
+        it("should route to My Exercises on account menu item click", async () => {
+            const history = createMemoryHistory();
+            const mockKeycloak = createKeycloakMock();
+
+            renderWithHistory(history, mockKeycloak);
+
+            await userEvent.click(screen.getByLabelText("account icon"));
+            await userEvent.click(await screen.findByText("My Exercises"));
+
+            expect(history.location.pathname).toBe(MY_EXERCISE_ROUTE);
         });
     });
 });

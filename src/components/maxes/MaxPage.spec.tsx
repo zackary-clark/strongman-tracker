@@ -65,7 +65,7 @@ describe("Max Page", () => {
             expect(await screen.findByText("563")).toBeInTheDocument();
             expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
 
-            screen.getByTestId("add-max").click();
+            await userEvent.click(screen.getByTestId("add-max"));
 
             expect(await screen.findByText("Add New Max")).toBeInTheDocument();
 
@@ -79,13 +79,13 @@ describe("Max Page", () => {
             expect(await screen.findByText("563")).toBeInTheDocument();
             expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
 
-            screen.getByTestId("add-max").click();
+            await userEvent.click(screen.getByTestId("add-max"));
 
             expect(await screen.findByText("Add New Max")).toBeInTheDocument();
 
-            screen.getByText("Cancel").click();
+            await userEvent.click(screen.getByText("Cancel"));
 
-            await waitForElementToBeRemoved(() => screen.queryByText("Add New Max"));
+            expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
         });
 
         it("should add new max to table", async () => {
@@ -117,7 +117,7 @@ describe("Max Page", () => {
             renderWithApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationMock, userPreferencesLbMock]);
             expect(await screen.findByText("1241")).toBeInTheDocument();
 
-            screen.getByTestId("add-max").click();
+            await userEvent.click(screen.getByTestId("add-max"));
             expect(await screen.findByText("Add New Max")).toBeInTheDocument();
 
             await userEvent.clear(await screen.findByLabelText("Date"));
@@ -126,7 +126,7 @@ describe("Max Page", () => {
             // eslint-disable-next-line testing-library/prefer-screen-queries
             await userEvent.click(getByRole(screen.getByTestId("max-lift-type"), "button"));
             await userEvent.click(await screen.findByText("deadlift"));
-            screen.getByText("Save").click();
+            await userEvent.click(screen.getByText("Save"));
 
             expect(await screen.findByText("5 Jan 1993")).toBeInTheDocument();
         });
@@ -148,7 +148,7 @@ describe("Max Page", () => {
             renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationErrorMock, userPreferencesKgMock]);
             expect(await screen.findByText("563")).toBeInTheDocument();
 
-            screen.getByTestId("add-max").click();
+            await userEvent.click(screen.getByTestId("add-max"));
 
             await userEvent.clear(await screen.findByLabelText("Date"));
             await userEvent.type((await screen.findByLabelText("Date")), "01051993");
@@ -156,7 +156,7 @@ describe("Max Page", () => {
             // eslint-disable-next-line testing-library/prefer-screen-queries
             await userEvent.click(getByRole(screen.getByTestId("max-lift-type"), "button"));
             await userEvent.click(await screen.findByText("press"));
-            screen.getByText("Save").click();
+            await userEvent.click(screen.getByText("Save"));
 
             expect(await screen.findByText("Network Error!")).toBeInTheDocument();
             expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
@@ -181,14 +181,14 @@ describe("Max Page", () => {
             renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, addMaxMutationErrorMock, userPreferencesLbMock]);
             expect(await screen.findByText("1241")).toBeInTheDocument();
 
-            screen.getByTestId("add-max").click();
+            await userEvent.click(screen.getByTestId("add-max"));
 
             await userEvent.type((await screen.findByLabelText("Date")), "01051993");
             await userEvent.type(screen.getByLabelText("Weight (lbs)"), "315");
             // eslint-disable-next-line testing-library/prefer-screen-queries
             await userEvent.click(getByRole(screen.getByTestId("max-lift-type"), "button"));
             await userEvent.click(await screen.findByText("deadlift"));
-            screen.getByText("Save").click();
+            await userEvent.click(screen.getByText("Save"));
 
             expect(await screen.findByText("Network Error!")).toBeInTheDocument();
             expect(screen.queryByText("Add New Max")).not.toBeInTheDocument();
@@ -219,7 +219,7 @@ describe("Max Page", () => {
             renderWithApollo(<MaxComponent />, [allMaxesQueryMock, deleteMaxQueryMock]);
             expect(await screen.findByText("563")).toBeInTheDocument();
 
-            screen.getByLabelText("Delete").click();
+            await userEvent.click(screen.getByLabelText("Delete"));
 
             await waitForElementToBeRemoved(() => screen.queryByText("563"));
         });
@@ -241,7 +241,7 @@ describe("Max Page", () => {
             renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, deleteMaxQueryErrorMock]);
             expect(await screen.findByText("563")).toBeInTheDocument();
 
-            screen.getByLabelText("Delete").click();
+            await userEvent.click(screen.getByLabelText("Delete"));
 
             expect(await screen.findByText("Network Error!")).toBeInTheDocument();
             expect(screen.getByText("563")).toBeInTheDocument();

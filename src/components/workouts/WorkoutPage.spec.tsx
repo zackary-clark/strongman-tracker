@@ -131,7 +131,7 @@ describe("Workout Page", () => {
 
             expect(await screen.findByText("3 April 2022")).toBeInTheDocument();
 
-            screen.getByText("3 April 2022").click();
+            await userEvent.click(screen.getByText("3 April 2022"));
 
             expect(await screen.findByLabelText("save")).toBeInTheDocument();
 
@@ -240,7 +240,7 @@ describe("Workout Page", () => {
 
             await userEvent.clear(screen.getByLabelText("Date"));
             await userEvent.type(screen.getByLabelText("Date"), "06132022");
-            screen.getByTestId("add-workout").click();
+            await userEvent.click(screen.getByTestId("add-workout"));
 
             expect(await screen.findByLabelText("save")).toBeInTheDocument();
 
@@ -253,7 +253,7 @@ describe("Workout Page", () => {
             await userEvent.type(screen.getAllByLabelText("Weight (lbs)")[1], "315");
             await userEvent.type(screen.getAllByLabelText("Sets")[1], "3");
             await userEvent.type(screen.getAllByLabelText("Reps")[1], "3");
-            screen.getByLabelText("save").click();
+            await userEvent.click(screen.getByLabelText("save"));
 
             await act(async () => {
                 await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for save to go through to make sure it did not fail
@@ -286,7 +286,7 @@ describe("Workout Page", () => {
 
             expect(await screen.findByLabelText("save")).toBeInTheDocument();
 
-            screen.getByLabelText("delete lift 05ba2809-3996-40ed-a622-40bd30bbffd2").click();
+            await userEvent.click(screen.getByLabelText("delete lift 05ba2809-3996-40ed-a622-40bd30bbffd2"));
 
             expect(await screen.findByText("Lift Deleted!")).toBeInTheDocument();
         });
@@ -315,7 +315,7 @@ describe("Workout Page", () => {
 
             expect(await screen.findByLabelText("save")).toBeInTheDocument();
 
-            screen.getByLabelText("delete-workout").click();
+            await userEvent.click(screen.getByLabelText("delete-workout"));
 
             expect(await screen.findByText("Workout Deleted!")).toBeInTheDocument();
             expect(await screen.findByText("3 April 2022")).toBeInTheDocument();

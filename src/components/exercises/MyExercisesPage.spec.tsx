@@ -86,7 +86,7 @@ describe("MyExercisesPage", () => {
         renderPage(MyExercisePage, MY_EXERCISE_ROUTE, [myExercisesQueryMock, addMyExerciseMutationMock, myExercisesQueryMock, myExercisesQueryMock]);
 
         expect(await screen.findByText("super cool custom exercise")).toBeInTheDocument();
-        screen.getByText("Add Custom Exercise").click();
+        await userEvent.click(screen.getByText("Add Custom Exercise"));
 
         expect(await screen.findByText("New Exercise")).toBeInTheDocument();
         expect(screen.getByLabelText("add-exercise")).toBeDisabled();
@@ -94,10 +94,10 @@ describe("MyExercisesPage", () => {
         await userEvent.type(screen.getByLabelText("Description"), "super cool description");
         // eslint-disable-next-line testing-library/prefer-screen-queries
         await userEvent.click(getByRole(screen.getByTestId("focus-group-select"), "button"));
-        (await screen.findByText("Shoulders")).click();
-        (await screen.findByRole("presentation")).click();
+        await userEvent.click(await screen.findByText("Shoulders"));
+        await userEvent.click(await screen.findByRole("presentation"));
 
-        screen.getByLabelText("add-exercise").click();
+        await userEvent.click(screen.getByLabelText("add-exercise"));
 
         expect(await screen.findByText("super cool custom exercise")).toBeInTheDocument();
     });
@@ -119,7 +119,7 @@ describe("MyExercisesPage", () => {
             renderPage(MyExercisePage, MY_EXERCISE_ROUTE, [myExercisesQueryMock, exerciseQueryMock]);
 
             expect(await screen.findByText(superCoolCustomExercise.name)).toBeInTheDocument();
-            screen.getByRole("button", {name: "super cool custom exercise Biceps"}).click();
+            await userEvent.click(screen.getByRole("button", {name: "super cool custom exercise Biceps"}));
 
             expect(await screen.findByLabelText("Description")).toBeInTheDocument();
             expect(await screen.findByText(superCoolCustomExercise.name)).toBeInTheDocument();
@@ -248,9 +248,9 @@ describe("MyExercisesPage", () => {
 
             // eslint-disable-next-line testing-library/prefer-screen-queries
             await userEvent.click(getByRole(screen.getByTestId("focus-group-select"), "button"));
-            (await screen.findByText("Hamstrings")).click();
-            (await screen.findByText("Abs")).click();
-            (await screen.findByRole("presentation")).click();
+            await userEvent.click(await screen.findByText("Hamstrings"));
+            await userEvent.click(await screen.findByText("Abs"));
+            await userEvent.click(await screen.findByRole("presentation"));
 
             await act(async () => {
                 await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for save to go through to make sure it did not fail
