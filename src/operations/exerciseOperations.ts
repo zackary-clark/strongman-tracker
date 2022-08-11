@@ -33,7 +33,7 @@ export function useExerciseQuery(exerciseId: string) {
     });
 }
 
-export function useAddMyExerciseMutation(options: MutationHookOptions<AddMyExerciseMutation, Exact<{input: AddExerciseInput}>>) {
+export function useAddMyExerciseMutation(options?: MutationHookOptions<AddMyExerciseMutation, Exact<{input: AddExerciseInput}>>) {
     const openSnackbar = useSnackbar();
 
     return useAddMyExerciseMutation__generated({

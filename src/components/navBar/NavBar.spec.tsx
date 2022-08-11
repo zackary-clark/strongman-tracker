@@ -6,7 +6,7 @@ import Keycloak from "keycloak-js";
 import React from "react";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { KeycloakContext } from "../../context/keycloakContext";
-import { MAX_ROUTE, MY_EXERCISE_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
+import { MAX_ROUTE, MY_EXERCISE_ROUTE, PROGRAM_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
 import { userPreferencesKgMock } from "../../testUtils/commonApolloMocks";
 import { createKeycloakMock, createUnauthenticatedKeycloakMock } from "../../testUtils/keycloak";
 import { createMatchMedia, MatchMedia } from "../../testUtils/matchMedia";
@@ -54,6 +54,14 @@ describe("NavBar", () => {
             renderWithHistory(history, mockKeycloak);
             await userEvent.click(screen.getByText("Maxes"));
             expect(history.location.pathname).toBe(MAX_ROUTE);
+        });
+
+        it("should route to /programs when Programs button is clicked", async () => {
+            const history = createMemoryHistory();
+            const mockKeycloak = createKeycloakMock();
+            renderWithHistory(history, mockKeycloak);
+            await userEvent.click(screen.getByText("Programs"));
+            expect(history.location.pathname).toBe(PROGRAM_ROUTE);
         });
     });
 

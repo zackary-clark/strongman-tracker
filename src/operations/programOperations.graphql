@@ -1,0 +1,48 @@
+query Programs {
+    programs {
+        id
+        name
+        description
+    }
+}
+
+query Program($input: SingleProgramInput!) {
+    program(input: $input) {
+        id
+        name
+        description
+    }
+}
+
+mutation AddProgram($input: AddProgramInput!) {
+    addProgram(input: $input) {
+        success
+        program {
+            id
+            name
+            description
+        }
+    }
+}
+
+mutation RenameProgram($input: RenameProgramInput!) {
+    renameProgram(input: $input) {
+        success
+        program {
+            id
+            name
+            description
+        }
+    }
+}
+
+mutation ChangeProgramDescription($input: ChangeProgramDescriptionInput!) {
+    changeProgramDescription(input: $input) {
+        success
+        program {
+            id
+            name
+            description
+        }
+    }
+}

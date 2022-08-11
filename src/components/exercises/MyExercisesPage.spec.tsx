@@ -1,5 +1,5 @@
 import { MockedResponse } from "@apollo/client/testing";
-import { act, getByRole, screen } from "@testing-library/react";
+import { act, getByRole, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import {
@@ -124,11 +124,7 @@ describe("MyExercisesPage", () => {
             expect(await screen.findByLabelText("Description")).toBeInTheDocument();
             expect(await screen.findByText(superCoolCustomExercise.name)).toBeInTheDocument();
 
-            await act(async () => {
-                await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for useEffect to complete
-            });
-
-            expect(screen.getByLabelText("Name")).toHaveValue(superCoolCustomExercise.name);
+            await waitFor(() => expect(screen.getByLabelText("Name")).toHaveValue(superCoolCustomExercise.name));
             expect(screen.getByLabelText("Description")).toHaveValue(superCoolCustomExercise.description);
             expect(screen.getByText("Biceps")).toBeInTheDocument();
         });
@@ -160,11 +156,7 @@ describe("MyExercisesPage", () => {
 
             expect(await screen.findByText(superCoolCustomExercise.name)).toBeInTheDocument();
 
-            await act(async () => {
-                await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for useEffect to complete
-            });
-
-            expect(screen.getByLabelText("Name")).toHaveValue(superCoolCustomExercise.name);
+            await waitFor(() => expect(screen.getByLabelText("Name")).toHaveValue(superCoolCustomExercise.name));
 
             await userEvent.clear(screen.getByLabelText("Name"));
             await userEvent.click(screen.getByText(superCoolCustomExercise.name));

@@ -1,29 +1,27 @@
 import { AddCircle } from "@mui/icons-material";
-import { Box, capitalize, List, ListItemButton, ListItemIcon, ListItemText, Paper } from "@mui/material";
-import * as React from "react";
-import { FunctionComponent } from "react";
+import { Box, List, ListItemButton, ListItemIcon, ListItemText, Paper } from "@mui/material";
+import React, { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
-import { Exercise } from "../../../generated/schema";
-import { useMyExercisesQuery } from "../../operations/exerciseOperations";
+import { useProgramsQuery } from "../../operations/programOperations";
 import { LoadingScreen } from "../common/LoadingScreen";
 
-export const MyExercisesComponent: FunctionComponent = () => {
+export const ProgramsComponent: FunctionComponent = () => {
     const navigate = useNavigate();
-    const { loading, data } = useMyExercisesQuery();
+    const { loading, data } = useProgramsQuery();
 
     if (loading || !data) return <LoadingScreen />;
 
     return (
         <Box sx={{ display: "flex", justifyContent: "center", margin: 1 }}>
             <Paper elevation={4} sx={{ width: "100%", maxWidth: 400 }}>
-                <List aria-label="Exercises" disablePadding>
-                    {data.exercises.map((exercise: Exercise) => (
-                        <ListItemButton key={exercise.id} onClick={() => navigate(exercise.id)}>
+                <List aria-label="Programs" disablePadding>
+                    {data.programs.map((program) => (
+                        <ListItemButton key={program.id} onClick={() => navigate(program.id)}>
                             <ListItemText
                                 inset
-                                primary={exercise.name}
+                                primary={program.name}
                                 primaryTypographyProps={{ noWrap: true }}
-                                secondary={exercise.focusGroups.map(e => capitalize(e)).join(", ")}
+                                secondary="Workout 1, Workout 2"
                                 secondaryTypographyProps={{ noWrap: true }}
                             />
                         </ListItemButton>
@@ -33,7 +31,7 @@ export const MyExercisesComponent: FunctionComponent = () => {
                             <AddCircle color="secondary" fontSize="large" />
                         </ListItemIcon>
                         <ListItemText
-                            primary="Add Custom Exercise"
+                            primary="Add Program"
                             primaryTypographyProps={{ noWrap: true }}
                         />
                     </ListItemButton>

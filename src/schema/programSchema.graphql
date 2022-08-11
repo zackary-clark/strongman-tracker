@@ -1,0 +1,40 @@
+extend type Query {
+    programs: [Program!]!
+    program(input: SingleProgramInput!): Program
+}
+
+extend type Mutation {
+    addProgram(input: AddProgramInput!): ProgramMutationPayload
+    renameProgram(input: RenameProgramInput!): ProgramMutationPayload
+    changeProgramDescription(input: ChangeProgramDescriptionInput!): ProgramMutationPayload
+}
+
+type Program {
+    id: ID!
+    name: String!
+    description: String
+}
+
+input SingleProgramInput {
+    id: ID!
+}
+
+input AddProgramInput {
+    name: String!
+    description: String
+}
+
+input RenameProgramInput {
+    id: ID!
+    name: String!
+}
+
+input ChangeProgramDescriptionInput {
+    id: ID!
+    description: String!
+}
+
+type ProgramMutationPayload implements MutationPayload {
+    success: Boolean!
+    program: Program
+}
