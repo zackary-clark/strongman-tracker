@@ -15,7 +15,7 @@ export const ProgramsComponent: FunctionComponent = () => {
             options={data.programs.map((program) => ({
                 key: program.id,
                 primary: program.name,
-                secondary: "Workout 1, Workout 2",
+                secondary: program?.workouts?.map(p => p.name).join(", "),
                 onClick: () => navigate(program.id),
             }))}
             showNew

@@ -1,0 +1,82 @@
+extend type Query {
+    programmedWorkouts(input: ProgrammedWorkoutsInput!): [ProgrammedWorkout!]!
+    programmedWorkout(input: SingleProgrammedWorkout!): ProgrammedWorkout
+}
+
+extend type Mutation {
+    addProgrammedWorkout(input: AddProgrammedWorkoutInput!): ProgrammedWorkoutMutationPayload
+    renameProgrammedWorkout(input: RenameProgrammedWorkoutInput!): ProgrammedWorkoutMutationPayload
+    changeProgrammedWorkoutOrder(input: ChangeProgrammedWorkoutOrderInput!): ProgrammedWorkoutMutationPayload
+    changeProgrammedWorkoutDescription(input: ChangeProgrammedWorkoutDescriptionInput!): ProgrammedWorkoutMutationPayload
+    changeProgrammedWorkoutFocusGroups(input: ChangeProgrammedWorkoutFocusGroupsInput!): ProgrammedWorkoutMutationPayload
+    changeProgrammedWorkoutDay(input: ChangeProgrammedWorkoutDayInput!): ProgrammedWorkoutMutationPayload
+}
+
+type ProgrammedWorkout {
+    id: ID!
+    program: ID!
+    name: String!
+    order: Int
+    description: String
+    focusGroups: [MuscleGroup!]
+    day: DayOfWeek
+}
+
+input ProgrammedWorkoutsInput {
+    filter: ProgrammedWorkoutFilter!
+    sort: ProgrammedWorkoutSort!
+}
+
+input SingleProgrammedWorkout {
+    id: ID!
+}
+
+input ProgrammedWorkoutFilter {
+    program: ID
+    focusGroup: MuscleGroup
+    day: DayOfWeek
+}
+
+input ProgrammedWorkoutSort {
+    order: Sort
+    name: Sort
+    day: Sort
+}
+
+input AddProgrammedWorkoutInput {
+    program: ID!
+    name: String!
+    description: String
+    focusGroups: [MuscleGroup!]
+    day: DayOfWeek
+}
+
+input RenameProgrammedWorkoutInput {
+    id: ID!
+    name: String!
+}
+
+input ChangeProgrammedWorkoutOrderInput {
+    id: ID!
+    order: Int
+}
+
+input ChangeProgrammedWorkoutDescriptionInput {
+    id: ID!
+    description: String
+}
+
+input ChangeProgrammedWorkoutFocusGroupsInput {
+    id: ID!
+    focusGroups: [MuscleGroup!]
+}
+
+input ChangeProgrammedWorkoutDayInput {
+    id: ID!
+    day: DayOfWeek
+}
+
+type ProgrammedWorkoutMutationPayload implements MutationPayload {
+    success: Boolean!
+    programmedWorkout: ProgrammedWorkout
+}

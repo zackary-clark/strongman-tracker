@@ -3,6 +3,11 @@ query Programs {
         id
         name
         description
+        workouts {
+            id
+            program
+            name
+        }
     }
 }
 
@@ -11,6 +16,11 @@ query Program($input: SingleProgramInput!) {
         id
         name
         description
+        workouts {
+            id
+            program
+            name
+        }
     }
 }
 
@@ -21,6 +31,11 @@ mutation AddProgram($input: AddProgramInput!) {
             id
             name
             description
+            workouts {
+                id
+                program
+                name
+            }
         }
     }
 }
@@ -32,6 +47,11 @@ mutation RenameProgram($input: RenameProgramInput!) {
             id
             name
             description
+            workouts {
+                id
+                program
+                name
+            }
         }
     }
 }
@@ -43,6 +63,11 @@ mutation ChangeProgramDescription($input: ChangeProgramDescriptionInput!) {
             id
             name
             description
+            workouts {
+                id
+                program
+                name
+            }
         }
     }
 }

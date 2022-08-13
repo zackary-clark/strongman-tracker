@@ -6,7 +6,7 @@ import {
     AddProgramDocument,
     AddProgramMutation,
     ChangeProgramDescriptionDocument,
-    ChangeProgramDescriptionMutation,
+    ChangeProgramDescriptionMutation, Program,
     ProgramDocument,
     ProgramQuery,
     ProgramsDocument,
@@ -19,11 +19,29 @@ import { ProgramPage } from "../../pages/ProgramPage";
 import { renderPage } from "../../testUtils/renderWithProviders";
 
 describe("ProgramsPage", () => {
-    const superHardProgram = {
+    const superHardProgram: Program = {
         id: "9763dc8e-0aa5-4af3-b287-6f65072de666",
         name: "Super Hard Program",
-        description: "What a hard program."
+        description: "What a hard program.",
+        workouts: [
+            {
+                id: "cdeabc05-1158-4534-93a8-57e2e3a138a9",
+                program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
+                name: "Heavy Squats",
+            },
+            {
+                id: "63eccdce-baa4-4b64-bfc1-45d485991801",
+                program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
+                name: "Bench Day",
+            },
+            {
+                id: "1e116b64-182e-4b42-9f8a-73fff85fdd61",
+                program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
+                name: "Cardio Day",
+            },
+        ]
     };
+
     const programsQueryMock: MockedResponse<ProgramsQuery> = {
         request: {
             query: ProgramsDocument,
@@ -35,6 +53,7 @@ describe("ProgramsPage", () => {
                     {
                         id: "e26d55d7-0a92-40dc-a4c0-091446d84a1d",
                         name: "A Different Program than the other one",
+                        workouts: [],
                     }
                 ]
             }
@@ -45,6 +64,7 @@ describe("ProgramsPage", () => {
         renderPage(ProgramPage, PROGRAM_ROUTE, [programsQueryMock]);
 
         expect(await screen.findByText("Super Hard Program")).toBeInTheDocument();
+        expect(screen.getByText("Heavy Squats, Bench Day, Cardio Day"));
 
         expect(screen.getByText("A Different Program than the other one")).toBeInTheDocument();
     });
@@ -68,6 +88,7 @@ describe("ProgramsPage", () => {
                             id: "449989e7-a9a6-437e-bd8c-cec3d53a9cc4",
                             name: "Some New Program",
                             description: "with a description",
+                            workouts: [],
                         }
                     }
                 }
@@ -109,7 +130,7 @@ describe("ProgramsPage", () => {
             await userEvent.click(
                 screen.getByRole(
                     "button",
-                    {name: `${superHardProgram.name} Workout 1, Workout 2`}
+                    {name: "Super Hard Program Heavy Squats, Bench Day, Cardio Day"}
                 )
             );
 

@@ -60,19 +60,3 @@ type ExerciseMutationPayload implements MutationPayload {
     success: Boolean!
     exercise: Exercise
 }
-
-enum MuscleGroup {
-    abs
-    biceps
-    butt
-    calves
-    chest
-    forearms
-    hamstrings
-    lowerBack
-    quads
-    shoulders
-    traps
-    triceps
-    upperBack
-}

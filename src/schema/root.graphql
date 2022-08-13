@@ -1,0 +1,48 @@
+"""
+Date in yyyy-MM-dd format
+"""
+scalar Date
+
+interface MutationPayload {
+    success: Boolean!
+}
+
+interface DeletePayload {
+    success: Boolean!
+    id: ID!
+}
+
+type Query
+
+type Mutation
+
+enum Sort {
+    asc
+    desc
+}
+
+enum MuscleGroup {
+    abs
+    biceps
+    butt
+    calves
+    chest
+    forearms
+    hamstrings
+    lowerBack
+    quads
+    shoulders
+    traps
+    triceps
+    upperBack
+}
+
+enum DayOfWeek {
+    mon
+    tue
+    wed
+    thu
+    fri
+    sat
+    sun
+}

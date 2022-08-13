@@ -13,6 +13,7 @@ type Program {
     id: ID!
     name: String!
     description: String
+    workouts: [ProgrammedWorkout!]!
 }
 
 input SingleProgramInput {
