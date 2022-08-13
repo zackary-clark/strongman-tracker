@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = {
     mode: "production",
@@ -47,6 +48,9 @@ module.exports = {
             filename: "index.html",
             template: "./index.html.template",
             favicon: "./src/images/favicon.png",
+        }),
+        new webpack.DefinePlugin({
+            PACKAGE_VERSION: JSON.stringify(require("./package.json").version),
         }),
     ],
     devServer: {

@@ -3,6 +3,7 @@ import { Box, Button, Divider, Drawer, IconButton, ListItemIcon, ListItemText, M
 import React, { FunctionComponent, MouseEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthenticated, useKeycloak } from "../../context/keycloakContext";
+import { getVersion } from "../../env/getters";
 import { MY_EXERCISE_ROUTE } from "../../pages/constants";
 import { PreferencesForm } from "./PreferencesForm";
 
@@ -12,6 +13,8 @@ export const AccountMenu: FunctionComponent = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isPreferencesDrawerOpen, setIsPreferencesDrawerOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+    const version = getVersion();
 
     const handleOpenMenu = (event: MouseEvent<HTMLButtonElement>) => {
         setIsMenuOpen(!isMenuOpen);
@@ -62,7 +65,11 @@ export const AccountMenu: FunctionComponent = () => {
                                 Preferences
                             </ListItemText>
                         </MenuItem>
-                        <Divider />
+                        <Box sx={{ margin: 0, fontSize: "small", color: "text.disabled" }}>
+                            <Divider textAlign="right">
+                                {version ? `v${version}` : undefined}
+                            </Divider>
+                        </Box>
                         <MenuItem onClick={() => keycloak.logout({redirectUri: getLocationMinusHash()})}>
                             <ListItemIcon>
                                 <Logout fontSize="small" />
