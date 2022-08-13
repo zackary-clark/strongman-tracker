@@ -3,6 +3,8 @@
 
 export {};
 declare global {
+    let PACKAGE_VERSION: string | undefined;
+
     interface Window {
         REACT_APP_HOST_ADDRESS: string;
         KC_REALM: string;
