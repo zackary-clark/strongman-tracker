@@ -1,47 +1,60 @@
-import { Box, Paper, Stack, TextField, Typography } from "@mui/material";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { Program } from "../../../generated/schema";
+import { useChangeProgramDescriptionMutation, useRenameProgramMutation } from "../../operations/programOperations";
+import { ProgramFormBase } from "./ProgramFormBase";
 
-interface ProgramFormProps {
-    headingLabel?: string,
-    nameIsRequired: boolean,
-    nameStateTuple: [string, React.Dispatch<React.SetStateAction<string>>],
-    nameOnBlur?: () => void,
-    descriptionStateTuple: [string, React.Dispatch<React.SetStateAction<string>>],
-    descriptionOnBlur?: () => void,
+interface Props {
+    program: Program,
 }
 
-export const ProgramForm: FunctionComponent<ProgramFormProps> = ({
-    headingLabel,
-    nameIsRequired,
-    nameStateTuple,
-    nameOnBlur = () => {},
-    descriptionStateTuple,
-    descriptionOnBlur = () => {},
-}) => {
-    const [name, setName] = nameStateTuple;
-    const [description, setDescription] = descriptionStateTuple;
+export const ProgramForm: FunctionComponent<Props> = ({ program }) => {
+    const [renameProgram] = useRenameProgramMutation();
+    const [changeDescription] = useChangeProgramDescriptionMutation();
+
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+
+    useEffect(() => {
+        if (program) {
+            setName(program.name);
+            setDescription(program.description ?? "");
+        }
+    }, [program]);
+
+    const handleNameOnBlur = () => {
+        if (name.length > 0) {
+            renameProgram({
+                variables: {
+                    input: {
+                        id: program.id,
+                        name
+                    }
+                }
+            });
+        } else {
+            setName(program.name);
+        }
+    };
+
+    const handleDescriptionOnBlur = () => {
+        changeDescription({
+            variables: {
+                input: {
+                    id: program.id,
+                    description
+                }
+            }
+        });
+    };
 
     return (
-        <Paper elevation={4} sx={{ width: "100%", maxWidth: 400 }}>
-            {headingLabel ?
-                <Typography variant="h6" align="center" sx={{ m: 1 }}>{headingLabel}</Typography> :
-                <Box sx={{ paddingTop: 1 }} />
-            }
-            <Stack spacing={2} sx={{ marginX: 2, marginBottom: 2, marginTop: 1 }}>
-                <TextField
-                    label="Name"
-                    value={name}
-                    required={nameIsRequired}
-                    onChange={(event) => setName(event.target.value)}
-                    onBlur={nameOnBlur}
-                />
-                <TextField
-                    label="Description"
-                    value={description}
-                    onChange={(event) => setDescription(event.target.value)}
-                    onBlur={descriptionOnBlur}
-                />
-            </Stack>
-        </Paper>
+        <ProgramFormBase
+            headingLabel={program.name}
+            nameIsRequired={false}
+            nameStateTuple={[name, setName]}
+            nameOnBlur={handleNameOnBlur}
+            descriptionStateTuple={[description, setDescription]}
+            descriptionOnBlur={handleDescriptionOnBlur}
+        />
     );
 };

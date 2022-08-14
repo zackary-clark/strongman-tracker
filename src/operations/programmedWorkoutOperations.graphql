@@ -1,0 +1,20 @@
+query WorkoutsByProgram($program: ID!) {
+    programmedWorkouts(input: {
+        filter: {
+            program: $program
+        },
+        sort: {
+            order: asc,
+            day: asc,
+            name: asc
+        }
+    }) {
+        id
+        program
+        name
+        order
+        description
+        focusGroups
+        day
+    }
+}

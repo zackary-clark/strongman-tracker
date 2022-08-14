@@ -4,9 +4,9 @@ import React, { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddProgramMutation } from "../../operations/programOperations";
 import { PROGRAM_ROUTE } from "../../pages/constants";
-import { ProgramForm } from "./ProgramForm";
+import { ProgramFormBase } from "./ProgramFormBase";
 
-export const NewProgramForm: FunctionComponent = () => {
+export const NewProgram: FunctionComponent = () => {
     const navigate = useNavigate();
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -35,7 +35,7 @@ export const NewProgramForm: FunctionComponent = () => {
     return (
         <>
             <Box sx={{ display: "flex", justifyContent: "center", margin: 2 }}>
-                <ProgramForm
+                <ProgramFormBase
                     headingLabel="New Program"
                     nameIsRequired
                     nameStateTuple={[name, setName]}
