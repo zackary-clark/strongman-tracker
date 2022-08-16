@@ -40,6 +40,7 @@ export const ProgramFormBase: FunctionComponent<Props> = ({
                     value={description}
                     onChange={(event) => setDescription(event.target.value)}
                     onBlur={descriptionOnBlur}
+                    multiline
                 />
             </Stack>
         </Paper>
