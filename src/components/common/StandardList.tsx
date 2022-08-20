@@ -26,7 +26,7 @@ export const StandardList: FunctionComponent<Props> = ({
     newOnClick = () => {},
     newLabel = "Add New",
 }) => (
-    <Box sx={{ display: "flex", justifyContent: "center", margin: 1 }}>
+    <Box sx={{ display: "flex", justifyContent: "center", marginX: 1, marginY: 2 }}>
         <Paper elevation={4} sx={{ width: "100%", maxWidth: 400 }}>
             <List aria-label="Programs" disablePadding>
                 {options.map((option) => (
