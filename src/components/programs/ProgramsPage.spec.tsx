@@ -160,11 +160,8 @@ describe("ProgramsPage", () => {
                 )
             );
 
-            expect(await screen.findByLabelText("Description")).toBeInTheDocument();
-            expect(await screen.findByText(superHardProgram.name)).toBeInTheDocument();
-
-            await waitFor(() => expect(screen.getByLabelText("Name")).toHaveValue(superHardProgram.name));
-            expect(screen.getByLabelText("Description")).toHaveValue(superHardProgram.description);
+            expect(await screen.findByText("What a hard program.")).toBeInTheDocument();
+            expect(await screen.findByText("Super Hard Program")).toBeInTheDocument();
         });
 
         it("should display workout list", async () => {
@@ -210,6 +207,8 @@ describe("ProgramsPage", () => {
             );
 
             expect(await screen.findByText(superHardProgram.name)).toBeInTheDocument();
+
+            await userEvent.click(screen.getByLabelText("edit program details"));
 
             await waitFor(() => expect(screen.getByLabelText("Name")).toHaveValue(superHardProgram.name));
 
@@ -259,7 +258,9 @@ describe("ProgramsPage", () => {
                 [programQueryMock, changeProgramDescriptionMock, workoutsByProgramQueryMock]
             );
 
-            expect(await screen.findByText(superHardProgram.name)).toBeInTheDocument();
+            await userEvent.click(await screen.findByLabelText("edit program details"));
+
+            await waitFor(() => expect(screen.getByLabelText("Name")).toHaveValue(superHardProgram.name));
 
             await userEvent.clear(screen.getByLabelText("Description"));
             await userEvent.type(screen.getByLabelText("Description"), "new description{tab}");
