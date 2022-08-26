@@ -28,7 +28,7 @@ export const StandardList: FunctionComponent<Props> = ({
 }) => (
     <Box sx={{ display: "flex", justifyContent: "center", marginX: 1, marginY: 2 }}>
         <Paper elevation={4} sx={{ width: "100%", maxWidth: 400 }}>
-            <List aria-label="Programs" disablePadding>
+            <List disablePadding>
                 {options.map((option) => (
                     <ListItemButton key={option.key} onClick={option.onClick}>
                         <ListItemText

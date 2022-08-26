@@ -1,7 +1,6 @@
 import { Box, Stack } from "@mui/material";
 import React, { FunctionComponent, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useWorkoutsByProgram } from "../../operations/programmedWorkoutOperations";
 import { useProgramQuery } from "../../operations/programOperations";
 import { PROGRAM_ID_PARAM } from "../../pages/constants";
 import { ErrorScreen } from "../common/ErrorScreen";
@@ -18,11 +17,10 @@ export const SingleProgramComponent: FunctionComponent = () => {
 
     const [editing, setEditing] = useState(false);
     const { data: programData, loading: programLoading } = useProgramQuery(id);
-    const { data: workoutData, loading: workoutLoading } = useWorkoutsByProgram(id);
     const program = programData?.program;
-    const workouts = workoutData?.programmedWorkouts;
+    const workouts = program?.workouts;
 
-    if (programLoading || workoutLoading) return <LoadingScreen />;
+    if (programLoading) return <LoadingScreen />;
     if (!program) return <ErrorScreen />;
 
     return (

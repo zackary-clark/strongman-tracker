@@ -7,53 +7,41 @@ import {
     AddProgramMutation,
     ChangeProgramDescriptionDocument,
     ChangeProgramDescriptionMutation,
-    DayOfWeek,
-    MuscleGroup,
     Program,
     ProgramDocument,
-    ProgrammedWorkout,
     ProgramQuery,
     ProgramsDocument,
     ProgramsQuery,
     RenameProgramDocument,
     RenameProgramMutation,
-    WorkoutsByProgramDocument,
-    WorkoutsByProgramQuery
 } from "../../../generated/schema";
 import { PROGRAM_ROUTE } from "../../pages/constants";
 import { ProgramPage } from "../../pages/ProgramPage";
 import { renderPage } from "../../testUtils/renderWithProviders";
 
 describe("ProgramsPage", () => {
-    const superHardProgramWorkouts: ProgrammedWorkout[] = [
-        {
-            id: "cdeabc05-1158-4534-93a8-57e2e3a138a9",
-            program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
-            name: "Heavy Squats",
-            order: 1,
-            description: "Do not skip leg day.",
-            focusGroups: [MuscleGroup.Quads],
-        },
-        {
-            id: "63eccdce-baa4-4b64-bfc1-45d485991801",
-            program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
-            name: "Bench Day",
-            day: DayOfWeek.Mon,
-            focusGroups: [MuscleGroup.Chest],
-        },
-        {
-            id: "1e116b64-182e-4b42-9f8a-73fff85fdd61",
-            program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
-            name: "Cardio Day",
-            day: DayOfWeek.Thu,
-        },
-    ];
-
     const superHardProgram: Program = {
         id: "9763dc8e-0aa5-4af3-b287-6f65072de666",
         name: "Super Hard Program",
         description: "What a hard program.",
-        workouts: superHardProgramWorkouts,
+        workouts: [
+            {
+                id: "cdeabc05-1158-4534-93a8-57e2e3a138a9",
+                program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
+                name: "Heavy Squats",
+                order: 1,
+            },
+            {
+                id: "63eccdce-baa4-4b64-bfc1-45d485991801",
+                program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
+                name: "Bench Day",
+            },
+            {
+                id: "1e116b64-182e-4b42-9f8a-73fff85fdd61",
+                program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
+                name: "Cardio Day",
+            },
+        ],
     };
 
     const programsQueryMock: MockedResponse<ProgramsQuery> = {
@@ -137,20 +125,8 @@ describe("ProgramsPage", () => {
             }
         };
 
-        const workoutsByProgramQueryMock: MockedResponse<WorkoutsByProgramQuery> = {
-            request: {
-                query: WorkoutsByProgramDocument,
-                variables: { program: superHardProgram.id },
-            },
-            result: {
-                data: {
-                    programmedWorkouts: superHardProgramWorkouts
-                }
-            }
-        };
-
         it("should display program details on click", async () => {
-            renderPage(ProgramPage, PROGRAM_ROUTE, [programsQueryMock, programQueryMock, workoutsByProgramQueryMock]);
+            renderPage(ProgramPage, PROGRAM_ROUTE, [programsQueryMock, programQueryMock]);
 
             expect(await screen.findByText(superHardProgram.name)).toBeInTheDocument();
             await userEvent.click(
@@ -168,7 +144,7 @@ describe("ProgramsPage", () => {
             renderPage(
                 ProgramPage,
                 PROGRAM_ROUTE + "/" + superHardProgram.id,
-                [programQueryMock, workoutsByProgramQueryMock]
+                [programQueryMock]
             );
 
             expect(await screen.findByText("Heavy Squats")).toBeInTheDocument();
@@ -203,7 +179,7 @@ describe("ProgramsPage", () => {
             renderPage(
                 ProgramPage,
                 `${PROGRAM_ROUTE}/${superHardProgram.id}`,
-                [programQueryMock, renameProgramMock, workoutsByProgramQueryMock]
+                [programQueryMock, renameProgramMock]
             );
 
             expect(await screen.findByText(superHardProgram.name)).toBeInTheDocument();
@@ -255,7 +231,7 @@ describe("ProgramsPage", () => {
             renderPage(
                 ProgramPage,
                 `${PROGRAM_ROUTE}/${superHardProgram.id}`,
-                [programQueryMock, changeProgramDescriptionMock, workoutsByProgramQueryMock]
+                [programQueryMock, changeProgramDescriptionMock]
             );
 
             await userEvent.click(await screen.findByLabelText("edit program details"));

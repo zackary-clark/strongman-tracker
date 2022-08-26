@@ -7,6 +7,7 @@ query Programs {
             id
             program
             name
+            order
         }
     }
 }
@@ -20,6 +21,7 @@ query Program($input: SingleProgramInput!) {
             id
             program
             name
+            order
         }
     }
 }
@@ -35,6 +37,7 @@ mutation AddProgram($input: AddProgramInput!) {
                 id
                 program
                 name
+                order
             }
         }
     }
@@ -51,6 +54,7 @@ mutation RenameProgram($input: RenameProgramInput!) {
                 id
                 program
                 name
+                order
             }
         }
     }
@@ -67,6 +71,7 @@ mutation ChangeProgramDescription($input: ChangeProgramDescriptionInput!) {
                 id
                 program
                 name
+                order
             }
         }
     }
