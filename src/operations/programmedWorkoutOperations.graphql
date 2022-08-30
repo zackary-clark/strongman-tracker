@@ -1,20 +1,14 @@
-query WorkoutsByProgram($program: ID!) {
-    programmedWorkouts(input: {
-        filter: {
-            program: $program
-        },
-        sort: {
-            order: asc,
-            day: asc,
-            name: asc
+mutation ChangeProgrammedWorkoutOrder($id: ID!, $order: Int!) {
+    changeProgrammedWorkoutOrder(input: {id: $id, order: $order}) {
+        success
+        programmedWorkout {
+            id
+            program
+            name
+            order
+            description
+            focusGroups
+            day
         }
-    }) {
-        id
-        program
-        name
-        order
-        description
-        focusGroups
-        day
     }
 }

@@ -103,7 +103,7 @@ const createRoutingWrapper = (path?: string): FunctionComponent<PropsWithChildre
 
 const SnackbarWrapper: FunctionComponent<PropsWithChildren> = ({children}) => (
     <SnackbarContextProvider>
-        <Snackbar />
+        <Snackbar autoHideDuration={1} />
         {children}
     </SnackbarContextProvider>
 );

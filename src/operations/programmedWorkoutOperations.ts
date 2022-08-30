@@ -1,12 +1,11 @@
-import { useWorkoutsByProgramQuery__generated } from "../../generated/schema";
+import { useChangeProgrammedWorkoutOrderMutation__generated } from "../../generated/schema";
 import { useSnackbar } from "../context/snackbarContext";
-import { onQueryError } from "./defaultOnErrors";
+import { onMutationError } from "./defaultOnErrors";
 
-export function useWorkoutsByProgram(programId: string) {
+export function useChangeProgrammedWorkoutOrderMutation() {
     const openSnackbar = useSnackbar();
 
-    return useWorkoutsByProgramQuery__generated({
-        onError: onQueryError(openSnackbar),
-        variables: { program: programId },
+    return useChangeProgrammedWorkoutOrderMutation__generated({
+        onError: onMutationError(openSnackbar),
     });
 }
