@@ -1,5 +1,5 @@
 import { MockedResponse } from "@apollo/client/testing";
-import { act, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import {
@@ -22,6 +22,7 @@ import { WORKOUT_ROUTE } from "../../pages/constants";
 import { WorkoutPage } from "../../pages/WorkoutPage";
 import { userPreferencesKgMock, userPreferencesLbMock } from "../../testUtils/commonApolloMocks";
 import { renderPage, renderWithAllProviders, renderWithRouterAndApollo } from "../../testUtils/renderWithProviders";
+import { triggerAsync } from "../../testUtils/triggerAsync";
 import { WorkoutList } from "./WorkoutList";
 
 describe("Workout Page", () => {
@@ -255,9 +256,7 @@ describe("Workout Page", () => {
             await userEvent.type(screen.getAllByLabelText("Reps")[1], "3");
             await userEvent.click(screen.getByLabelText("save"));
 
-            await act(async () => {
-                await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for save to go through to make sure it did not fail
-            });
+            await triggerAsync();
 
             expect(screen.queryByText("Network Error!")).not.toBeInTheDocument();
         });

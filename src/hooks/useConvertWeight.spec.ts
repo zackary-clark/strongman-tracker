@@ -1,7 +1,8 @@
-import { act, renderHook } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import { WeightUnit } from "../../generated/schema";
 import { userPreferencesKgMock, userPreferencesLbMock } from "../testUtils/commonApolloMocks";
 import { createAllProviderWrapper } from "../testUtils/renderWithProviders";
+import { triggerAsync } from "../testUtils/triggerAsync";
 import { useConvertWeight } from "./useConvertWeight";
 
 describe("useConvertWeight", () => {
@@ -12,9 +13,7 @@ describe("useConvertWeight", () => {
                 { wrapper: createAllProviderWrapper([userPreferencesKgMock]) }
             );
 
-            await act(async () => {
-                await new Promise(resolve => setTimeout(resolve, 20)); // need to wait for userPreferencesQuery to return
-            });
+            await triggerAsync();
 
             expect(result.current.unit).toBe(WeightUnit.Kg);
 
@@ -42,9 +41,7 @@ describe("useConvertWeight", () => {
                 { wrapper: createAllProviderWrapper([userPreferencesLbMock]) }
             );
 
-            await act(async () => {
-                await new Promise(resolve => setTimeout(resolve, 20)); // need to wait for userPreferencesQuery to return
-            });
+            await triggerAsync();
 
             expect(result.current.unit).toBe(WeightUnit.Lb);
 

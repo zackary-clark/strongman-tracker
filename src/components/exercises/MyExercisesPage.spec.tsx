@@ -1,5 +1,5 @@
 import { MockedResponse } from "@apollo/client/testing";
-import { act, getByRole, screen, waitFor } from "@testing-library/react";
+import { getByRole, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import {
@@ -20,6 +20,7 @@ import {
 import { MY_EXERCISE_ROUTE } from "../../pages/constants";
 import { MyExercisePage } from "../../pages/MyExercisePage";
 import { renderPage, renderWithRouterAndApollo } from "../../testUtils/renderWithProviders";
+import { triggerAsync } from "../../testUtils/triggerAsync";
 import { MyExercisesComponent } from "./MyExercisesComponent";
 
 describe("MyExercisesPage", () => {
@@ -167,9 +168,7 @@ describe("MyExercisesPage", () => {
             await userEvent.type(screen.getByLabelText("Name"), "new name");
             await userEvent.click(screen.getByText(superCoolCustomExercise.name));
 
-            await act(async () => {
-                await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for save to go through to make sure it did not fail
-            });
+            await triggerAsync();
 
             expect(screen.queryByText("Network Error!")).not.toBeInTheDocument();
         });
@@ -204,9 +203,7 @@ describe("MyExercisesPage", () => {
             await userEvent.clear(screen.getByLabelText("Description"));
             await userEvent.type(screen.getByLabelText("Description"), "new description{tab}");
 
-            await act(async () => {
-                await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for save to go through to make sure it did not fail
-            });
+            await triggerAsync();
 
             expect(screen.queryByText("Network Error!")).not.toBeInTheDocument();
         });
@@ -244,9 +241,7 @@ describe("MyExercisesPage", () => {
             await userEvent.click(await screen.findByText("Abs"));
             await userEvent.click(await screen.findByRole("presentation"));
 
-            await act(async () => {
-                await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for save to go through to make sure it did not fail
-            });
+            await triggerAsync();
 
             expect(screen.queryByText("Network Error!")).not.toBeInTheDocument();
         });

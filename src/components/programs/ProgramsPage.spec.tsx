@@ -1,5 +1,5 @@
 import { MockedResponse } from "@apollo/client/testing";
-import { act, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
+import { screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "react";
 import {
@@ -21,6 +21,7 @@ import {
 import { PROGRAM_ROUTE } from "../../pages/constants";
 import { ProgramPage } from "../../pages/ProgramPage";
 import { renderPage } from "../../testUtils/renderWithProviders";
+import { triggerAsync } from "../../testUtils/triggerAsync";
 
 describe("ProgramsPage", () => {
     const heavySquatDay = {
@@ -218,9 +219,7 @@ describe("ProgramsPage", () => {
 
                 await userEvent.click(screen.getByLabelText("up button for cdeabc05-1158-4534-93a8-57e2e3a138a9"));
 
-                await act(async () => {
-                    await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for save to go through to make sure it did not fail
-                });
+                await triggerAsync();
 
                 expect(screen.queryByText("Network Error!")).not.toBeInTheDocument();
             });
@@ -232,9 +231,7 @@ describe("ProgramsPage", () => {
 
                 await userEvent.click(screen.getByLabelText("down button for 1e116b64-182e-4b42-9f8a-73fff85fdd61"));
 
-                await act(async () => {
-                    await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for save to go through to make sure it did not fail
-                });
+                await triggerAsync();
 
                 expect(screen.queryByText("Network Error!")).not.toBeInTheDocument();
             });
@@ -347,9 +344,7 @@ describe("ProgramsPage", () => {
             await userEvent.type(screen.getByLabelText("Name"), "new name");
             await userEvent.click(screen.getByText(superHardProgram.name));
 
-            await act(async () => {
-                await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for save to go through to make sure it did not fail
-            });
+            await triggerAsync();
 
             expect(screen.queryByText("Network Error!")).not.toBeInTheDocument();
         });
@@ -391,9 +386,7 @@ describe("ProgramsPage", () => {
             await userEvent.clear(screen.getByLabelText("Description"));
             await userEvent.type(screen.getByLabelText("Description"), "new description{tab}");
 
-            await act(async () => {
-                await new Promise(resolve => setTimeout(resolve, 20)); // need to "wait" for save to go through to make sure it did not fail
-            });
+            await triggerAsync();
 
             expect(screen.queryByText("Network Error!")).not.toBeInTheDocument();
         });
