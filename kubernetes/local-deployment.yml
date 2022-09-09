@@ -22,5 +22,5 @@ spec:
           ports:
             - containerPort: 80
           env:
-            - name: "REACT_APP_HOST_ADDRESS"
+            - name: "API_ADDRESS"
               value: "http://localhost:32324/graphql"

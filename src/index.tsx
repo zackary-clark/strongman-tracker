@@ -8,7 +8,7 @@ import { HashRouter } from "react-router-dom";
 import { NavBar } from "./components/navBar/NavBar";
 import { Snackbar } from "./components/snackBar/Snackbar";
 import { SnackbarContextProvider } from "./context/snackbarContext";
-import { getHostAddress, getKeycloakClientId, getKeycloakRealm, getKeycloakURL } from "./env/getters";
+import { getApiAddress, getKeycloakClientId, getKeycloakRealm, getKeycloakURL } from "./env/getters";
 import { typePolicies } from "./operations/typePolicies";
 import { Routes } from "./pages/Routes";
 import { theme } from "./theme";
@@ -18,7 +18,7 @@ import { KeycloakContext } from "./context/keycloakContext";
 // This almost always loops 0 or 1 times
 let count = 0;
 const waitForEnv = async () => {
-    if (!window.REACT_APP_HOST_ADDRESS && count < 3000) {
+    if (!window.API_ADDRESS && count < 3000) {
         setTimeout(waitForEnv, 1);
         count++;
         return;
@@ -33,6 +33,7 @@ const waitForEnv = async () => {
             clientId: getKeycloakClientId()
         });
         await keycloak.init({ onLoad: "check-sso", responseMode: "query" });
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const root = createRoot(document.getElementById("root")!);
         root.render(
             <StyledEngineProvider injectFirst>
@@ -57,7 +58,7 @@ const waitForEnv = async () => {
 
 const client = (keycloak: Keycloak) => {
     const httpLink = createHttpLink({
-        uri: getHostAddress()
+        uri: getApiAddress()
     });
 
     const authLink = setContext((_, { headers }) => ({

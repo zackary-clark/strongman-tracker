@@ -28,8 +28,11 @@ spec:
           ports:
             - containerPort: 80
           env:
-            - name: "REACT_APP_HOST_ADDRESS"
-              value: "http://zackary-clark.duckdns.org/strongman-tracker-api/graphql"
+            - name: "API_ADDRESS"
+              valueFrom:
+                secretKeyRef:
+                  key: apiOrigin
+                  name: strongman-tracker-secret
             - name: "KC_REALM"
               valueFrom:
                 secretKeyRef:
