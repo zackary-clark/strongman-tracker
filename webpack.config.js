@@ -59,6 +59,7 @@ module.exports = {
             logging: "info"
         },
         hot: false,
-        port: 8081
+        port: 8081,
+        historyApiFallback: true,
     },
 };

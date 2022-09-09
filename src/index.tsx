@@ -4,7 +4,7 @@ import { CssBaseline, StyledEngineProvider, ThemeProvider, } from "@mui/material
 import Keycloak from "keycloak-js";
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { NavBar } from "./components/navBar/NavBar";
 import { Snackbar } from "./components/snackBar/Snackbar";
 import { SnackbarContextProvider } from "./context/snackbarContext";
@@ -40,7 +40,7 @@ const waitForEnv = async () => {
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
                     <ApolloProvider client={client(keycloak)}>
-                        <HashRouter>
+                        <BrowserRouter>
                             <KeycloakContext.Provider value={keycloak}>
                                 <SnackbarContextProvider>
                                     <Snackbar />
@@ -48,7 +48,7 @@ const waitForEnv = async () => {
                                     <Routes />
                                 </SnackbarContextProvider>
                             </KeycloakContext.Provider>
-                        </HashRouter>
+                        </BrowserRouter>
                     </ApolloProvider>
                 </ThemeProvider>
             </StyledEngineProvider>
