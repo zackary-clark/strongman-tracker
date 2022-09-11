@@ -48,6 +48,7 @@ module.exports = {
             filename: "index.html",
             template: "./index.html.template",
             favicon: "./src/images/favicon.png",
+            publicPath: "/",
         }),
         new webpack.DefinePlugin({
             PACKAGE_VERSION: JSON.stringify(require("./package.json").version),

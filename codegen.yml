@@ -1,5 +1,7 @@
 schema: 'src/schema/**/*.graphql'
 documents: 'src/operations/**/*.graphql'
+config:
+  sort: false
 generates:
   ./generated/schema.ts:
     plugins:

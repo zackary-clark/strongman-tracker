@@ -1,12 +1,12 @@
 import { useApolloClient } from "@apollo/client";
 import { Box, Stack } from "@mui/material";
 import React, { FunctionComponent, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ProgramDocument } from "../../../generated/schema";
 import { useSnackbar } from "../../context/snackbarContext";
 import { useChangeProgrammedWorkoutOrderMutation } from "../../operations/programmedWorkoutOperations";
 import { useProgramQuery } from "../../operations/programOperations";
-import { PROGRAM_ID_PARAM } from "../../pages/constants";
+import { PROGRAM_ID_PARAM, PROGRAMMED_WORKOUT_ROUTE } from "../../pages/constants";
 import { ErrorScreen } from "../common/ErrorScreen";
 import { LoadingScreen } from "../common/LoadingScreen";
 import { StandardList } from "../common/StandardList";
@@ -24,6 +24,7 @@ export const SingleProgramComponent: FunctionComponent = () => {
 
     const openSnackbar = useSnackbar();
     const apolloClient = useApolloClient();
+    const navigate = useNavigate();
 
     const { data: programData, loading: programLoading } = useProgramQuery(id);
     const [changeWorkoutOrder] = useChangeProgrammedWorkoutOrderMutation();
@@ -92,6 +93,9 @@ export const SingleProgramComponent: FunctionComponent = () => {
                             downArrowClick: () => handleArrow(workout.id, "down"),
                         }))}
                         showArrowButtons
+                        showNew
+                        newLabel="Add Workout"
+                        newOnClick={() => navigate(PROGRAMMED_WORKOUT_ROUTE + "/new/" + program.id)}
                     />
                 )}
             </Stack>

@@ -1,20 +1,7 @@
-import {
-    Box,
-    capitalize,
-    Chip,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    OutlinedInput,
-    Paper,
-    Select,
-    SelectChangeEvent,
-    Stack,
-    TextField,
-    Typography
-} from "@mui/material";
+import { Box, Paper, Stack, TextField, Typography } from "@mui/material";
 import React, { FunctionComponent } from "react";
 import { MuscleGroup } from "../../../generated/schema";
+import { MuscleGroupMultiSelect } from "../common/MuscleGroupMultiSelect";
 
 interface ExerciseFormProps {
     headingLabel?: string,
@@ -39,12 +26,6 @@ export const ExerciseForm: FunctionComponent<ExerciseFormProps> = ({
 }) => {
     const [name, setName] = nameStateTuple;
     const [description, setDescription] = descriptionStateTuple;
-    const [focusGroups, setFocusGroups] = focusGroupsStateTuple;
-
-    const handleFocusGroupChange = (event: SelectChangeEvent<MuscleGroup[]>) => {
-        const value = event.target.value;
-        setFocusGroups((typeof value === "string" ? value.split(",") : value) as MuscleGroup[]);
-    };
 
     return (
         <Paper elevation={4} sx={{ width: "100%", maxWidth: 400 }}>
@@ -66,41 +47,10 @@ export const ExerciseForm: FunctionComponent<ExerciseFormProps> = ({
                     onChange={(event) => setDescription(event.target.value)}
                     onBlur={descriptionOnBlur}
                 />
-                <FormControl>
-                    <InputLabel id="focus-group-label">Muscle Groups</InputLabel>
-                    <Select
-                        labelId="focus-group-label"
-                        data-testid="focus-group-select"
-                        multiple
-                        value={focusGroups}
-                        onChange={handleFocusGroupChange}
-                        onClose={focusGroupsOnClose}
-                        input={<OutlinedInput label="Muscle Groups" />}
-                        renderValue={(selected) => (
-                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                                {selected.map((value) => (
-                                    <Chip key={value} label={capitalize(value)} size="small" />
-                                ))}
-                            </Box>
-                        )}
-                        MenuProps={{
-                            PaperProps: {
-                                style: {
-                                    maxHeight: 48 * 4.5 + 8,
-                                }
-                            }
-                        }}
-                    >
-                        {Object.values(MuscleGroup).map((group) => (
-                            <MenuItem
-                                key={group}
-                                value={group}
-                            >
-                                {capitalize(group)}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                <MuscleGroupMultiSelect
+                    focusGroupsStateTuple={focusGroupsStateTuple}
+                    focusGroupsOnClose={focusGroupsOnClose}
+                />
             </Stack>
         </Paper>
     );

@@ -10,3 +10,5 @@ export const EXERCISE_ID_PARAM = "exerciseId";
 
 export const PROGRAM_ROUTE = "/programs";
 export const PROGRAM_ID_PARAM = "programId";
+
+export const PROGRAMMED_WORKOUT_ROUTE = "/programmed-workouts";

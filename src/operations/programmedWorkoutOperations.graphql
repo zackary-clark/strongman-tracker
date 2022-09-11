@@ -1,3 +1,18 @@
+mutation AddProgrammedWorkout($input: AddProgrammedWorkoutInput!) {
+    addProgrammedWorkout(input: $input) {
+        success
+        programmedWorkout {
+            id
+            program
+            name
+            order
+            description
+            focusGroups
+            day
+        }
+    }
+}
+
 mutation ChangeProgrammedWorkoutOrder($id: ID!, $order: Int!) {
     changeProgrammedWorkoutOrder(input: {id: $id, order: $order}) {
         success
