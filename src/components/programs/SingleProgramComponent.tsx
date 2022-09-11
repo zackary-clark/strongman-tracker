@@ -91,6 +91,7 @@ export const SingleProgramComponent: FunctionComponent = () => {
                             secondary: "Exercise 1, Exercise 2",
                             upArrowClick: () => handleArrow(workout.id, "up"),
                             downArrowClick: () => handleArrow(workout.id, "down"),
+                            avatarText: workout.day,
                         }))}
                         showArrowButtons
                         showNew

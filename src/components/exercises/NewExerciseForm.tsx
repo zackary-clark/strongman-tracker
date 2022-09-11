@@ -49,7 +49,7 @@ export const NewExerciseForm: FunctionComponent = () => {
             <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <Fab
                     aria-label="add-exercise"
-                    color="success"
+                    color="secondary"
                     onClick={handleAddClick}
                     disabled={!saveEnabled}
                 >

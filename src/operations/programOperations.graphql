@@ -8,6 +8,7 @@ query Programs {
             program
             name
             order
+            day
         }
     }
 }
@@ -22,6 +23,7 @@ query Program($input: SingleProgramInput!) {
             program
             name
             order
+            day
         }
     }
 }
@@ -38,6 +40,7 @@ mutation AddProgram($input: AddProgramInput!) {
                 program
                 name
                 order
+                day
             }
         }
     }
@@ -55,6 +58,7 @@ mutation RenameProgram($input: RenameProgramInput!) {
                 program
                 name
                 order
+                day
             }
         }
     }
@@ -72,6 +76,7 @@ mutation ChangeProgramDescription($input: ChangeProgramDescriptionInput!) {
                 program
                 name
                 order
+                day
             }
         }
     }

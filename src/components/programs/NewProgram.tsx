@@ -45,7 +45,7 @@ export const NewProgram: FunctionComponent = () => {
             <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <Fab
                     aria-label="add-program"
-                    color="success"
+                    color="secondary"
                     onClick={handleAddClick}
                     disabled={!saveEnabled}
                 >

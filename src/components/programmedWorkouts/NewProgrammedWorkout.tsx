@@ -78,7 +78,7 @@ export const NewProgrammedWorkout: FunctionComponent = () => {
             <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <Fab
                     aria-label="add-workout"
-                    color="success"
+                    color="secondary"
                     onClick={handleAddClick}
                     disabled={!saveEnabled}
                 >

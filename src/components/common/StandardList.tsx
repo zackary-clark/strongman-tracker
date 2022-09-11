@@ -1,9 +1,10 @@
 import { AddCircle, KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import {
-    Box,
+    Avatar,
+    Box, capitalize,
     IconButton,
     List,
-    ListItem,
+    ListItem, ListItemAvatar,
     ListItemButton,
     ListItemIcon,
     ListItemText,
@@ -16,6 +17,7 @@ interface StandardListOptions {
     key: string,
     primary: string,
     secondary?: string,
+    avatarText?: string | null,
     onClick?: MouseEventHandler<HTMLDivElement>,
     upArrowClick?: MouseEventHandler<HTMLButtonElement>,
     downArrowClick?: MouseEventHandler<HTMLButtonElement>,
@@ -71,8 +73,13 @@ export const StandardList: FunctionComponent<Props> = ({
                         secondaryAction={showArrowButtons && <ArrowButtons option={option} />}
                     >
                         <ListItemButton onClick={option.onClick}>
+                            {option.avatarText && <ListItemAvatar>
+                                <Avatar sx={{ bgcolor: "primary.main", fontSize: "1rem" }}>
+                                    {capitalize(option.avatarText.substring(0, 3))}
+                                </Avatar>
+                            </ListItemAvatar>}
                             <ListItemText
-                                inset
+                                inset={!option.avatarText}
                                 primary={option.primary}
                                 primaryTypographyProps={{ noWrap: !primaryWrap }}
                                 secondary={option.secondary}
