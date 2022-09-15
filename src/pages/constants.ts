@@ -12,3 +12,4 @@ export const PROGRAM_ROUTE = "/programs";
 export const PROGRAM_ID_PARAM = "programId";
 
 export const PROGRAMMED_WORKOUT_ROUTE = "/programmed-workouts";
+export const PROGRAMMED_WORKOUT_ID_PARAM = "programmedWorkoutId";

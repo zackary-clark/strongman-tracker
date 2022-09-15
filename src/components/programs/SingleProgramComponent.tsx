@@ -89,6 +89,7 @@ export const SingleProgramComponent: FunctionComponent = () => {
                             key: workout.id,
                             primary: workout.name,
                             secondary: "Exercise 1, Exercise 2",
+                            onClick: () => navigate(`${PROGRAMMED_WORKOUT_ROUTE}/${workout.id}`),
                             upArrowClick: () => handleArrow(workout.id, "up"),
                             downArrowClick: () => handleArrow(workout.id, "down"),
                             avatarText: workout.day,

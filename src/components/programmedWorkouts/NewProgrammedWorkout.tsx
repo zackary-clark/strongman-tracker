@@ -1,14 +1,13 @@
 import { Check } from "@mui/icons-material";
-import { Box, Fab, Paper, Stack, TextField, Typography } from "@mui/material";
+import { Box, Fab } from "@mui/material";
 import React, { FunctionComponent, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { DayOfWeek, MuscleGroup, ProgramDocument } from "../../../generated/schema";
 import { useAddProgrammedWorkoutMutation } from "../../operations/programmedWorkoutOperations";
 import { useProgramQuery } from "../../operations/programOperations";
 import { PROGRAM_ID_PARAM, PROGRAM_ROUTE } from "../../pages/constants";
-import { DayOfWeekToggleButtonGroup } from "../common/DayOfWeekToggleButtonGroup";
 import { ErrorScreen } from "../common/ErrorScreen";
-import { MuscleGroupMultiSelect } from "../common/MuscleGroupMultiSelect";
+import { ProgrammedWorkoutFormBase } from "./ProgrammedWorkoutFormBase";
 
 export const NewProgrammedWorkout: FunctionComponent = () => {
     const params = useParams();
@@ -54,26 +53,14 @@ export const NewProgrammedWorkout: FunctionComponent = () => {
     return (
         <>
             <Box sx={{ display: "flex", justifyContent: "center", margin: 2 }}>
-                <Paper elevation={4} sx={{ width: "100%", maxWidth: 400 }}>
-                    <Typography variant="h6" align="center" sx={{ margin: 1 }}>
-                        New Workout {programName && `for ${programName}`}
-                    </Typography>
-                    <Stack spacing={2} sx={{ marginX: 2, marginBottom: 2, marginTop: 1 }}>
-                        <TextField
-                            label="Name"
-                            value={name}
-                            required
-                            onChange={(event) => setName(event.target.value)}
-                        />
-                        <TextField
-                            label="Description"
-                            value={description}
-                            onChange={(event) => setDescription(event.target.value)}
-                        />
-                        <DayOfWeekToggleButtonGroup dayOfWeekStateTuple={[day, setDay]} />
-                        <MuscleGroupMultiSelect focusGroupsStateTuple={[focusGroups, setFocusGroups]} />
-                    </Stack>
-                </Paper>
+                <ProgrammedWorkoutFormBase
+                    headingLabel={`New Workout${programName && ` for ${programName}`}`}
+                    nameIsRequired
+                    nameStateTuple={[name, setName]}
+                    descriptionStateTuple={[description, setDescription]}
+                    dayOfWeekStateTuple={[day, setDay]}
+                    focusGroupsStateTuple={[focusGroups, setFocusGroups]}
+                />
             </Box>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <Fab

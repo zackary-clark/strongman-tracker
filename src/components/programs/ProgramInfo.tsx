@@ -9,8 +9,8 @@ interface Props {
     onEditClick: () => void,
 }
 
-export const ProgramInfo: FunctionComponent<Props> = ({ program, onEditClick }) => {
-    return <Paper elevation={4}>
+export const ProgramInfo: FunctionComponent<Props> = ({ program, onEditClick }) => (
+    <Paper elevation={4}>
         <Grid container spacing={2} marginX={1.5} marginTop={0}>
             <Grid xs={1} />
             <Grid xs={10} display="flex" justifyContent="center" alignItems="center">
@@ -31,5 +31,5 @@ export const ProgramInfo: FunctionComponent<Props> = ({ program, onEditClick }) 
             ) :
             <Box marginBottom={1} />
         }
-    </Paper>;
-};
+    </Paper>
+);

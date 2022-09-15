@@ -1,6 +1,6 @@
 extend type Query {
     programmedWorkouts(input: ProgrammedWorkoutsInput!): [ProgrammedWorkout!]!
-    programmedWorkout(input: SingleProgrammedWorkout!): ProgrammedWorkout
+    programmedWorkout(input: SingleProgrammedWorkoutInput!): ProgrammedWorkout
 }
 
 extend type Mutation {
@@ -27,7 +27,7 @@ input ProgrammedWorkoutsInput {
     sort: ProgrammedWorkoutSort!
 }
 
-input SingleProgrammedWorkout {
+input SingleProgrammedWorkoutInput {
     id: ID!
 }
 

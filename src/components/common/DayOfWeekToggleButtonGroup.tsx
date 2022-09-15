@@ -4,9 +4,13 @@ import { DayOfWeek } from "../../../generated/schema";
 
 interface Props {
     dayOfWeekStateTuple: [DayOfWeek | null, React.Dispatch<React.SetStateAction<DayOfWeek | null>>],
+    dayOfWeekOnClick?: (event: React.MouseEvent<HTMLElement>, newDay: DayOfWeek | null) => void,
 }
 
-export const DayOfWeekToggleButtonGroup: FunctionComponent<Props> = ({dayOfWeekStateTuple}) => {
+export const DayOfWeekToggleButtonGroup: FunctionComponent<Props> = ({
+    dayOfWeekStateTuple,
+    dayOfWeekOnClick,
+}) => {
     const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
     const [day, setDay] = dayOfWeekStateTuple;
 
@@ -14,7 +18,7 @@ export const DayOfWeekToggleButtonGroup: FunctionComponent<Props> = ({dayOfWeekS
         event: React.MouseEvent<HTMLElement>,
         newDay: DayOfWeek | null,
     ) => {
-        setDay(newDay);
+        dayOfWeekOnClick ? dayOfWeekOnClick(event, newDay) : setDay(newDay);
     };
 
     return (

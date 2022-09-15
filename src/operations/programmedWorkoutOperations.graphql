@@ -1,5 +1,77 @@
+query ProgrammedWorkout($input: SingleProgrammedWorkoutInput!) {
+    programmedWorkout(input: $input) {
+        id
+        program
+        name
+        order
+        description
+        focusGroups
+        day
+    }
+}
+
 mutation AddProgrammedWorkout($input: AddProgrammedWorkoutInput!) {
     addProgrammedWorkout(input: $input) {
+        success
+        programmedWorkout {
+            id
+            program
+            name
+            order
+            description
+            focusGroups
+            day
+        }
+    }
+}
+
+mutation RenameProgrammedWorkout($input: RenameProgrammedWorkoutInput!) {
+    renameProgrammedWorkout(input: $input) {
+        success
+        programmedWorkout {
+            id
+            program
+            name
+            order
+            description
+            focusGroups
+            day
+        }
+    }
+}
+
+mutation ChangeProgrammedWorkoutDescription($input: ChangeProgrammedWorkoutDescriptionInput!) {
+    changeProgrammedWorkoutDescription(input: $input) {
+        success
+        programmedWorkout {
+            id
+            program
+            name
+            order
+            description
+            focusGroups
+            day
+        }
+    }
+}
+
+mutation ChangeProgrammedWorkoutDay($input: ChangeProgrammedWorkoutDayInput!) {
+    changeProgrammedWorkoutDay(input: $input) {
+        success
+        programmedWorkout {
+            id
+            program
+            name
+            order
+            description
+            focusGroups
+            day
+        }
+    }
+}
+
+mutation ChangeProgrammedWorkoutFocusGroups($input: ChangeProgrammedWorkoutFocusGroupsInput!) {
+    changeProgrammedWorkoutFocusGroups(input: $input) {
         success
         programmedWorkout {
             id
