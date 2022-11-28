@@ -20,6 +20,7 @@ type ProgrammedWorkout {
     description: String
     focusGroups: [MuscleGroup!]
     day: DayOfWeek
+    programmedExercises: [ProgrammedExercise!]!
 }
 
 input ProgrammedWorkoutsInput {

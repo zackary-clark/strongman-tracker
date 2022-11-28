@@ -29,18 +29,21 @@ describe("ProgramsPage", () => {
         program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
         name: "Heavy Squat Day",
         order: 0,
+        programmedExercises: [],
     };
     const benchDay = {
         id: "63eccdce-baa4-4b64-bfc1-45d485991801",
         program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
         name: "Bench Day",
         order: 1,
+        programmedExercises: [],
     };
     const cardioDay = {
         id: "1e116b64-182e-4b42-9f8a-73fff85fdd61",
         program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
         name: "Cardio Day",
         order: 2,
+        programmedExercises: [],
     };
     const superHardProgram: Program = {
         id: "9763dc8e-0aa5-4af3-b287-6f65072de666",
@@ -241,21 +244,25 @@ describe("ProgramsPage", () => {
                     id: "5af4b81f-62cf-49be-b2f1-ed605f52d750",
                     program: "3f578d2b-7f96-4faf-931f-2720d56e6914¨",
                     name: "Deadlift Day",
+                    programmedExercises: [],
                 };
                 const differentDay = {
                     id: "c610c30a-495f-4f2b-a604-b1e25dd21dba",
                     program: "3f578d2b-7f96-4faf-931f-2720d56e6914¨",
                     name: "Different Day",
+                    programmedExercises: [],
                 };
                 const otherDay = {
                     id: "cb4f6265-4fb7-4db1-844e-abbe78ba4f16",
                     program: "3f578d2b-7f96-4faf-931f-2720d56e6914¨",
                     name: "Other Day",
+                    programmedExercises: [],
                 };
                 const pressDay = {
                     id: "e3063dd8-111a-45f2-83ac-6a59c56bd840",
                     program: "3f578d2b-7f96-4faf-931f-2720d56e6914¨",
                     name: "Press Day",
+                    programmedExercises: [],
                 };
                 const easyProgram: Program = {
                     id: "3f578d2b-7f96-4faf-931f-2720d56e6914¨",
@@ -408,6 +415,7 @@ const generateChangeWorkoutOrderMock = (workout: ProgrammedWorkout, order?: numb
                         program: workout.program,
                         name: workout.name,
                         order,
+                        programmedExercises: [],
                     }
                 }
             }

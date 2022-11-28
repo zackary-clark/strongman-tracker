@@ -9,6 +9,17 @@ query Programs {
             name
             order
             day
+            programmedExercises {
+                id
+                programmedWorkout
+                order
+                exercise {
+                    id
+                    name
+                    description
+                    focusGroups
+                }
+            }
         }
     }
 }
@@ -24,6 +35,17 @@ query Program($input: SingleProgramInput!) {
             name
             order
             day
+            programmedExercises {
+                id
+                programmedWorkout
+                order
+                exercise {
+                    id
+                    name
+                    description
+                    focusGroups
+                }
+            }
         }
     }
 }
@@ -41,6 +63,17 @@ mutation AddProgram($input: AddProgramInput!) {
                 name
                 order
                 day
+                programmedExercises {
+                    id
+                    programmedWorkout
+                    order
+                    exercise {
+                        id
+                        name
+                        description
+                        focusGroups
+                    }
+                }
             }
         }
     }
@@ -59,6 +92,17 @@ mutation RenameProgram($input: RenameProgramInput!) {
                 name
                 order
                 day
+                programmedExercises {
+                    id
+                    programmedWorkout
+                    order
+                    exercise {
+                        id
+                        name
+                        description
+                        focusGroups
+                    }
+                }
             }
         }
     }
@@ -77,6 +121,17 @@ mutation ChangeProgramDescription($input: ChangeProgramDescriptionInput!) {
                 name
                 order
                 day
+                programmedExercises {
+                    id
+                    programmedWorkout
+                    order
+                    exercise {
+                        id
+                        name
+                        description
+                        focusGroups
+                    }
+                }
             }
         }
     }

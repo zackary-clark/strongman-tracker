@@ -7,6 +7,17 @@ query ProgrammedWorkout($input: SingleProgrammedWorkoutInput!) {
         description
         focusGroups
         day
+        programmedExercises {
+            id
+            programmedWorkout
+            order
+            exercise {
+                id
+                name
+                description
+                focusGroups
+            }
+        }
     }
 }
 
@@ -21,6 +32,17 @@ mutation AddProgrammedWorkout($input: AddProgrammedWorkoutInput!) {
             description
             focusGroups
             day
+            programmedExercises {
+                id
+                programmedWorkout
+                order
+                exercise {
+                    id
+                    name
+                    description
+                    focusGroups
+                }
+            }
         }
     }
 }
@@ -36,6 +58,17 @@ mutation RenameProgrammedWorkout($input: RenameProgrammedWorkoutInput!) {
             description
             focusGroups
             day
+            programmedExercises {
+                id
+                programmedWorkout
+                order
+                exercise {
+                    id
+                    name
+                    description
+                    focusGroups
+                }
+            }
         }
     }
 }
@@ -51,6 +84,17 @@ mutation ChangeProgrammedWorkoutDescription($input: ChangeProgrammedWorkoutDescr
             description
             focusGroups
             day
+            programmedExercises {
+                id
+                programmedWorkout
+                order
+                exercise {
+                    id
+                    name
+                    description
+                    focusGroups
+                }
+            }
         }
     }
 }
@@ -66,6 +110,17 @@ mutation ChangeProgrammedWorkoutDay($input: ChangeProgrammedWorkoutDayInput!) {
             description
             focusGroups
             day
+            programmedExercises {
+                id
+                programmedWorkout
+                order
+                exercise {
+                    id
+                    name
+                    description
+                    focusGroups
+                }
+            }
         }
     }
 }
@@ -81,6 +136,17 @@ mutation ChangeProgrammedWorkoutFocusGroups($input: ChangeProgrammedWorkoutFocus
             description
             focusGroups
             day
+            programmedExercises {
+                id
+                programmedWorkout
+                order
+                exercise {
+                    id
+                    name
+                    description
+                    focusGroups
+                }
+            }
         }
     }
 }
@@ -96,6 +162,17 @@ mutation ChangeProgrammedWorkoutOrder($id: ID!, $order: Int!) {
             description
             focusGroups
             day
+            programmedExercises {
+                id
+                programmedWorkout
+                order
+                exercise {
+                    id
+                    name
+                    description
+                    focusGroups
+                }
+            }
         }
     }
 }

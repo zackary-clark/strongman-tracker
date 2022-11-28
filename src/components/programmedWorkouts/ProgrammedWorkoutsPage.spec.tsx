@@ -2,7 +2,6 @@ import { MockedResponse } from "@apollo/client/testing";
 import { getByRole, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import {
     AddProgrammedWorkoutDocument,
     AddProgrammedWorkoutMutation,
@@ -72,6 +71,7 @@ describe("ProgrammedWorkoutsPage", () => {
                             day: DayOfWeek.Mon,
                             focusGroups: [MuscleGroup.Quads],
                             order: null,
+                            programmedExercises: [],
                         }
                     }
                 }

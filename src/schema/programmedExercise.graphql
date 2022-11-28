@@ -1,0 +1,48 @@
+extend type Query {
+    programmedExercises(input: ProgrammedExercisesInput): [ProgrammedExercise!]!
+    programmedExercise(input: SingleProgrammedExerciseInput!): ProgrammedExercise
+}
+
+extend type Mutation {
+    addProgrammedExercise(input: AddProgrammedExerciseInput!): ProgrammedExerciseMutationPayload
+    changeProgrammedExerciseOrder(input: ChangeProgrammedExerciseOrderInput!): ProgrammedExerciseMutationPayload
+}
+
+type ProgrammedExercise {
+    id: ID!
+    programmedWorkout: ID!
+    exercise: Exercise!
+    order: Int
+}
+
+input ProgrammedExercisesInput {
+    filter: ProgrammedExercisesFilter
+    sort: ProgrammedExercisesSort
+}
+
+input ProgrammedExercisesFilter {
+    programmedWorkout: ID
+}
+
+input ProgrammedExercisesSort {
+    order: Sort
+}
+
+input SingleProgrammedExerciseInput {
+    id: ID!
+}
+
+input AddProgrammedExerciseInput {
+    programmedWorkout: ID!
+    exercise: ID!
+}
+
+input ChangeProgrammedExerciseOrderInput {
+    id: ID!
+    order: Int
+}
+
+type ProgrammedExerciseMutationPayload implements MutationPayload {
+    success: Boolean!
+    programmedExercise: ProgrammedExercise
+}
