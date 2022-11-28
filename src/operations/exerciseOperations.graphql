@@ -1,18 +1,19 @@
+fragment ExerciseFragment on Exercise {
+    id
+    name
+    description
+    focusGroups
+}
+
 query MyExercises {
     exercises(input: { sort: { name: asc }, filter: { custom: true } }) {
-        id
-        name
-        description
-        focusGroups
+        ...ExerciseFragment
     }
 }
 
 query Exercise($input: SingleExerciseInput!) {
     exercise(input: $input) {
-        id
-        name
-        description
-        focusGroups
+        ...ExerciseFragment
     }
 }
 
@@ -20,10 +21,7 @@ mutation AddMyExercise($input: AddExerciseInput!) {
     addExercise(input: $input) {
         success
         exercise {
-            id
-            name
-            description
-            focusGroups
+            ...ExerciseFragment
         }
     }
 }
@@ -31,10 +29,7 @@ mutation AddMyExercise($input: AddExerciseInput!) {
 mutation RenameExercise($input: RenameExerciseInput!) {
     renameExercise(input: $input) {
         exercise {
-            id
-            name
-            description
-            focusGroups
+            ...ExerciseFragment
         }
     }
 }
@@ -42,10 +37,7 @@ mutation RenameExercise($input: RenameExerciseInput!) {
 mutation ChangeExerciseDescription($input: ChangeExerciseDescriptionInput!) {
     changeExerciseDescription(input: $input) {
         exercise {
-            id
-            name
-            description
-            focusGroups
+            ...ExerciseFragment
         }
     }
 }
@@ -53,10 +45,7 @@ mutation ChangeExerciseDescription($input: ChangeExerciseDescriptionInput!) {
 mutation ChangeExerciseFocusGroups($input: ChangeExerciseFocusGroupInput!) {
     changeExerciseFocusGroup(input: $input) {
         exercise {
-            id
-            name
-            description
-            focusGroups
+            ...ExerciseFragment
         }
     }
 }

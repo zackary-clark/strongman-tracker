@@ -1,52 +1,21 @@
+fragment ProgramFragment on Program {
+    id
+    name
+    description
+    workouts {
+        ...ProgrammedWorkoutFragment
+    }
+}
+
 query Programs {
     programs {
-        id
-        name
-        description
-        workouts {
-            id
-            program
-            name
-            order
-            day
-            programmedExercises {
-                id
-                programmedWorkout
-                order
-                exercise {
-                    id
-                    name
-                    description
-                    focusGroups
-                }
-            }
-        }
+        ...ProgramFragment
     }
 }
 
 query Program($input: SingleProgramInput!) {
     program(input: $input) {
-        id
-        name
-        description
-        workouts {
-            id
-            program
-            name
-            order
-            day
-            programmedExercises {
-                id
-                programmedWorkout
-                order
-                exercise {
-                    id
-                    name
-                    description
-                    focusGroups
-                }
-            }
-        }
+        ...ProgramFragment
     }
 }
 
@@ -54,27 +23,7 @@ mutation AddProgram($input: AddProgramInput!) {
     addProgram(input: $input) {
         success
         program {
-            id
-            name
-            description
-            workouts {
-                id
-                program
-                name
-                order
-                day
-                programmedExercises {
-                    id
-                    programmedWorkout
-                    order
-                    exercise {
-                        id
-                        name
-                        description
-                        focusGroups
-                    }
-                }
-            }
+            ...ProgramFragment
         }
     }
 }
@@ -83,27 +32,7 @@ mutation RenameProgram($input: RenameProgramInput!) {
     renameProgram(input: $input) {
         success
         program {
-            id
-            name
-            description
-            workouts {
-                id
-                program
-                name
-                order
-                day
-                programmedExercises {
-                    id
-                    programmedWorkout
-                    order
-                    exercise {
-                        id
-                        name
-                        description
-                        focusGroups
-                    }
-                }
-            }
+            ...ProgramFragment
         }
     }
 }
@@ -112,27 +41,7 @@ mutation ChangeProgramDescription($input: ChangeProgramDescriptionInput!) {
     changeProgramDescription(input: $input) {
         success
         program {
-            id
-            name
-            description
-            workouts {
-                id
-                program
-                name
-                order
-                day
-                programmedExercises {
-                    id
-                    programmedWorkout
-                    order
-                    exercise {
-                        id
-                        name
-                        description
-                        focusGroups
-                    }
-                }
-            }
+            ...ProgramFragment
         }
     }
 }

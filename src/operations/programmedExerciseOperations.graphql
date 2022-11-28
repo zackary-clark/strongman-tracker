@@ -1,13 +1,14 @@
+fragment ProgrammedExerciseFragment on ProgrammedExercise {
+    id
+    programmedWorkout
+    order
+    exercise {
+        ...ExerciseFragment
+    }
+}
+
 query ProgrammedExercise($input: SingleProgrammedExerciseInput!) {
     programmedExercise(input: $input) {
-        id
-        programmedWorkout
-        order
-        exercise {
-            id
-            name
-            description
-            focusGroups
-        }
+        ...ProgrammedExerciseFragment
     }
 }

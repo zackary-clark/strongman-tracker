@@ -216,7 +216,7 @@ describe("Max Page", () => {
                 }
             };
 
-            renderWithApollo(<MaxComponent />, [allMaxesQueryMock, deleteMaxQueryMock]);
+            renderWithApollo(<MaxComponent />, [allMaxesQueryMock, deleteMaxQueryMock, userPreferencesKgMock]);
             expect(await screen.findByText("563")).toBeInTheDocument();
 
             await userEvent.click(screen.getByLabelText("Delete"));
@@ -238,7 +238,7 @@ describe("Max Page", () => {
                     errors: [new GraphQLError("Error")],
                 }
             };
-            renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, deleteMaxQueryErrorMock]);
+            renderWithSnackbarAndApollo(<MaxComponent />, [allMaxesQueryMock, deleteMaxQueryErrorMock, userPreferencesKgMock]);
             expect(await screen.findByText("563")).toBeInTheDocument();
 
             await userEvent.click(screen.getByLabelText("Delete"));

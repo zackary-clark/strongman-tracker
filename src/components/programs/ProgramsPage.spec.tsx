@@ -24,28 +24,41 @@ import { renderPage } from "../../testUtils/renderWithProviders";
 import { triggerAsync } from "../../testUtils/triggerAsync";
 
 describe("ProgramsPage", () => {
-    const heavySquatDay = {
+    const heavySquatDay: ProgrammedWorkout = {
+        __typename: "ProgrammedWorkout",
         id: "cdeabc05-1158-4534-93a8-57e2e3a138a9",
         program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
         name: "Heavy Squat Day",
+        description: null,
+        focusGroups: null,
+        day: null,
         order: 0,
         programmedExercises: [],
     };
-    const benchDay = {
+    const benchDay: ProgrammedWorkout = {
+        __typename: "ProgrammedWorkout",
         id: "63eccdce-baa4-4b64-bfc1-45d485991801",
         program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
         name: "Bench Day",
+        description: null,
+        focusGroups: null,
+        day: null,
         order: 1,
         programmedExercises: [],
     };
-    const cardioDay = {
+    const cardioDay: ProgrammedWorkout = {
+        __typename: "ProgrammedWorkout",
         id: "1e116b64-182e-4b42-9f8a-73fff85fdd61",
         program: "9763dc8e-0aa5-4af3-b287-6f65072de666",
         name: "Cardio Day",
+        description: null,
+        focusGroups: null,
+        day: null,
         order: 2,
         programmedExercises: [],
     };
     const superHardProgram: Program = {
+        __typename: "Program",
         id: "9763dc8e-0aa5-4af3-b287-6f65072de666",
         name: "Super Hard Program",
         description: "What a hard program.",
@@ -65,8 +78,10 @@ describe("ProgramsPage", () => {
                 programs: [
                     superHardProgram,
                     {
+                        __typename: "Program",
                         id: "e26d55d7-0a92-40dc-a4c0-091446d84a1d",
                         name: "A Different Program than the other one",
+                        description: null,
                         workouts: [],
                     }
                 ]
@@ -99,6 +114,7 @@ describe("ProgramsPage", () => {
                     addProgram: {
                         success: true,
                         program: {
+                            __typename: "Program",
                             id: "449989e7-a9a6-437e-bd8c-cec3d53a9cc4",
                             name: "Some New Program",
                             description: "with a description",
@@ -199,7 +215,6 @@ describe("ProgramsPage", () => {
                         secondProgramQueryMock,
                         thirdChangeWorkoutOrderMock,
                         fourthChangeWorkoutOrderMock,
-                        programQueryMock,
                     ],
                 );
 
@@ -240,31 +255,52 @@ describe("ProgramsPage", () => {
             });
 
             it("should handle moving workouts when they don't have orders", async () => {
-                const deadliftDay = {
+                const deadliftDay: ProgrammedWorkout = {
+                    __typename: "ProgrammedWorkout",
                     id: "5af4b81f-62cf-49be-b2f1-ed605f52d750",
                     program: "3f578d2b-7f96-4faf-931f-2720d56e6914¨",
                     name: "Deadlift Day",
+                    description: null,
+                    focusGroups: null,
+                    day: null,
+                    order: null,
                     programmedExercises: [],
                 };
-                const differentDay = {
+                const differentDay: ProgrammedWorkout = {
+                    __typename: "ProgrammedWorkout",
                     id: "c610c30a-495f-4f2b-a604-b1e25dd21dba",
                     program: "3f578d2b-7f96-4faf-931f-2720d56e6914¨",
                     name: "Different Day",
+                    description: null,
+                    focusGroups: null,
+                    day: null,
+                    order: null,
                     programmedExercises: [],
                 };
-                const otherDay = {
+                const otherDay: ProgrammedWorkout = {
+                    __typename: "ProgrammedWorkout",
                     id: "cb4f6265-4fb7-4db1-844e-abbe78ba4f16",
                     program: "3f578d2b-7f96-4faf-931f-2720d56e6914¨",
                     name: "Other Day",
+                    description: null,
+                    focusGroups: null,
+                    day: null,
+                    order: null,
                     programmedExercises: [],
                 };
-                const pressDay = {
+                const pressDay: ProgrammedWorkout = {
+                    __typename: "ProgrammedWorkout",
                     id: "e3063dd8-111a-45f2-83ac-6a59c56bd840",
                     program: "3f578d2b-7f96-4faf-931f-2720d56e6914¨",
                     name: "Press Day",
+                    description: null,
+                    focusGroups: null,
+                    day: null,
+                    order: null,
                     programmedExercises: [],
                 };
                 const easyProgram: Program = {
+                    __typename: "Program",
                     id: "3f578d2b-7f96-4faf-931f-2720d56e6914¨",
                     name: "Easy Program",
                     description: "This things a joke",
@@ -333,7 +369,7 @@ describe("ProgramsPage", () => {
             renderPage(
                 ProgramPage,
                 `${PROGRAM_ROUTE}/${superHardProgram.id}`,
-                [programQueryMock, renameProgramMock]
+                [programQueryMock, renameProgramMock, programQueryMock]
             );
 
             expect(await screen.findByText(superHardProgram.name)).toBeInTheDocument();
@@ -383,7 +419,7 @@ describe("ProgramsPage", () => {
             renderPage(
                 ProgramPage,
                 `${PROGRAM_ROUTE}/${superHardProgram.id}`,
-                [programQueryMock, changeProgramDescriptionMock]
+                [programQueryMock, changeProgramDescriptionMock, programQueryMock]
             );
 
             await userEvent.click(await screen.findByLabelText("edit program details"));
@@ -411,10 +447,14 @@ const generateChangeWorkoutOrderMock = (workout: ProgrammedWorkout, order?: numb
                 changeProgrammedWorkoutOrder: {
                     success: true,
                     programmedWorkout: {
+                        __typename: "ProgrammedWorkout",
                         id: workout.id,
                         program: workout.program,
                         name: workout.name,
-                        order,
+                        description: workout.description,
+                        focusGroups: workout.focusGroups,
+                        day: workout.day,
+                        order: order ? order : workout.order,
                         programmedExercises: [],
                     }
                 }

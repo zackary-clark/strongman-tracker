@@ -38,8 +38,10 @@ describe("ProgrammedWorkoutsPage", () => {
             result: {
                 data: {
                     program: {
+                        __typename: "Program",
                         id: "d3b2a6dd-a28f-48f8-af1f-2a5b01bea22a",
                         name: "5x5",
+                        description: null,
                         workouts: [],
                     }
                 }
@@ -64,6 +66,7 @@ describe("ProgrammedWorkoutsPage", () => {
                     addProgrammedWorkout: {
                         success: true,
                         programmedWorkout: {
+                            __typename: "ProgrammedWorkout",
                             id: "bf693d96-0435-46fd-8609-4917e91527a5",
                             program: "d3b2a6dd-a28f-48f8-af1f-2a5b01bea22a",
                             name: "Skipped Leg Day",

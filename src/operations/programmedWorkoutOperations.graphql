@@ -1,23 +1,19 @@
+fragment ProgrammedWorkoutFragment on ProgrammedWorkout {
+    id
+    program
+    name
+    order
+    description
+    focusGroups
+    day
+    programmedExercises {
+        ...ProgrammedExerciseFragment
+    }
+}
+
 query ProgrammedWorkout($input: SingleProgrammedWorkoutInput!) {
     programmedWorkout(input: $input) {
-        id
-        program
-        name
-        order
-        description
-        focusGroups
-        day
-        programmedExercises {
-            id
-            programmedWorkout
-            order
-            exercise {
-                id
-                name
-                description
-                focusGroups
-            }
-        }
+        ...ProgrammedWorkoutFragment
     }
 }
 
@@ -25,24 +21,7 @@ mutation AddProgrammedWorkout($input: AddProgrammedWorkoutInput!) {
     addProgrammedWorkout(input: $input) {
         success
         programmedWorkout {
-            id
-            program
-            name
-            order
-            description
-            focusGroups
-            day
-            programmedExercises {
-                id
-                programmedWorkout
-                order
-                exercise {
-                    id
-                    name
-                    description
-                    focusGroups
-                }
-            }
+            ...ProgrammedWorkoutFragment
         }
     }
 }
@@ -51,24 +30,7 @@ mutation RenameProgrammedWorkout($input: RenameProgrammedWorkoutInput!) {
     renameProgrammedWorkout(input: $input) {
         success
         programmedWorkout {
-            id
-            program
-            name
-            order
-            description
-            focusGroups
-            day
-            programmedExercises {
-                id
-                programmedWorkout
-                order
-                exercise {
-                    id
-                    name
-                    description
-                    focusGroups
-                }
-            }
+            ...ProgrammedWorkoutFragment
         }
     }
 }
@@ -77,24 +39,7 @@ mutation ChangeProgrammedWorkoutDescription($input: ChangeProgrammedWorkoutDescr
     changeProgrammedWorkoutDescription(input: $input) {
         success
         programmedWorkout {
-            id
-            program
-            name
-            order
-            description
-            focusGroups
-            day
-            programmedExercises {
-                id
-                programmedWorkout
-                order
-                exercise {
-                    id
-                    name
-                    description
-                    focusGroups
-                }
-            }
+            ...ProgrammedWorkoutFragment
         }
     }
 }
@@ -103,24 +48,7 @@ mutation ChangeProgrammedWorkoutDay($input: ChangeProgrammedWorkoutDayInput!) {
     changeProgrammedWorkoutDay(input: $input) {
         success
         programmedWorkout {
-            id
-            program
-            name
-            order
-            description
-            focusGroups
-            day
-            programmedExercises {
-                id
-                programmedWorkout
-                order
-                exercise {
-                    id
-                    name
-                    description
-                    focusGroups
-                }
-            }
+            ...ProgrammedWorkoutFragment
         }
     }
 }
@@ -129,24 +57,7 @@ mutation ChangeProgrammedWorkoutFocusGroups($input: ChangeProgrammedWorkoutFocus
     changeProgrammedWorkoutFocusGroups(input: $input) {
         success
         programmedWorkout {
-            id
-            program
-            name
-            order
-            description
-            focusGroups
-            day
-            programmedExercises {
-                id
-                programmedWorkout
-                order
-                exercise {
-                    id
-                    name
-                    description
-                    focusGroups
-                }
-            }
+            ...ProgrammedWorkoutFragment
         }
     }
 }
@@ -155,24 +66,7 @@ mutation ChangeProgrammedWorkoutOrder($id: ID!, $order: Int!) {
     changeProgrammedWorkoutOrder(input: {id: $id, order: $order}) {
         success
         programmedWorkout {
-            id
-            program
-            name
-            order
-            description
-            focusGroups
-            day
-            programmedExercises {
-                id
-                programmedWorkout
-                order
-                exercise {
-                    id
-                    name
-                    description
-                    focusGroups
-                }
-            }
+            ...ProgrammedWorkoutFragment
         }
     }
 }

@@ -9,6 +9,7 @@ import {
     ChangeExerciseDescriptionMutation,
     ChangeExerciseFocusGroupsDocument,
     ChangeExerciseFocusGroupsMutation,
+    Exercise,
     ExerciseDocument,
     ExerciseQuery,
     MuscleGroup,
@@ -24,7 +25,8 @@ import { triggerAsync } from "../../testUtils/triggerAsync";
 import { MyExercisesComponent } from "./MyExercisesComponent";
 
 describe("MyExercisesPage", () => {
-    const superCoolCustomExercise = {
+    const superCoolCustomExercise: Exercise = {
+        __typename: "Exercise",
         id: "af0be2e2-aa3a-42eb-aaac-295f309e3347",
         name: "super cool custom exercise",
         description: "it's a description of how cool that exercise is",
@@ -39,8 +41,10 @@ describe("MyExercisesPage", () => {
                 exercises: [
                     superCoolCustomExercise,
                     {
+                        __typename: "Exercise",
                         id: "9d019e2b-1775-40a7-b090-80c8d0873c88",
                         name: "Another Cool Exercise",
+                        description: null,
                         focusGroups: []
                     }
                 ]
@@ -74,6 +78,7 @@ describe("MyExercisesPage", () => {
                     addExercise: {
                         success: true,
                         exercise: {
+                            __typename: "Exercise",
                             id: "2fb4c0ed-b0e1-4d19-8c24-f79cf5f1d56d",
                             name: "New and Different Press",
                             description: "super cool description",

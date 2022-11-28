@@ -2,7 +2,10 @@ import { ApolloError } from "@apollo/client";
 import { OpenSnackbar } from "../context/snackbarContext";
 
 export const onQueryError = (openSnackbar: OpenSnackbar): (error: ApolloError) => void => {
-    return function({ networkError }) {
+    return function({ networkError, message }) {
+        if (isJestEnv()) {
+            console.error(message);
+        }
         // @ts-ignore
         if (networkError?.statusCode === 403) {
             console.error("Forbidden");
@@ -15,7 +18,10 @@ export const onQueryError = (openSnackbar: OpenSnackbar): (error: ApolloError) =
 };
 
 export const onMutationError = (openSnackbar: OpenSnackbar): (error: ApolloError) => void => {
-    return function({ networkError }) {
+    return function({ networkError, message }) {
+        if (isJestEnv()) {
+            console.error(message);
+        }
         // @ts-ignore
         if (networkError?.statusCode === 403) {
             console.error("Forbidden");
@@ -26,3 +32,5 @@ export const onMutationError = (openSnackbar: OpenSnackbar): (error: ApolloError
         }
     };
 };
+
+const isJestEnv = () => (process.env.NODE_ENV === "test");
