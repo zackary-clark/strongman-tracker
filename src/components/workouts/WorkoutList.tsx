@@ -67,7 +67,7 @@ export const WorkoutList: FunctionComponent = () => {
                     </Fab>
                 </Box>
             </Stack>
-            <Box sx={{display: "flex", justifyContent: "center"}}>
+            <Box sx={{display: "flex", alignItems: "center", flexDirection: "column"}}>
                 {workoutsSortedByDate.map(workout => <WorkoutTable key={`${workout.__typename}__${workout.id}`} workout={workout} /> )}
             </Box>
         </Box>
