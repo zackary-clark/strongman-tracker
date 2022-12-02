@@ -142,4 +142,15 @@ const breakpoints: BreakpointsOptions = {
     }
 };
 
-export const theme = createTheme({palette, breakpoints});
+const components = {
+    MuiDialogContent: {
+        styleOverrides: {
+            root: {
+                paddingTop: "16px!important",
+                paddingBottom: "16px!important",
+            },
+        },
+    },
+};
+
+export const theme = createTheme({palette, breakpoints, components});

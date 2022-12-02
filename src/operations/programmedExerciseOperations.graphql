@@ -12,3 +12,21 @@ query ProgrammedExercise($input: SingleProgrammedExerciseInput!) {
         ...ProgrammedExerciseFragment
     }
 }
+
+mutation AddProgrammedExercise($input: AddProgrammedExerciseInput!) {
+    addProgrammedExercise(input: $input) {
+        success
+        programmedExercise {
+            ...ProgrammedExerciseFragment
+        }
+    }
+}
+
+mutation ChangeProgrammedExerciseOrder($id: ID!, $order: Int!) {
+    changeProgrammedExerciseOrder(input: { id: $id, order: $order }) {
+        success
+        programmedExercise {
+            ...ProgrammedExerciseFragment
+        }
+    }
+}

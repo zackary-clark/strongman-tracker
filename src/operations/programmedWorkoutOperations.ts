@@ -58,9 +58,7 @@ export function useAddProgrammedWorkoutMutation(options?: MutationHookOptions<Ad
     const openSnackbar = useSnackbar();
 
     return useAddProgrammedWorkoutMutation__generated({
-        ...{
-            onError: onMutationError(openSnackbar),
-        },
+        onError: onMutationError(openSnackbar),
         ...options,
     });
 }

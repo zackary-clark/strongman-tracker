@@ -72,7 +72,7 @@ export const StandardList: FunctionComponent<Props> = ({
                         disablePadding
                         secondaryAction={showArrowButtons && <ArrowButtons option={option} />}
                     >
-                        <ListItemButton onClick={option.onClick}>
+                        <ListItemButton onClick={option.onClick} sx={showArrowButtons ? { height: "72px" } : undefined}>
                             {option.avatarText && <ListItemAvatar>
                                 <Avatar sx={{ bgcolor: "primary.main", fontSize: "1rem" }}>
                                     {capitalize(option.avatarText.substring(0, 3))}
@@ -89,7 +89,7 @@ export const StandardList: FunctionComponent<Props> = ({
                     </ListItem>
                 ))}
                 {showNew && (
-                    <ListItemButton onClick={newOnClick}>
+                    <ListItemButton onClick={newOnClick} sx={showArrowButtons ? { height: "72px" } : undefined}>
                         <ListItemIcon>
                             <AddCircle color="secondary" fontSize="large" />
                         </ListItemIcon>

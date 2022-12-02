@@ -5,6 +5,12 @@ fragment ExerciseFragment on Exercise {
     focusGroups
 }
 
+query Exercises($input: ExercisesInput) {
+    exercises(input: $input) {
+        ...ExerciseFragment
+    }
+}
+
 query MyExercises {
     exercises(input: { sort: { name: asc }, filter: { custom: true } }) {
         ...ExerciseFragment

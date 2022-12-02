@@ -30,7 +30,7 @@ export const SingleProgramComponent: FunctionComponent = () => {
     const [changeWorkoutOrder] = useChangeProgrammedWorkoutOrderMutation();
 
     const program = programData?.program;
-    const workouts = program?.workouts;
+    const workouts = program?.workouts ?? [];
 
     if (programLoading) return <LoadingScreen />;
     if (!program) return <ErrorScreen />;
@@ -83,23 +83,21 @@ export const SingleProgramComponent: FunctionComponent = () => {
                     <ProgramForm program={program} /> :
                     <ProgramInfo program={program} onEditClick={() => setEditing(true)} />
                 }
-                {workouts && (
-                    <StandardList
-                        options={workouts.map(workout => ({
-                            key: workout.id,
-                            primary: workout.name,
-                            secondary: "Exercise 1, Exercise 2",
-                            onClick: () => navigate(`${PROGRAMMED_WORKOUT_ROUTE}/${workout.id}`),
-                            upArrowClick: () => handleArrow(workout.id, "up"),
-                            downArrowClick: () => handleArrow(workout.id, "down"),
-                            avatarText: workout.day,
-                        }))}
-                        showArrowButtons
-                        showNew
-                        newLabel="Add Workout"
-                        newOnClick={() => navigate(PROGRAMMED_WORKOUT_ROUTE + "/new/" + program.id)}
-                    />
-                )}
+                <StandardList
+                    options={workouts.map(workout => ({
+                        key: workout.id,
+                        primary: workout.name,
+                        secondary: workout.programmedExercises?.map(ex => ex.exercise.name).join(", "),
+                        onClick: () => navigate(`${PROGRAMMED_WORKOUT_ROUTE}/${workout.id}`),
+                        upArrowClick: () => handleArrow(workout.id, "up"),
+                        downArrowClick: () => handleArrow(workout.id, "down"),
+                        avatarText: workout.day,
+                    }))}
+                    showArrowButtons
+                    showNew
+                    newLabel="Add Workout"
+                    newOnClick={() => navigate(PROGRAMMED_WORKOUT_ROUTE + "/new/" + program.id)}
+                />
             </Stack>
         </Box>
     );

@@ -3,6 +3,7 @@ import {
     AddExerciseInput,
     AddMyExerciseMutation,
     Exact,
+    ExercisesInput,
     MyExercisesDocument,
     RenameExerciseInput,
     RenameExerciseMutation,
@@ -10,11 +11,21 @@ import {
     useChangeExerciseDescriptionMutation__generated,
     useChangeExerciseFocusGroupsMutation__generated,
     useExerciseQuery__generated,
+    useExercisesQuery__generated,
     useMyExercisesQuery__generated,
     useRenameExerciseMutation__generated
 } from "../../generated/schema";
 import { useSnackbar } from "../context/snackbarContext";
 import { onMutationError, onQueryError } from "./defaultOnErrors";
+
+export function useExercisesQuery(input?: ExercisesInput) {
+    const openSnackbar = useSnackbar();
+
+    return useExercisesQuery__generated({
+        onError: onQueryError(openSnackbar),
+        variables: { input },
+    });
+}
 
 export function useMyExercisesQuery() {
     const openSnackbar = useSnackbar();
@@ -37,10 +48,8 @@ export function useAddMyExerciseMutation(options?: MutationHookOptions<AddMyExer
     const openSnackbar = useSnackbar();
 
     return useAddMyExerciseMutation__generated({
-        ...{
-            onError: onMutationError(openSnackbar),
-            refetchQueries: [{query: MyExercisesDocument}]
-        },
+        onError: onMutationError(openSnackbar),
+        refetchQueries: [{query: MyExercisesDocument}],
         ...options
     });
 }
@@ -49,9 +58,7 @@ export function useRenameExerciseMutation(options?: MutationHookOptions<RenameEx
     const openSnackbar = useSnackbar();
 
     return useRenameExerciseMutation__generated({
-        ...{
-            onError: onMutationError(openSnackbar)
-        },
+        onError: onMutationError(openSnackbar),
         ...options
     });
 }
