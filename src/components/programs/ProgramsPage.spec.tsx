@@ -390,6 +390,10 @@ describe("ProgramsPage", () => {
             await triggerAsync();
 
             expect(screen.queryByText("Network Error!")).not.toBeInTheDocument();
+
+            await userEvent.click(screen.getByLabelText("close"));
+
+            expect(screen.queryByLabelText("Name")).not.toBeInTheDocument();
         });
 
         it("should edit description on blur", async () => {

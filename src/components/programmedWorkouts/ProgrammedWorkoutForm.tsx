@@ -9,9 +9,10 @@ import { ProgrammedWorkoutFormBase } from "./ProgrammedWorkoutFormBase";
 
 interface Props {
     programmedWorkout: ProgrammedWorkout,
+    onCloseClick?: () => void,
 }
 
-export const ProgrammedWorkoutForm: FunctionComponent<Props> = ({programmedWorkout}) => {
+export const ProgrammedWorkoutForm: FunctionComponent<Props> = ({programmedWorkout, onCloseClick}) => {
     const [renameWorkout] = useRenameProgrammedWorkoutMutation();
     const [changeDescription] = useChangeProgrammedWorkoutDescriptionMutation();
     const [changeDay] = useChangeProgrammedWorkoutDayMutation();
@@ -91,6 +92,7 @@ export const ProgrammedWorkoutForm: FunctionComponent<Props> = ({programmedWorko
             dayOfWeekOnClick={handleDayOnClick}
             focusGroupsStateTuple={[focusGroups, setFocusGroups]}
             focusGroupsOnClose={handleFocusGroupsOnClose}
+            onCloseClick={onCloseClick}
         />
     );
 };

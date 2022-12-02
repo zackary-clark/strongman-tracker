@@ -80,7 +80,7 @@ export const SingleProgramComponent: FunctionComponent = () => {
         <Box sx={{ display: "flex", justifyContent: "center", margin: 2 }}>
             <Stack sx={{ width: "100%", maxWidth: 400 }} spacing={2}>
                 {editing ?
-                    <ProgramForm program={program} /> :
+                    <ProgramForm program={program} onCloseClick={() => setEditing(false)} /> :
                     <ProgramInfo program={program} onEditClick={() => setEditing(true)} />
                 }
                 <StandardList

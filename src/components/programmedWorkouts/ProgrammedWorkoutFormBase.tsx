@@ -1,4 +1,6 @@
-import { Paper, Stack, TextField, Typography } from "@mui/material";
+import { Clear } from "@mui/icons-material";
+import { IconButton, Paper, Stack, TextField, Typography } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
 import React, { FunctionComponent } from "react";
 import { DayOfWeek, MuscleGroup } from "../../../generated/schema";
 import { DayOfWeekToggleButtonGroup } from "../common/DayOfWeekToggleButtonGroup";
@@ -15,6 +17,7 @@ interface Props {
     dayOfWeekOnClick?: (event: React.MouseEvent<HTMLElement>, newDay: DayOfWeek | null) => void,
     focusGroupsStateTuple: [MuscleGroup[], React.Dispatch<React.SetStateAction<MuscleGroup[]>>],
     focusGroupsOnClose?: () => void,
+    onCloseClick?: () => void,
 }
 
 export const ProgrammedWorkoutFormBase: FunctionComponent<Props> = ({
@@ -28,15 +31,28 @@ export const ProgrammedWorkoutFormBase: FunctionComponent<Props> = ({
     dayOfWeekOnClick,
     focusGroupsStateTuple,
     focusGroupsOnClose = () => {},
+    onCloseClick,
 }) => {
     const [name, setName] = nameStateTuple;
     const [description, setDescription] = descriptionStateTuple;
 
     return (
         <Paper elevation={4} sx={{ width: "100%", maxWidth: 400 }}>
-            <Typography variant="h6" align="center" sx={{ margin: 1 }}>
-                {headingLabel}
-            </Typography>
+            <Grid container spacing={2} marginX={1.5} marginTop={0}>
+                <Grid xs={1} />
+                <Grid xs={10} display="flex" justifyContent="center" alignItems="center">
+                    <Typography variant="h6" align="center">
+                        {headingLabel}
+                    </Typography>
+                </Grid>
+                <Grid xs={1} display="flex" justifyContent="center" alignItems="center">
+                    {onCloseClick && (
+                        <IconButton aria-label="close" onClick={onCloseClick}>
+                            <Clear fontSize="small" />
+                        </IconButton>
+                    )}
+                </Grid>
+            </Grid>
             <Stack spacing={2} sx={{ marginX: 2, marginBottom: 2, marginTop: 1 }}>
                 <TextField
                     label="Name"

@@ -5,9 +5,10 @@ import { ProgramFormBase } from "./ProgramFormBase";
 
 interface Props {
     program: Program,
+    onCloseClick: () => void,
 }
 
-export const ProgramForm: FunctionComponent<Props> = ({ program }) => {
+export const ProgramForm: FunctionComponent<Props> = ({ program, onCloseClick }) => {
     const [renameProgram] = useRenameProgramMutation();
     const [changeDescription] = useChangeProgramDescriptionMutation();
 
@@ -55,6 +56,7 @@ export const ProgramForm: FunctionComponent<Props> = ({ program }) => {
             nameOnBlur={handleNameOnBlur}
             descriptionStateTuple={[description, setDescription]}
             descriptionOnBlur={handleDescriptionOnBlur}
+            onCloseClick={onCloseClick}
         />
     );
 };

@@ -30,7 +30,7 @@ export const SingleProgrammedWorkoutComponent: FunctionComponent = () => {
         <Box sx={{ display: "flex", justifyContent: "center", margin: 2 }}>
             <Stack sx={{ width: "100%", maxWidth: 400 }} spacing={2}>
                 {editing ?
-                    <ProgrammedWorkoutForm programmedWorkout={programmedWorkout} /> :
+                    <ProgrammedWorkoutForm programmedWorkout={programmedWorkout} onCloseClick={() => setEditing(false)} /> :
                     <ProgrammedWorkoutInfo programmedWorkout={programmedWorkout} onEditClick={() => setEditing(true)} />
                 }
                 <StandardList
