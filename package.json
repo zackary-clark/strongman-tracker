@@ -9,10 +9,15 @@
         "predev": "npm install",
         "dev": "concurrently \"webpack serve --mode development --env development\" \"graphql-codegen --watch\"",
         "docker:buildlocal": "npm run build && docker rmi -f zackaryclark/strongman-tracker && docker build ./ -t zackaryclark/strongman-tracker",
-        "docker:buildrelease": "npm run build && docker build ./ -t zackaryclark/strongman-tracker:latest -t zackaryclark/strongman-tracker:$npm_package_version",
+        "docker:buildarm": "docker build ./ --platform=linux/arm64 -t zackaryclark/strongman-tracker:$npm_package_version -t zackaryclark/strongman-tracker:latest",
+        "docker:buildx86": "docker build ./ --platform=linux/amd64 -t us-central1-docker.pkg.dev/deft-bazaar-370800/strongman-tracker/strongman-tracker:$npm_package_version -t us-central1-docker.pkg.dev/deft-bazaar-370800/strongman-tracker/strongman-tracker:latest",
+        "docker:buildrelease": "npm run build && npm run docker:buildarm && npm run docker:buildx86",
         "docker:check": "./scripts/checkForDockerDaemon.sh",
-        "docker:pushrelease": "docker push zackaryclark/strongman-tracker:$npm_package_version && docker push zackaryclark/strongman-tracker:latest",
+        "docker:pusharm": "docker push zackaryclark/strongman-tracker:$npm_package_version && docker push zackaryclark/strongman-tracker:latest",
+        "docker:pushx86": "docker push us-central1-docker.pkg.dev/deft-bazaar-370800/strongman-tracker/strongman-tracker:$npm_package_version && docker push us-central1-docker.pkg.dev/deft-bazaar-370800/strongman-tracker/strongman-tracker:latest",
+        "docker:pushrelease": "npm run docker:pusharm && npm run docker:pushx86",
         "docker:release": "npm run docker:buildrelease && npm run docker:pushrelease",
+        "gcp:release": "gcloud run deploy strongman-tracker --image us-central1-docker.pkg.dev/deft-bazaar-370800/strongman-tracker/strongman-tracker:latest",
         "generate": "graphql-codegen",
         "git:pushtags": "git push --tags && git push",
         "kubelocal:use": "kubectl config use-context docker-desktop",
@@ -23,7 +28,7 @@
         "print:release": "echo \"\n\\033[0;32m  <==  Released Client v$npm_package_version  ==>  \\033[0m\n\"",
         "test": "jest",
         "preversion": "npm test && npm run docker:check",
-        "postversion": "npm run git:pushtags && npm run docker:release && sleep 5 && npm run kubeprod:release && npm run print:release"
+        "postversion": "npm run git:pushtags && npm run docker:release && sleep 5 && npm run gcp:release && npm run print:release"
     },
     "dependencies": {
         "@apollo/client": "3.6.9",
