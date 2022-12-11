@@ -1,6 +1,6 @@
 {
     "name": "strongman-tracker",
-    "version": "0.2.10",
+    "version": "0.2.11",
     "license": "GPL-3.0-only",
     "scripts": {
         "analyze": "webpack --json > stats.json",
