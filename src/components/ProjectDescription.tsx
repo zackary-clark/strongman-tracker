@@ -17,7 +17,7 @@ export const ProjectDescription: FunctionComponent = () => (
             How?
         </Typography>
         <Typography variant="body1" mt={4} mx={4}>
-            To try out the app, login with the username <Typography variant="button" color="secondary">demo</Typography> and password <Typography variant="button" color="secondary">demo</Typography>.
+            To try out the app, login with the email <Typography variant="button" color="secondary">demo@demo.com</Typography> and password <Typography variant="button" color="secondary">demo</Typography>.
         </Typography>
         <Typography variant="body1" mb={4} mx={4}>
             Alternatively, you can register from within the login page to become a &quot;real&quot; user.

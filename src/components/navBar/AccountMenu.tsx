@@ -8,7 +8,7 @@ import { MY_EXERCISE_ROUTE } from "../../pages/constants";
 import { PreferencesForm } from "./PreferencesForm";
 
 export const AccountMenu: FunctionComponent = () => {
-    const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+    const { loginWithRedirect, logout, isAuthenticated, isLoading } = useAuth0();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isPreferencesDrawerOpen, setIsPreferencesDrawerOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -29,6 +29,8 @@ export const AccountMenu: FunctionComponent = () => {
         setIsMenuOpen(false);
         setIsPreferencesDrawerOpen(true);
     };
+
+    if (isLoading) return null;
 
     return (
         <>

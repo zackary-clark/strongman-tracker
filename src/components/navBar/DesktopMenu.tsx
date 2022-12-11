@@ -6,14 +6,14 @@ import { MenuButton } from "./MenuButton";
 import { navbarLinks } from "./navbarLinks";
 
 export const DesktopMenu: FunctionComponent = () => {
-    const { isAuthenticated } = useAuth0();
+    const { isLoading, isAuthenticated } = useAuth0();
     return (
         <>
             <Box>
                 <Box sx={{ mr: 2 }} component="span">
                     <Logo />
                 </Box>
-                {isAuthenticated &&
+                {(!isLoading && isAuthenticated) &&
                     <>
                         {navbarLinks.map(link => (
                             <MenuButton key={link.label + "_link"} routeTo={link.route} ariaLabel={link.label}>{link.label}</MenuButton>
