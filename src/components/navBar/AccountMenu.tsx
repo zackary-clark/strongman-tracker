@@ -1,15 +1,14 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { AccountCircle, FitnessCenter, Logout, Settings } from "@mui/icons-material";
 import { Box, Button, Divider, Drawer, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
 import React, { FunctionComponent, MouseEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuthenticated, useKeycloak } from "../../context/keycloakContext";
 import { getVersion } from "../../env/getters";
 import { MY_EXERCISE_ROUTE } from "../../pages/constants";
 import { PreferencesForm } from "./PreferencesForm";
 
 export const AccountMenu: FunctionComponent = () => {
-    const keycloak = useKeycloak();
-    const authenticated = useAuthenticated();
+    const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isPreferencesDrawerOpen, setIsPreferencesDrawerOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -33,20 +32,20 @@ export const AccountMenu: FunctionComponent = () => {
 
     return (
         <>
-            {authenticated ? (
+            {isAuthenticated ? (
                     <IconButton onClick={handleOpenMenu} aria-label="account icon">
                         <AccountCircle fontSize="large" />
                     </IconButton>
                 ) : (
                     <Button
                         variant="contained"
-                        onClick={() => keycloak.login()}
+                        onClick={() => loginWithRedirect()}
                         color="neutral"
                     >
                         Log In
                     </Button>
                 )}
-            {authenticated && (
+            {isAuthenticated && (
                 <>
                     <Menu open={isMenuOpen} onClose={handleCloseMenu} anchorEl={anchorEl}>
                         <MenuItem component={Link} to={MY_EXERCISE_ROUTE} onClick={() => setIsMenuOpen(false)}>
@@ -70,7 +69,7 @@ export const AccountMenu: FunctionComponent = () => {
                                 {version ? `v${version}` : undefined}
                             </Divider>
                         </Box>
-                        <MenuItem onClick={() => keycloak.logout({ redirectUri: window.location.origin })}>
+                        <MenuItem onClick={() => logout({ returnTo: window.location.origin })}>
                             <ListItemIcon>
                                 <Logout fontSize="small" />
                             </ListItemIcon>

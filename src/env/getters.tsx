@@ -2,6 +2,5 @@
 
 export const getVersion = (): string | undefined => PACKAGE_VERSION;
 export const getApiAddress = (): string => window.API_ADDRESS;
-export const getKeycloakURL = (): string => window.KC_URL;
-export const getKeycloakRealm = (): string => window.KC_REALM;
-export const getKeycloakClientId = (): string => window.KC_CLIENT_ID;
+export const getAuthZeroDomain = (): string => window.AUTH_ZERO_DOMAIN;
+export const getAuthZeroClientId = (): string => window.AUTH_ZERO_CLIENT_ID;

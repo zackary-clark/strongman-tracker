@@ -2,6 +2,7 @@
 .gradle/
 /build/
 .env
+.env.json
 .data
 /bin/
 /generated/

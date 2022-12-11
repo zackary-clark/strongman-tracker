@@ -1,0 +1,7 @@
+#!/bin/sh -eu
+
+cat <<EOF
+window.API_ADDRESS='$API_ADDRESS';
+window.AUTH_ZERO_DOMAIN='$AUTH_ZERO_DOMAIN';
+window.AUTH_ZERO_CLIENT_ID='$AUTH_ZERO_CLIENT_ID';
+EOF

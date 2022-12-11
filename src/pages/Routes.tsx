@@ -1,4 +1,3 @@
-import Keycloak from "keycloak-js";
 import * as React from "react";
 import { FunctionComponent } from "react";
 import { Route, Routes as RRRoutes } from "react-router-dom";
@@ -12,13 +11,9 @@ import { ProgramPage } from "./ProgramPage";
 import { Root } from "./Root";
 import { WorkoutPage } from "./WorkoutPage";
 
-interface Props {
-    keycloak: Keycloak;
-}
-
-export const Routes: FunctionComponent<Props> = ({keycloak}) => (
+export const Routes: FunctionComponent = () => (
     <RRRoutes>
-        <Route path={ROOT_ROUTE} element={<Root keycloak={keycloak} />}>
+        <Route path={ROOT_ROUTE} element={<Root />}>
             <Route index element={<ProjectDescription />} />
             {MaxPage}
             {WorkoutPage}

@@ -1,21 +1,21 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { Box, IconButton, Menu, MenuItem } from "@mui/material";
 import React, { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthenticated } from "../../context/keycloakContext";
 import { useLoginWarning } from "../../context/snackbarContext";
 import { Logo } from "./Logo";
 import { navbarLinks } from "./navbarLinks";
 
 export const MobileMenu: FunctionComponent = () => {
-    const authenticated = useAuthenticated();
+    const { isAuthenticated } = useAuth0();
     const openLoginWarning = useLoginWarning();
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const handleIconClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        if (authenticated) {
+        if (isAuthenticated) {
             setIsMenuOpen(!isMenuOpen);
             setAnchorEl(event.currentTarget);
         } else {

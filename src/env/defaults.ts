@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // This file *only* defines default values and types
 // To get values when running in K8s/Docker they *must* be added to generate_env_js as well
 
@@ -7,13 +9,11 @@ declare global {
 
     interface Window {
         API_ADDRESS: string;
-        KC_REALM: string;
-        KC_URL: string;
-        KC_CLIENT_ID: string;
+        AUTH_ZERO_DOMAIN: string;
+        AUTH_ZERO_CLIENT_ID: string;
     }
 }
 
 window.API_ADDRESS="http://localhost:8082/graphql";
-window.KC_REALM="Tracker";
-window.KC_URL="http://keycloak:8080/";
-window.KC_CLIENT_ID="tracker";
+window.AUTH_ZERO_DOMAIN=require("../../.env.json").authZeroDomain;
+window.AUTH_ZERO_CLIENT_ID=require("../../.env.json").authZeroClientId;
