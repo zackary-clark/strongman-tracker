@@ -331,7 +331,7 @@ describe("ProgramsPage", () => {
                 renderPage(
                     ProgramPage,
                     PROGRAM_ROUTE + "/" + easyProgram.id,
-                    [easyProgramQueryMock, orderMock0, orderMock1, orderMock2, orderMock3]
+                    [easyProgramQueryMock, orderMock0, orderMock1, orderMock2, orderMock3, easyProgramQueryMock]
                 );
 
                 expect(await screen.findByText("Deadlift Day")).toBeInTheDocument();
