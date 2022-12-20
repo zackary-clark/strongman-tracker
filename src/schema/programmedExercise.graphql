@@ -6,6 +6,7 @@ extend type Query {
 extend type Mutation {
     addProgrammedExercise(input: AddProgrammedExerciseInput!): ProgrammedExerciseMutationPayload
     changeProgrammedExerciseOrder(input: ChangeProgrammedExerciseOrderInput!): ProgrammedExerciseMutationPayload
+    deleteProgrammedExercise(input: DeleteProgrammedExerciseInput!): ProgrammedExerciseDeletePayload
 }
 
 type ProgrammedExercise {
@@ -42,7 +43,16 @@ input ChangeProgrammedExerciseOrderInput {
     order: Int
 }
 
+input DeleteProgrammedExerciseInput {
+    id: ID!
+}
+
 type ProgrammedExerciseMutationPayload implements MutationPayload {
     success: Boolean!
     programmedExercise: ProgrammedExercise
+}
+
+type ProgrammedExerciseDeletePayload implements DeletePayload {
+    success: Boolean!
+    id: ID!
 }

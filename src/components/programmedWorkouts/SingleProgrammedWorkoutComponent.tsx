@@ -1,5 +1,5 @@
 import { useApolloClient } from "@apollo/client";
-import { Box, Stack } from "@mui/material";
+import { Box, Dialog, Stack } from "@mui/material";
 import React, { FunctionComponent, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProgrammedWorkoutDocument } from "../../../generated/schema";
@@ -10,7 +10,8 @@ import { PROGRAMMED_WORKOUT_ID_PARAM } from "../../pages/constants";
 import { ErrorScreen } from "../common/ErrorScreen";
 import { LoadingScreen } from "../common/LoadingScreen";
 import { StandardList } from "../common/StandardList";
-import { ProgrammedExerciseDialog } from "../programmedExercises/ProgrammedExerciseDialog";
+import { EditProgrammedExerciseDialogContents } from "../programmedExercises/EditProgrammedExerciseDialogContents";
+import { NewProgrammedExerciseDialogContents } from "../programmedExercises/NewProgrammedExerciseDialogContents";
 import { ProgrammedWorkoutForm } from "./ProgrammedWorkoutForm";
 import { ProgrammedWorkoutInfo } from "./ProgrammedWorkoutInfo";
 
@@ -21,7 +22,9 @@ export const SingleProgrammedWorkoutComponent: FunctionComponent = () => {
     if (id === undefined) return <ErrorScreen />;
 
     const [editing, setEditing] = useState(false);
-    const [isExerciseDialogOpen, setIsExerciseDialogOpen] = useState(false);
+    const [isNewDialogOpen, setIsNewDialogOpen] = useState(false);
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [idToEdit, setIdToEdit] = useState<string | null>(null);
     const { data, loading } = useProgrammedWorkoutQuery(id);
     const [changeExerciseOrder] = useChangeProgrammedExerciseOrderMutation();
     const apolloClient = useApolloClient();
@@ -35,6 +38,15 @@ export const SingleProgrammedWorkoutComponent: FunctionComponent = () => {
             apolloClient.refetchQueries({ include: [ProgrammedWorkoutDocument] });
         }
     );
+
+    const closeNewDialog = () => {
+        setIsNewDialogOpen(false);
+    };
+
+    const closeEditDialog = () => {
+        setIsEditDialogOpen(false);
+        setIdToEdit(null);
+    };
 
     const programmedWorkout = data?.programmedWorkout;
     const programmedExercises = programmedWorkout?.programmedExercises ?? [];
@@ -55,18 +67,26 @@ export const SingleProgrammedWorkoutComponent: FunctionComponent = () => {
                         primary: progEx.exercise.name,
                         upArrowClick: () => handleArrow(programmedExercises, progEx.id, "up"),
                         downArrowClick: () => handleArrow(programmedExercises, progEx.id, "down"),
+                        onClick: () => {
+                            setIdToEdit(progEx.id);
+                            setIsEditDialogOpen(true);
+                        }
                     }))}
                     showArrowButtons
                     showNew
                     newLabel="Add Exercise"
-                    newOnClick={() => setIsExerciseDialogOpen(true)}
+                    newOnClick={() => setIsNewDialogOpen(true)}
                 />
             </Stack>
-            <ProgrammedExerciseDialog
-                programmedWorkoutId={programmedWorkout.id}
-                open={isExerciseDialogOpen}
-                onClose={() => setIsExerciseDialogOpen(false)}
-            />
+            <Dialog open={isEditDialogOpen && !!idToEdit} onClose={closeEditDialog} fullWidth maxWidth="sm">
+                {idToEdit && <EditProgrammedExerciseDialogContents programmedExerciseId={idToEdit} onClose={closeEditDialog} />}
+            </Dialog>
+            <Dialog open={isNewDialogOpen} onClose={closeNewDialog} fullWidth maxWidth="sm">
+                <NewProgrammedExerciseDialogContents
+                    programmedWorkoutId={programmedWorkout.id}
+                    onClose={closeNewDialog}
+                />
+            </Dialog>
         </Box>
     );
 };

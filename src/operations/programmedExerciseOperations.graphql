@@ -30,3 +30,10 @@ mutation ChangeProgrammedExerciseOrder($id: ID!, $order: Int!) {
         }
     }
 }
+
+mutation DeleteProgrammedExercise($id: ID!) {
+    deleteProgrammedExercise(input: { id: $id }) {
+        success
+        id
+    }
+}
