@@ -7,11 +7,7 @@ import { getVersion } from "../../env/getters";
 import { MY_EXERCISE_ROUTE } from "../../pages/constants";
 import { PreferencesForm } from "./PreferencesForm";
 
-interface Props {
-    showUsername: boolean;
-}
-
-export const AccountMenu: FunctionComponent<Props> = ({ showUsername = false }) => {
+export const AccountMenu: FunctionComponent = () => {
     const { loginWithRedirect, logout, isAuthenticated, isLoading, user } = useAuth0();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isPreferencesDrawerOpen, setIsPreferencesDrawerOpen] = useState(false);
@@ -54,14 +50,6 @@ export const AccountMenu: FunctionComponent<Props> = ({ showUsername = false }) 
             {isAuthenticated && (
                 <>
                     <Menu open={isMenuOpen} onClose={handleCloseMenu} anchorEl={anchorEl}>
-                        {showUsername && (<>
-                            <MenuItem>
-                                <ListItemText>
-                                    {user?.email}
-                                </ListItemText>
-                            </MenuItem>
-                            <Divider />
-                            </>)}
                         <MenuItem component={Link} to={MY_EXERCISE_ROUTE} onClick={() => setIsMenuOpen(false)}>
                             <ListItemIcon>
                                 <FitnessCenter fontSize="small" />
@@ -88,7 +76,7 @@ export const AccountMenu: FunctionComponent<Props> = ({ showUsername = false }) 
                                 <Logout fontSize="small" />
                             </ListItemIcon>
                             <ListItemText>
-                                Log Out
+                                {user?.email || "Log Out"}
                             </ListItemText>
                         </MenuItem>
                     </Menu>
