@@ -16,7 +16,7 @@ import {
 import React, { FunctionComponent } from "react";
 import { Protocol, Set } from "../../../generated/schema";
 import { useConvertWeight } from "../../hooks/useConvertWeight";
-import { SetTableRow } from "./SetTableRow";
+import { ProtocolTableRow } from "./ProtocolTableRow";
 
 interface Props {
     protocol: Protocol | null;
@@ -38,8 +38,8 @@ export const ProtocolComponent: FunctionComponent<Props> = ({ protocol, setProto
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {protocol?.sets && protocol?.sets.map((set, index) => (
-                            <SetTableRow
+                        {protocol?.sets && protocol.sets.map((set, index) => (
+                            <ProtocolTableRow
                                 set={set}
                                 key={index}
                                 setSet={(changedSet: Set) => {
@@ -65,7 +65,7 @@ export const ProtocolComponent: FunctionComponent<Props> = ({ protocol, setProto
                     size="small"
                     onClick={() => {
                         const newSets = protocol?.sets ? [...protocol.sets] : [];
-                        const prevSet = protocol?.sets[protocol?.sets.length - 1];
+                        const prevSet = protocol?.sets[protocol.sets.length - 1];
                         newSets.push(prevSet ?? {});
                         setProtocol({ sets: newSets });
                     }}

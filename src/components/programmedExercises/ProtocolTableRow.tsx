@@ -8,7 +8,7 @@ interface Props {
     setSet: (set: Set) => void;
 }
 
-export const SetTableRow: FunctionComponent<Props> = ({ set, setSet }) => {
+export const ProtocolTableRow: FunctionComponent<Props> = ({ set, setSet }) => {
     const { convertToUserUnit, convertUserUnitStringToGrams } = useConvertWeight();
 
     const handleChange = (changedValues: Partial<Set>) => {
