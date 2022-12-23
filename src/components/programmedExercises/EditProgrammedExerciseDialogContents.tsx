@@ -1,20 +1,16 @@
-import {
-    Button,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Stack,
-    Theme,
-    Typography,
-    useMediaQuery
-} from "@mui/material";
-import React, { FunctionComponent, useCallback } from "react";
+import { Button, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
+import React, { FunctionComponent, useCallback, useEffect, useState } from "react";
+import { Protocol } from "../../../generated/schema";
 import { useSnackbar } from "../../context/snackbarContext";
 import {
+    useChangeProgrammedExerciseProtocolMutation,
     useDeleteProgrammedExerciseMutation,
     useProgrammedExerciseQuery
 } from "../../operations/programmedExerciseOperations";
+import { DialogCloseButton } from "../common/DialogCloseButton";
+import { ErrorScreen } from "../common/ErrorScreen";
 import { LoadingScreen } from "../common/LoadingScreen";
+import { ProtocolComponent } from "./ProtocolComponent";
 
 interface Props {
     programmedExerciseId: string;
@@ -27,10 +23,14 @@ export const EditProgrammedExerciseDialogContents: FunctionComponent<Props> = ({
 }) => {
     const openSnackbar = useSnackbar();
 
-    const smallOrSmaller = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
+    const [protocol, setProtocol] = useState<Protocol | null>(null);
 
-    const { data, loading } = useProgrammedExerciseQuery(programmedExerciseId);
+    const { data, loading, error } = useProgrammedExerciseQuery(programmedExerciseId);
     const programmedExercise = data?.programmedExercise;
+
+    useEffect(() => {
+        setProtocol(programmedExercise?.protocol ?? null);
+    }, [programmedExercise?.protocol]);
 
     const [deleteProgrammedExercise] = useDeleteProgrammedExerciseMutation(programmedExercise?.programmedWorkout, {
         onCompleted(data) {
@@ -41,25 +41,47 @@ export const EditProgrammedExerciseDialogContents: FunctionComponent<Props> = ({
         },
     });
 
+    const [changeProtocol] = useChangeProgrammedExerciseProtocolMutation();
+
     const handleDelete = useCallback(() => {
         return programmedExerciseId ?
             deleteProgrammedExercise({ variables: { id: programmedExerciseId } }) :
             {};
     }, [programmedExerciseId]);
 
+    const handleSave = async () => {
+        await changeProtocol({ variables: {
+            id: programmedExerciseId,
+            protocol: (protocol?.sets && protocol.sets.length > 0) ? {
+                sets: protocol?.sets.map(set => ({ ...set, __typename: undefined })),
+            } : null,
+        }});
+        handleClose();
+    };
+
+    const handleClose = () => {
+        setProtocol(null);
+        onClose();
+    };
+
     if (loading) return <LoadingScreen />;
+    if (error) return <ErrorScreen />;
 
     return (
         <>
-            <DialogTitle>{programmedExercise?.exercise.name}</DialogTitle>
-            <DialogContent>
-                <Typography variant="body2">Protocol planning coming!</Typography>
+            <DialogTitle>
+                <Typography noWrap variant="inherit">
+                    {programmedExercise?.exercise.name}
+                </Typography>
+                <DialogCloseButton onClick={handleClose} />
+            </DialogTitle>
+            <DialogContent dividers sx={{px:1}}>
+                <ProtocolComponent protocol={protocol} setProtocol={setProtocol} />
             </DialogContent>
             <DialogActions sx={{ justifyContent: "space-between", m: 0.5 }}>
                 <Button onClick={handleDelete} color="error" variant="outlined">Delete</Button>
                 <Stack spacing={1.5} direction="row">
-                    {!smallOrSmaller && <Button onClick={onClose} color="secondary" variant="outlined">Cancel</Button>}
-                    <Button color="secondary" variant="contained" disabled>Save</Button>
+                    <Button onClick={handleSave} color="secondary" variant="contained">Save</Button>
                 </Stack>
             </DialogActions>
         </>

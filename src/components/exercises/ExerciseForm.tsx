@@ -28,7 +28,7 @@ export const ExerciseForm: FunctionComponent<ExerciseFormProps> = ({
     const [description, setDescription] = descriptionStateTuple;
 
     return (
-        <Paper elevation={4} sx={{ width: "100%", maxWidth: 400 }}>
+        <Paper sx={{ width: "100%", maxWidth: 400 }}>
             {headingLabel ?
                 <Typography variant="h6" align="center" sx={{ m: 1 }}>{headingLabel}</Typography> :
                 <Box sx={{ paddingTop: 1 }} />

@@ -7,6 +7,7 @@ import {
     ProgrammedWorkoutDocument,
     useAddProgrammedExerciseMutation__generated,
     useChangeProgrammedExerciseOrderMutation__generated,
+    useChangeProgrammedExerciseProtocolMutation__generated,
     useDeleteProgrammedExerciseMutation__generated,
     useProgrammedExerciseQuery__generated
 } from "../../generated/schema";
@@ -36,6 +37,14 @@ export function useChangeProgrammedExerciseOrderMutation() {
     const openSnackbar = useSnackbar();
 
     return useChangeProgrammedExerciseOrderMutation__generated({
+        onError: onMutationError(openSnackbar),
+    });
+}
+
+export function useChangeProgrammedExerciseProtocolMutation() {
+    const openSnackbar = useSnackbar();
+
+    return useChangeProgrammedExerciseProtocolMutation__generated({
         onError: onMutationError(openSnackbar),
     });
 }

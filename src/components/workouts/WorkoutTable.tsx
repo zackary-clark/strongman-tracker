@@ -12,7 +12,7 @@ interface Props {
 export const WorkoutTable: FunctionComponent<Props> = ({workout}) => {
     const { unit, convertToUserUnit } = useConvertWeight();
     return (
-        <Paper data-testid="workout-table" sx={{ margin: 1, width: "100%", maxWidth: 400 }} elevation={4}>
+        <Paper data-testid="workout-table" sx={{ margin: 1, width: "100%", maxWidth: 400 }} elevation={1}>
             <Button variant="text" color="neutral" size="large" href="#" component={Link} to={`./${workout.id}`}>
                 {format(parseISO(workout.date), "d MMMM y")}
             </Button>

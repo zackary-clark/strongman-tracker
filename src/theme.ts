@@ -134,7 +134,7 @@ const palette: PaletteOptions = {
 
 const breakpoints: BreakpointsOptions = {
     values: {
-        xs: 0,
+        xs: 360,
         sm: 680,
         md: 900,
         lg: 1200,
@@ -143,6 +143,11 @@ const breakpoints: BreakpointsOptions = {
 };
 
 const components = {
+    MuiPaper: {
+        defaultProps: {
+            elevation: 4,
+        }
+    },
     MuiDialogContent: {
         styleOverrides: {
             root: {

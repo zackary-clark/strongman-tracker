@@ -25,6 +25,7 @@ export const SingleProgrammedWorkoutComponent: FunctionComponent = () => {
     const [isNewDialogOpen, setIsNewDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [idToEdit, setIdToEdit] = useState<string | null>(null);
+
     const { data, loading } = useProgrammedWorkoutQuery(id);
     const [changeExerciseOrder] = useChangeProgrammedExerciseOrderMutation();
     const apolloClient = useApolloClient();
@@ -55,7 +56,7 @@ export const SingleProgrammedWorkoutComponent: FunctionComponent = () => {
     if (!programmedWorkout) return <ErrorScreen />;
 
     return (
-        <Box sx={{ display: "flex", justifyContent: "center", margin: 2 }}>
+        <Box sx={{ display: "flex", justifyContent: "center", marginX: 1, marginY: 2 }}>
             <Stack sx={{ width: "100%", maxWidth: 400 }} spacing={2}>
                 {editing ?
                     <ProgrammedWorkoutForm programmedWorkout={programmedWorkout} onCloseClick={() => setEditing(false)} /> :

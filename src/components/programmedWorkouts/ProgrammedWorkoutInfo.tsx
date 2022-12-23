@@ -12,7 +12,7 @@ interface Props {
 export const ProgrammedWorkoutInfo: FunctionComponent<Props> = ({ programmedWorkout, onEditClick }) => {
     const hasFocusGroups = programmedWorkout?.focusGroups && programmedWorkout.focusGroups?.length > 0;
     return (
-        <Paper elevation={4}>
+        <Paper>
             <Grid container spacing={2} marginX={1.5} marginTop={0}>
                 <Grid xs={1} display="flex" justifyContent="center" alignItems="center">
                     {programmedWorkout.day && (

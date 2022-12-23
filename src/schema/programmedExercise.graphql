@@ -6,6 +6,7 @@ extend type Query {
 extend type Mutation {
     addProgrammedExercise(input: AddProgrammedExerciseInput!): ProgrammedExerciseMutationPayload
     changeProgrammedExerciseOrder(input: ChangeProgrammedExerciseOrderInput!): ProgrammedExerciseMutationPayload
+    changeProgrammedExerciseProtocol(input: ChangeProgrammedExerciseProtocolInput!): ProgrammedExerciseMutationPayload
     deleteProgrammedExercise(input: DeleteProgrammedExerciseInput!): ProgrammedExerciseDeletePayload
 }
 
@@ -14,6 +15,25 @@ type ProgrammedExercise {
     programmedWorkout: ID!
     exercise: Exercise!
     order: Int
+    protocol: Protocol
+}
+
+type Protocol {
+    sets: [Set!]!
+}
+
+input ProtocolInput {
+    sets: [SetInput!]!
+}
+
+type Set {
+    repetitions: Int
+    weight: Int
+}
+
+input SetInput {
+    repetitions: Int
+    weight: Int
 }
 
 input ProgrammedExercisesInput {
@@ -36,11 +56,17 @@ input SingleProgrammedExerciseInput {
 input AddProgrammedExerciseInput {
     programmedWorkout: ID!
     exercise: ID!
+    protocol: ProtocolInput
 }
 
 input ChangeProgrammedExerciseOrderInput {
     id: ID!
     order: Int
+}
+
+input ChangeProgrammedExerciseProtocolInput {
+    id: ID!
+    protocol: ProtocolInput
 }
 
 input DeleteProgrammedExerciseInput {

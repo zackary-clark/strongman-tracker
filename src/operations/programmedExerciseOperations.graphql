@@ -5,6 +5,12 @@ fragment ProgrammedExerciseFragment on ProgrammedExercise {
     exercise {
         ...ExerciseFragment
     }
+    protocol {
+        sets {
+            repetitions
+            weight
+        }
+    }
 }
 
 query ProgrammedExercise($input: SingleProgrammedExerciseInput!) {
@@ -24,6 +30,15 @@ mutation AddProgrammedExercise($input: AddProgrammedExerciseInput!) {
 
 mutation ChangeProgrammedExerciseOrder($id: ID!, $order: Int!) {
     changeProgrammedExerciseOrder(input: { id: $id, order: $order }) {
+        success
+        programmedExercise {
+            ...ProgrammedExerciseFragment
+        }
+    }
+}
+
+mutation ChangeProgrammedExerciseProtocol($id: ID!, $protocol: ProtocolInput) {
+    changeProgrammedExerciseProtocol(input: { id: $id, protocol: $protocol }) {
         success
         programmedExercise {
             ...ProgrammedExerciseFragment

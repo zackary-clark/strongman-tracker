@@ -1,10 +1,12 @@
 import { AddCircle, KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import {
     Avatar,
-    Box, capitalize,
+    Box,
+    capitalize,
     IconButton,
     List,
-    ListItem, ListItemAvatar,
+    ListItem,
+    ListItemAvatar,
     ListItemButton,
     ListItemIcon,
     ListItemText,
@@ -64,7 +66,7 @@ export const StandardList: FunctionComponent<Props> = ({
     showArrowButtons = false,
 }) => (
     <Box sx={{ display: "flex", justifyContent: "center", marginX: 1, marginY: 2 }}>
-        <Paper elevation={4} sx={{ width: "100%", maxWidth: 400 }}>
+        <Paper sx={{ width: "100%", maxWidth: 400 }}>
             <List disablePadding>
                 {options.map((option) => (
                     <ListItem

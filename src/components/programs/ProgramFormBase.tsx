@@ -26,7 +26,7 @@ export const ProgramFormBase: FunctionComponent<Props> = ({
     const [description, setDescription] = descriptionStateTuple;
 
     return (
-        <Paper elevation={4} sx={{ width: "100%", maxWidth: 400 }}>
+        <Paper sx={{ width: "100%", maxWidth: 400 }}>
             {headingLabel ?
                 <Grid container spacing={2} marginX={1.5} marginTop={0}>
                     <Grid xs={1} />
@@ -37,7 +37,11 @@ export const ProgramFormBase: FunctionComponent<Props> = ({
                     </Grid>
                     <Grid xs={1} display="flex" justifyContent="center" alignItems="center">
                         {onCloseClick && (
-                            <IconButton aria-label="close" onClick={onCloseClick}>
+                            <IconButton
+                                aria-label="close"
+                                onClick={onCloseClick}
+                                sx={{ color: (theme) => theme.palette.grey[500]}}
+                            >
                                 <Clear fontSize="small" />
                             </IconButton>
                         )}

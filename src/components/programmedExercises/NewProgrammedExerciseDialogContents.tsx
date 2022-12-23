@@ -1,9 +1,12 @@
 import { Autocomplete, Button, DialogActions, DialogContent, DialogTitle, Stack, TextField } from "@mui/material";
 import React, { FunctionComponent, useState } from "react";
+import { Protocol } from "../../../generated/schema";
 import { useSnackbar } from "../../context/snackbarContext";
 import { useExercisesQuery } from "../../operations/exerciseOperations";
 import { useAddProgrammedExerciseMutation } from "../../operations/programmedExerciseOperations";
+import { DialogCloseButton } from "../common/DialogCloseButton";
 import { ErrorScreen } from "../common/ErrorScreen";
+import { ProtocolComponent } from "./ProtocolComponent";
 
 interface Props {
     programmedWorkoutId: string;
@@ -19,6 +22,7 @@ export const NewProgrammedExerciseDialogContents: FunctionComponent<Props> = ({
     if (!programmedWorkoutId) return <ErrorScreen />;
 
     const [exerciseOption, setExerciseOption] = useState<{ label: string, value: string } | null>(null);
+    const [protocol, setProtocol] = useState<Protocol | null>(null);
 
     const { loading: areExercisesLoading, data: exercisesData } = useExercisesQuery();
     const exercises = exercisesData?.exercises ?? [];
@@ -40,7 +44,8 @@ export const NewProgrammedExerciseDialogContents: FunctionComponent<Props> = ({
                 variables: {
                     input: {
                         programmedWorkout: programmedWorkoutId,
-                        exercise: exerciseOption.value
+                        exercise: exerciseOption.value,
+                        protocol
                     }
                 }
             });
@@ -49,14 +54,18 @@ export const NewProgrammedExerciseDialogContents: FunctionComponent<Props> = ({
 
     const handleClose = () => {
         setExerciseOption(null);
+        setProtocol(null);
         onClose();
     };
 
     return (
         <>
-            <DialogTitle>New Exercise</DialogTitle>
-            <DialogContent>
-                <Stack>
+            <DialogTitle>
+                New Exercise
+                <DialogCloseButton onClick={handleClose} />
+            </DialogTitle>
+            <DialogContent dividers sx={{px:1}}>
+                <Stack spacing={2}>
                     <Autocomplete
                         loading={areExercisesLoading}
                         options={exercises.map(ex => ({
@@ -66,18 +75,12 @@ export const NewProgrammedExerciseDialogContents: FunctionComponent<Props> = ({
                         onChange={(event, value) => setExerciseOption(value)}
                         value={exerciseOption}
                         renderInput={(params) => <TextField {...params} label="Exercise" />}
+                        isOptionEqualToValue={(option, value) => option.value === value.value}
                     />
+                    <ProtocolComponent protocol={protocol} setProtocol={setProtocol} />
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button
-                    onClick={handleClose}
-                    color="secondary"
-                    variant="outlined"
-                    sx={{m: 0.5}}
-                >
-                    Cancel
-                </Button>
                 <Button
                     onClick={handleAddClick}
                     color="secondary"

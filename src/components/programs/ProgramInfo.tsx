@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const ProgramInfo: FunctionComponent<Props> = ({ program, onEditClick }) => (
-    <Paper elevation={4}>
+    <Paper>
         <Grid container spacing={2} marginX={1.5} marginTop={0}>
             <Grid xs={1} />
             <Grid xs={10} display="flex" justifyContent="center" alignItems="center">
