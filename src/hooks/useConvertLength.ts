@@ -1,4 +1,5 @@
 import { LengthUnit } from "../../generated/schema";
+import { useUserExerciseUnitQuery } from "../operations/userExerciseUnitOperations";
 import { useUserPreferencesQuery } from "../operations/userPreferencesOperations";
 
 interface ConvertLength {
@@ -8,9 +9,15 @@ interface ConvertLength {
     unit: LengthUnit
 }
 
-export function useConvertLength(): ConvertLength {
-    const { data } = useUserPreferencesQuery();
-    const unit = data?.preferences.lengthUnit;
+export function useConvertLength(exerciseId?: string): ConvertLength {
+    let unit: LengthUnit | undefined;
+    if (exerciseId) {
+        const { data } = useUserExerciseUnitQuery(exerciseId);
+        unit = data?.userExerciseUnit.lengthUnit;
+    } else {
+        const { data } = useUserPreferencesQuery();
+        unit = data?.preferences.lengthUnit;
+    }
 
     switch (unit) {
         case LengthUnit.In:

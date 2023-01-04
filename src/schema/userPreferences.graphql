@@ -24,13 +24,3 @@ type UserPreferences {
     weightUnit: WeightUnit!
     lengthUnit: LengthUnit!
 }
-
-enum WeightUnit {
-    kg
-    lb
-}
-
-enum LengthUnit {
-    cm
-    in
-}

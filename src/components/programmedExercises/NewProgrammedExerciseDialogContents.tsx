@@ -77,7 +77,7 @@ export const NewProgrammedExerciseDialogContents: FunctionComponent<Props> = ({
                         renderInput={(params) => <TextField {...params} label="Exercise" />}
                         isOptionEqualToValue={(option, value) => option.value === value.value}
                     />
-                    <ProtocolComponent protocol={protocol} setProtocol={setProtocol} />
+                    <ProtocolComponent protocol={protocol} setProtocol={setProtocol} exerciseId={exerciseOption?.value} />
                 </Stack>
             </DialogContent>
             <DialogActions>

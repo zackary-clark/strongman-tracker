@@ -76,7 +76,7 @@ export const EditProgrammedExerciseDialogContents: FunctionComponent<Props> = ({
                 <DialogCloseButton onClick={handleClose} />
             </DialogTitle>
             <DialogContent dividers sx={{px:1}}>
-                <ProtocolComponent protocol={protocol} setProtocol={setProtocol} />
+                <ProtocolComponent protocol={protocol} setProtocol={setProtocol} exerciseId={programmedExercise?.exercise.id} />
             </DialogContent>
             <DialogActions sx={{ justifyContent: "space-between", m: 0.5 }}>
                 <Button onClick={handleDelete} color="error" variant="outlined">Delete</Button>

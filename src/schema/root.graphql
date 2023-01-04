@@ -46,3 +46,13 @@ enum DayOfWeek {
     sat
     sun
 }
+
+enum WeightUnit {
+    kg
+    lb
+}
+
+enum LengthUnit {
+    cm
+    in
+}

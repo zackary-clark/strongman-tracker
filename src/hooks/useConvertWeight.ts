@@ -1,4 +1,5 @@
 import { WeightUnit } from "../../generated/schema";
+import { useUserExerciseUnitQuery } from "../operations/userExerciseUnitOperations";
 import { useUserPreferencesQuery } from "../operations/userPreferencesOperations";
 
 interface ConvertWeight {
@@ -8,9 +9,15 @@ interface ConvertWeight {
     unit: WeightUnit
 }
 
-export function useConvertWeight(): ConvertWeight {
-    const { data } = useUserPreferencesQuery();
-    const unit = data?.preferences.weightUnit;
+export function useConvertWeight(exerciseId?: string): ConvertWeight {
+    let unit: WeightUnit | undefined;
+    if (exerciseId) {
+        const { data } = useUserExerciseUnitQuery(exerciseId);
+        unit = data?.userExerciseUnit.weightUnit;
+    } else {
+        const { data } = useUserPreferencesQuery();
+        unit = data?.preferences.weightUnit;
+    }
 
     switch (unit) {
         case WeightUnit.Lb:

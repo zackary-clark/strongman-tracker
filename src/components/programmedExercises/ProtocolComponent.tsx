@@ -21,10 +21,11 @@ import { ProtocolTableRow } from "./ProtocolTableRow";
 interface Props {
     protocol: Protocol | null;
     setProtocol: React.Dispatch<React.SetStateAction<Protocol | null>>;
+    exerciseId?: string;
 }
 
-export const ProtocolComponent: FunctionComponent<Props> = ({ protocol, setProtocol }) => {
-    const { unit } = useConvertWeight();
+export const ProtocolComponent: FunctionComponent<Props> = ({ protocol, setProtocol, exerciseId }) => {
+    const { unit } = useConvertWeight(exerciseId);
     const isExtraSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down("xs"));
 
     return (

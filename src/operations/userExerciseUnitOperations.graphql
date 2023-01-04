@@ -1,0 +1,29 @@
+query UserExerciseUnit($input: UserExerciseUnitInput!) {
+    userExerciseUnit(input: $input) {
+        exercise
+        weightUnit
+        lengthUnit
+    }
+}
+
+mutation ChangeUserExerciseWeightUnit($input: ChangeUserExerciseWeightUnitInput!) {
+    changeUserExerciseWeightUnit(input: $input) {
+        success
+        userExerciseUnit {
+            exercise
+            weightUnit
+            lengthUnit
+        }
+    }
+}
+
+mutation ChangeUserExerciseLengthUnit($input: ChangeUserExerciseLengthUnitInput!) {
+    changeUserExerciseLengthUnit(input: $input) {
+        success
+        userExerciseUnit {
+            exercise
+            weightUnit
+            lengthUnit
+        }
+    }
+}

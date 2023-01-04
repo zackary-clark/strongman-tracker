@@ -1,0 +1,33 @@
+extend type Query {
+    userExerciseUnit(input: UserExerciseUnitInput!): UserExerciseUnit!
+}
+
+extend type Mutation {
+    changeUserExerciseWeightUnit(input: ChangeUserExerciseWeightUnitInput!): UserExerciseUnitMutationPayload
+    changeUserExerciseLengthUnit(input: ChangeUserExerciseLengthUnitInput!): UserExerciseUnitMutationPayload
+}
+
+input UserExerciseUnitInput {
+    exercise: ID!
+}
+
+input ChangeUserExerciseWeightUnitInput {
+    exercise: ID!
+    weightUnit: WeightUnit!
+}
+
+input ChangeUserExerciseLengthUnitInput {
+    exercise: ID!
+    lengthUnit: LengthUnit!
+}
+
+type UserExerciseUnit {
+    exercise: ID!
+    weightUnit: WeightUnit!
+    lengthUnit: LengthUnit!
+}
+
+type UserExerciseUnitMutationPayload implements MutationPayload {
+    success: Boolean!
+    userExerciseUnit: UserExerciseUnit
+}

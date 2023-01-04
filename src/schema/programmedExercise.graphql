@@ -29,11 +29,19 @@ input ProtocolInput {
 type Set {
     repetitions: Int
     weight: Int
+    percentage: Int
+    rpe: Int
+    amrap: Boolean
+    warmup: Boolean
 }
 
 input SetInput {
     repetitions: Int
     weight: Int
+    percentage: Int
+    rpe: Int
+    amrap: Boolean
+    warmup: Boolean
 }
 
 input ProgrammedExercisesInput {

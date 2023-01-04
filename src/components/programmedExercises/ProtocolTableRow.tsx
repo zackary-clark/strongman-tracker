@@ -6,10 +6,11 @@ import { useConvertWeight } from "../../hooks/useConvertWeight";
 interface Props {
     set: Set
     setSet: (set: Set) => void;
+    exerciseId?: string;
 }
 
-export const ProtocolTableRow: FunctionComponent<Props> = ({ set, setSet }) => {
-    const { convertToUserUnit, convertUserUnitStringToGrams } = useConvertWeight();
+export const ProtocolTableRow: FunctionComponent<Props> = ({ set, setSet, exerciseId }) => {
+    const { convertToUserUnit, convertUserUnitStringToGrams } = useConvertWeight(exerciseId);
 
     const handleChange = (changedValues: Partial<Set>) => {
         setSet({
