@@ -1,3 +1,4 @@
+import { InMemoryCache } from "@apollo/client";
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { ThemeProvider } from "@mui/material";
 import { render, RenderResult } from "@testing-library/react";
@@ -5,6 +6,7 @@ import React, { FunctionComponent, PropsWithChildren } from "react";
 import { MemoryRouter, Routes } from "react-router-dom";
 import { Snackbar } from "../components/snackBar/Snackbar";
 import { SnackbarContextProvider } from "../context/snackbarContext";
+import { typePolicies } from "../operations/typePolicies";
 import { ROOT_ROUTE } from "../pages/constants";
 import { theme } from "../theme";
 
@@ -81,11 +83,14 @@ export const createAllProviderWrapper = (
     );
 };
 
-const createApolloProviderWrapper = (mocks?: MockedResponse[]): FunctionComponent<PropsWithChildren> => ({children}) => (
-    <MockedProvider mocks={mocks} addTypename={false}>
-        {children}
-    </MockedProvider>
-);
+const createApolloProviderWrapper = (mocks?: MockedResponse[]): FunctionComponent<PropsWithChildren> => ({children}) => {
+    const cache = new InMemoryCache({ typePolicies });
+    return (
+        <MockedProvider cache={cache} mocks={mocks}>
+            {children}
+        </MockedProvider>
+    );
+};
 
 const createRoutingWrapper = (path?: string): FunctionComponent<PropsWithChildren> => ({children}) => (
     <MemoryRouter initialEntries={[path ?? ROOT_ROUTE]}>

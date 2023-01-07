@@ -1,9 +1,6 @@
-import { ApolloCache } from "@apollo/client";
 import {
     useChangeLengthUnitPreferenceMutation__generated,
     useChangeWeightUnitPreferenceMutation__generated,
-    UserPreferences,
-    UserPreferencesDocument,
     useUserPreferencesQuery__generated
 } from "../../generated/schema";
 import { useSnackbar } from "../context/snackbarContext";
@@ -22,11 +19,6 @@ export function useChangeWeightUnitPreferenceMutation() {
 
     return useChangeWeightUnitPreferenceMutation__generated({
         onError: onMutationError(openSnackbar),
-        update(cache, {data}) {
-            if (data?.changeWeightUnitPreference?.preferences) {
-                updatePreferencesInCache(cache, data.changeWeightUnitPreference.preferences);
-            }
-        }
     });
 }
 
@@ -35,19 +27,5 @@ export function useChangeLengthUnitPreferenceMutation() {
 
     return useChangeLengthUnitPreferenceMutation__generated({
         onError: onMutationError(openSnackbar),
-        update(cache, {data}) {
-            if (data?.changeLengthUnitPreference?.preferences) {
-                updatePreferencesInCache(cache, data.changeLengthUnitPreference.preferences);
-            }
-        }
     });
 }
-
-const updatePreferencesInCache = (cache: ApolloCache<any>, newPreferences: UserPreferences) => {
-    cache.writeQuery({
-        query: UserPreferencesDocument,
-        data: {
-            preferences: newPreferences
-        }
-    });
-};
