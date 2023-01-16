@@ -2,13 +2,13 @@ import { ThemeProvider } from "@mui/material";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryHistory, MemoryHistory } from "history";
-import React from "react";
+import React, { FunctionComponent, PropsWithChildren, useMemo } from "react";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { MAX_ROUTE, MY_EXERCISE_ROUTE, PROGRAM_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
 import { userPreferencesKgMock } from "../../testUtils/commonApolloMocks";
 import { createMatchMedia, MatchMedia } from "../../testUtils/matchMedia";
 import { renderWithAllProviders } from "../../testUtils/renderWithProviders";
-import { theme } from "../../theme";
+import { createThemeWithMode } from "../../theme";
 import { NavBar } from "./NavBar";
 
 let mockIsAuthenticated = true;
@@ -150,12 +150,17 @@ describe("NavBar", () => {
     });
 });
 
+const ThemeWrapper: FunctionComponent<PropsWithChildren> = ({children}) => {
+    const theme = useMemo(() => createThemeWithMode("light"), []);
+    return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+};
+
 const renderWithHistory = (history: MemoryHistory) => {
     render(
-        <ThemeProvider theme={theme}>
+        <ThemeWrapper>
             <HistoryRouter history={history}>
                 <NavBar />
             </HistoryRouter>
-        </ThemeProvider>
+        </ThemeWrapper>
     );
 };

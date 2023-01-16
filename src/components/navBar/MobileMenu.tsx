@@ -36,6 +36,7 @@ export const MobileMenu: FunctionComponent = () => {
                     aria-controls="menu-appbar"
                     aria-haspopup="true"
                     onClick={handleIconClick}
+                    color="neutral"
                 >
                     <MenuIcon fontSize="large" />
                 </IconButton>

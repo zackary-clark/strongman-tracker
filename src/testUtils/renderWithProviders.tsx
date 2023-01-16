@@ -8,7 +8,7 @@ import { Snackbar } from "../components/snackBar/Snackbar";
 import { SnackbarContextProvider } from "../context/snackbarContext";
 import { typePolicies } from "../operations/typePolicies";
 import { ROOT_ROUTE } from "../pages/constants";
-import { theme } from "../theme";
+import { createThemeWithMode } from "../theme";
 
 export const renderWithRouter = (component: React.ReactElement, path?: string): RenderResult => {
     return render(component, {wrapper: createRoutingWrapper(path)});
@@ -105,8 +105,11 @@ const SnackbarWrapper: FunctionComponent<PropsWithChildren> = ({children}) => (
     </SnackbarContextProvider>
 );
 
-const ThemeWrapper: FunctionComponent<PropsWithChildren> = ({children}) => (
-    <ThemeProvider theme={theme}>
-        {children}
-    </ThemeProvider>
-);
+const ThemeWrapper: FunctionComponent<PropsWithChildren> = ({children}) => {
+    const theme = createThemeWithMode("dark");
+    return (
+        <ThemeProvider theme={theme}>
+            {children}
+        </ThemeProvider>
+    );
+};

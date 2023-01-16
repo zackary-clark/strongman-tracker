@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { ROOT_ROUTE } from "../../pages/constants";
 
 export const Logo: FunctionComponent = () => (
-    <IconButton component={Link} to={ROOT_ROUTE} aria-label="home">
+    <IconButton component={Link} to={ROOT_ROUTE} aria-label="home" color="neutral">
         <FitnessCenter fontSize="large" />
     </IconButton>
 );

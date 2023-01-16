@@ -1,5 +1,4 @@
-import { PaletteOptions } from "@mui/material/styles";
-import { BreakpointsOptions, createTheme } from "@mui/material";
+import { BreakpointsOptions, createTheme, PaletteMode, PaletteOptions, Theme } from "@mui/material";
 
 declare module "@mui/material/styles" {
     interface Palette {
@@ -55,27 +54,28 @@ const GRUVBOX = {
     FG2: "#d5c4a1",
     FG1: "#ebdbb2",
     FG0: "#fbf1c7",
+    FG0_H: "#f9f5d7",
     ORANGE_BRIGHT: "#fe8019",
 };
 
-const palette: PaletteOptions = {
+const darkPalette: PaletteOptions = {
     mode: "dark",
     gruv: GRUVBOX,
     common: {
         black: GRUVBOX.BG0_H,
-        white: GRUVBOX.FG0,
+        white: GRUVBOX.FG0_H,
     },
     primary: {
         light: "#b3d6c9",
         main: GRUVBOX.BLUE_12,
         dark: "#56766a",
-        contrastText: GRUVBOX.BG,
+        contrastText: GRUVBOX.FG0,
     },
     secondary: {
         light: "#d7b3c0",
         main: "#a58390",
         dark: "#765663",
-        contrastText: GRUVBOX.BG,
+        contrastText: GRUVBOX.FG0,
     },
     error: {
         main: GRUVBOX.RED_9,
@@ -132,6 +132,80 @@ const palette: PaletteOptions = {
     },
 };
 
+const lightPalette: PaletteOptions = {
+    mode: "light",
+    gruv: GRUVBOX,
+    common: {
+        black: GRUVBOX.BG0_H,
+        white: GRUVBOX.FG0_H,
+    },
+    primary: {
+        light: "#b3d6c9",
+        main: GRUVBOX.BLUE_12,
+        dark: "#56766a",
+        contrastText: GRUVBOX.BG,
+    },
+    secondary: {
+        light: "#d7b3c0",
+        main: "#a58390",
+        dark: "#765663",
+        contrastText: GRUVBOX.BG,
+    },
+    error: {
+        main: GRUVBOX.RED_9,
+        dark: GRUVBOX.RED_1,
+        contrastText: GRUVBOX.BG,
+    },
+    warning: {
+        main: GRUVBOX.YELLOW_11,
+        dark: GRUVBOX.YELLOW_3,
+        contrastText: GRUVBOX.BG,
+    },
+    info: {
+        light: GRUVBOX.BLUE_12,
+        main: GRUVBOX.BLUE_4,
+        contrastText: GRUVBOX.BG,
+    },
+    success: {
+        main: GRUVBOX.AQUA_6,
+        dark: GRUVBOX.AQUA_14,
+        contrastText: GRUVBOX.BG,
+    },
+    background: {
+        default: GRUVBOX.FG0_H,
+        paper: GRUVBOX.FG0_H,
+    },
+    text: {
+        primary: GRUVBOX.BG,
+        secondary: GRUVBOX.BG2,
+        disabled: GRUVBOX.BG4,
+    },
+    action: {
+        active: GRUVBOX.BG,
+    },
+    neutral: {
+        light: GRUVBOX.FG0,
+        main: GRUVBOX.FG1,
+        dark: GRUVBOX.FG2,
+        contrastText: GRUVBOX.BG,
+    },
+    grey: {
+        100: GRUVBOX.FG0,
+        200: GRUVBOX.FG1,
+        300: GRUVBOX.FG2,
+        400: GRUVBOX.FG3,
+        500: GRUVBOX.FG4,
+        600: GRUVBOX.GRAY_8,
+        700: GRUVBOX.BG4,
+        800: GRUVBOX.BG2,
+        900: GRUVBOX.BG0,
+        A100: GRUVBOX.FG3,
+        A200: GRUVBOX.FG4,
+        A400: GRUVBOX.BG1,
+        A700: GRUVBOX.BG3,
+    },
+};
+
 const breakpoints: BreakpointsOptions = {
     values: {
         xs: 360,
@@ -158,4 +232,8 @@ const components = {
     },
 };
 
-export const theme = createTheme({palette, breakpoints, components});
+export const createThemeWithMode = (mode: PaletteMode): Theme => createTheme({
+    breakpoints,
+    components,
+    palette: mode === "light" ? lightPalette : darkPalette,
+});

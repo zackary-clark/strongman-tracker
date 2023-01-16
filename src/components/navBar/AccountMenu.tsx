@@ -35,7 +35,7 @@ export const AccountMenu: FunctionComponent = () => {
     return (
         <>
             {isAuthenticated ? (
-                    <IconButton onClick={handleOpenMenu} aria-label="account icon">
+                    <IconButton onClick={handleOpenMenu} aria-label="account icon" color="neutral">
                         <AccountCircle fontSize="large" />
                     </IconButton>
                 ) : (
