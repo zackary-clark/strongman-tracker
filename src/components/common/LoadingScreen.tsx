@@ -10,7 +10,7 @@ export const LoadingScreen: FunctionComponent = () => (
             alignItems: "center",
             minHeight: "100vh"
         }}
-        data-testid="loading spinner"
+        data-testid="loading"
     >
         <CircularProgress color="secondary" />
     </Box>

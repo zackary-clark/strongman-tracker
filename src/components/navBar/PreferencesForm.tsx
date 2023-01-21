@@ -1,16 +1,4 @@
-import { Settings } from "@mui/icons-material";
-import {
-    Divider,
-    FormControl,
-    FormControlLabel,
-    FormLabel,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-    Radio,
-    RadioGroup
-} from "@mui/material";
+import { FormControl, FormControlLabel, FormLabel, ListItem, Radio, RadioGroup } from "@mui/material";
 import React, { FunctionComponent } from "react";
 import { LengthUnit, WeightUnit } from "../../../generated/schema";
 import {
@@ -18,16 +6,17 @@ import {
     useChangeWeightUnitPreferenceMutation,
     useUserPreferencesQuery
 } from "../../operations/userPreferencesOperations";
-import { LoadingScreen } from "../common/LoadingScreen";
+import { PreferencesSkeleton } from "./PreferencesSkeleton";
 
 export const PreferencesForm: FunctionComponent = () => {
     const { loading: queryLoading, data, error } = useUserPreferencesQuery();
     const [changeWeightUnit] = useChangeWeightUnitPreferenceMutation();
     const [changeLengthUnit] = useChangeLengthUnitPreferenceMutation();
 
-    if (queryLoading || error) return <LoadingScreen />;
+    if (queryLoading) return <PreferencesSkeleton />;
+    if (error || !data?.preferences) return null;
 
-    const preferences = data!.preferences;
+    const preferences = data.preferences;
 
     const onWeightUnitChange = (event: React.ChangeEvent<HTMLInputElement>, value: string) => {
         if (!Object.values<string>(WeightUnit).includes(value)) {
@@ -60,12 +49,7 @@ export const PreferencesForm: FunctionComponent = () => {
     };
 
     return (
-        <List>
-            <ListItem>
-                <ListItemIcon><Settings /></ListItemIcon>
-                <ListItemText>Preferences</ListItemText>
-            </ListItem>
-            <Divider />
+        <>
             <ListItem>
                 <FormControl>
                     <FormLabel id="weight-unit-radio-buttons-group-label">Mass</FormLabel>
@@ -94,6 +78,6 @@ export const PreferencesForm: FunctionComponent = () => {
                     </RadioGroup>
                 </FormControl>
             </ListItem>
-        </List>
+        </>
     );
 };

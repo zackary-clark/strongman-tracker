@@ -1,11 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { AccountCircle, FitnessCenter, Logout, Settings } from "@mui/icons-material";
-import { Box, Button, Divider, Drawer, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
+import { Box, Button, Divider, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
 import React, { FunctionComponent, MouseEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { getVersion } from "../../env/getters";
 import { MY_EXERCISE_ROUTE } from "../../pages/constants";
-import { PreferencesForm } from "./PreferencesForm";
+import { PreferencesDrawer } from "./PreferencesDrawer";
 
 export const AccountMenu: FunctionComponent = () => {
     const { loginWithRedirect, logout, isAuthenticated, isLoading, user } = useAuth0();
@@ -80,16 +80,7 @@ export const AccountMenu: FunctionComponent = () => {
                             </ListItemText>
                         </MenuItem>
                     </Menu>
-                    <Drawer
-                        data-testid="preferences drawer"
-                        anchor="right"
-                        open={isPreferencesDrawerOpen}
-                        onClose={() => setIsPreferencesDrawerOpen(false)}
-                    >
-                        <Box sx={{ minWidth: 240 }}>
-                            <PreferencesForm />
-                        </Box>
-                    </Drawer>
+                    <PreferencesDrawer open={isPreferencesDrawerOpen} onClose={() => setIsPreferencesDrawerOpen(false)} />
                 </>
             )}
         </>
