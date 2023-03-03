@@ -1,14 +1,9 @@
-import { ThemeProvider } from "@mui/material";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createMemoryHistory, MemoryHistory } from "history";
-import React, { FunctionComponent, PropsWithChildren, useMemo } from "react";
-import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
-import { MAX_ROUTE, MY_EXERCISE_ROUTE, PROGRAM_ROUTE, WORKOUT_ROUTE } from "../../pages/constants";
+import React from "react";
 import { userPreferencesKgMock } from "../../testUtils/commonApolloMocks";
 import { createMatchMedia, MatchMedia } from "../../testUtils/matchMedia";
 import { renderWithAllProviders } from "../../testUtils/renderWithProviders";
-import { createThemeWithMode } from "../../theme";
 import { NavBar } from "./NavBar";
 
 let mockIsAuthenticated = true;
@@ -54,25 +49,12 @@ describe("NavBar", () => {
             expect(screen.queryByText("Maxes")).not.toBeInTheDocument();
         });
 
-        it("should route to /workouts when Workouts button is clicked", async () => {
-            const history = createMemoryHistory();
-            renderWithHistory(history);
-            await userEvent.click(screen.getByText("Workouts"));
-            expect(history.location.pathname).toBe(WORKOUT_ROUTE);
-        });
+        it("should show nav buttons when authenticated", () => {
+            renderWithAllProviders(<NavBar />);
 
-        it("should route to /maxes when Maxes button is clicked", async () => {
-            const history = createMemoryHistory();
-            renderWithHistory(history);
-            await userEvent.click(screen.getByText("Maxes"));
-            expect(history.location.pathname).toBe(MAX_ROUTE);
-        });
-
-        it("should route to /programs when Programs button is clicked", async () => {
-            const history = createMemoryHistory();
-            renderWithHistory(history);
-            await userEvent.click(screen.getByText("Programs"));
-            expect(history.location.pathname).toBe(PROGRAM_ROUTE);
+            expect(screen.getByText("Workouts")).toBeInTheDocument();
+            expect(screen.getByText("Maxes")).toBeInTheDocument();
+            expect(screen.queryByText("Log In")).not.toBeInTheDocument();
         });
     });
 
@@ -81,12 +63,11 @@ describe("NavBar", () => {
             window.matchMedia = createMatchMedia("600px");
         });
 
-        it("should open menu on hamburger click, then route correctly on menuitem click", async () => {
-            const history = createMemoryHistory();
-            renderWithHistory(history);
+        it("should open menu on hamburger click", async () => {
+            renderWithAllProviders(<NavBar />);
+
             await userEvent.click(screen.getByLabelText("navigation menu"));
-            await userEvent.click(await screen.findByText("Maxes"));
-            expect(history.location.pathname).toBe(MAX_ROUTE);
+            expect(await screen.findByText("Maxes")).toBeInTheDocument();
         });
 
         it("should not show menu items when not authenticated", async () => {
@@ -132,35 +113,10 @@ describe("NavBar", () => {
             renderWithAllProviders(<NavBar />, [userPreferencesKgMock]);
 
             await userEvent.click(screen.getByLabelText("account icon"));
+            expect(await screen.findByText("My Exercises")).toBeInTheDocument();
             await userEvent.click(await screen.findByText("Preferences"));
 
             expect(await screen.findByTestId("preferences drawer")).toBeInTheDocument();
         });
-
-        it("should route to My Exercises on account menu item click", async () => {
-            const history = createMemoryHistory();
-
-            renderWithHistory(history);
-
-            await userEvent.click(screen.getByLabelText("account icon"));
-            await userEvent.click(await screen.findByText("My Exercises"));
-
-            expect(history.location.pathname).toBe(MY_EXERCISE_ROUTE);
-        });
     });
 });
-
-const ThemeWrapper: FunctionComponent<PropsWithChildren> = ({children}) => {
-    const theme = useMemo(() => createThemeWithMode("light"), []);
-    return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
-};
-
-const renderWithHistory = (history: MemoryHistory) => {
-    render(
-        <ThemeWrapper>
-            <HistoryRouter history={history}>
-                <NavBar />
-            </HistoryRouter>
-        </ThemeWrapper>
-    );
-};

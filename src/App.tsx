@@ -2,9 +2,9 @@ import { useReactiveVar } from "@apollo/client";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { CssBaseline, StyledEngineProvider, ThemeProvider, useMediaQuery } from "@mui/material";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { getApiAddress, getAuthZeroClientId, getAuthZeroDomain } from "./env/getters";
-import { Routes } from "./pages/Routes";
+import { createRoutes } from "./pages/routes";
 import { themeModeVar } from "./reactiveVariables";
 import { createThemeWithMode } from "./theme";
 
@@ -18,6 +18,8 @@ export const App: FunctionComponent = () => {
 
     const theme = useMemo(() => createThemeWithMode(themeMode), [themeMode]);
 
+    const router = createBrowserRouter(createRoutes());
+
     return (
         <Auth0Provider
             domain={getAuthZeroDomain()}
@@ -28,9 +30,7 @@ export const App: FunctionComponent = () => {
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
-                    <BrowserRouter>
-                        <Routes />
-                    </BrowserRouter>
+                    <RouterProvider router={router} />
                 </ThemeProvider>
             </StyledEngineProvider>
         </Auth0Provider>
