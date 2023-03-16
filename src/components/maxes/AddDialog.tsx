@@ -11,8 +11,7 @@ import {
     Stack,
     TextField
 } from "@mui/material";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DesktopDatePicker } from "@mui/x-date-pickers";
 import format from "date-fns/format";
 import * as React from "react";
 import { FunctionComponent } from "react";
@@ -49,26 +48,22 @@ export const AddDialog: FunctionComponent<Props> = ({open, onClose, addMax}) => 
             <DialogTitle>Add New Max</DialogTitle>
             <DialogContent>
                 <Stack>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DesktopDatePicker
-                            label="Date"
-                            value={date}
-                            onChange={(newValue: Date | null) => {
-                                setDate(newValue);
-                            }}
-                            renderInput={(params: any) => <TextField
-                                data-testid="date-text-field"
-                                sx={{margin: 1, width: "20ch"}} {...params} />}
-                        />
-                    </LocalizationProvider>
+                    <DesktopDatePicker
+                        label="Date"
+                        value={date}
+                        onChange={(newValue: Date | null) => {
+                            setDate(newValue);
+                        }}
+                        sx={{m: 1}}
+                    />
                     <TextField
                         label={`Weight (${unit}s)`}
                         value={weight}
                         onChange={(event) => setWeight(event.target.value)}
                         type="number"
-                        sx={{margin: 1, width: "20ch"}}
+                        sx={{margin: 1}}
                     />
-                    <FormControl sx={{ m: 1, width: "20ch" }}>
+                    <FormControl sx={{m: 1}}>
                         <InputLabel id="max-lift-type-label">Lift</InputLabel>
                         <Select
                             data-testid="max-lift-type"

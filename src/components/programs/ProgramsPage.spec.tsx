@@ -125,17 +125,18 @@ describe("ProgramsPage", () => {
             }
         };
 
+        const user = userEvent.setup();
         renderPage(ProgramPage, PROGRAM_ROUTE, [programsQueryMock, addProgramMutationMock, programsQueryMock, programsQueryMock]);
 
         expect(await screen.findByText("Super Hard Program")).toBeInTheDocument();
-        await userEvent.click(screen.getByText("Add Program"));
+        await user.click(screen.getByText("Add Program"));
 
         expect(await screen.findByText("New Program")).toBeInTheDocument();
         expect(screen.getByLabelText("add-program")).toBeDisabled();
-        await userEvent.type(screen.getByLabelText("Name *"), "Some New Program");
-        await userEvent.type(screen.getByLabelText("Description"), "with a description");
+        await user.type(screen.getByLabelText("Name *"), "Some New Program");
+        await user.type(screen.getByLabelText("Description"), "with a description");
 
-        await userEvent.click(screen.getByLabelText("add-program"));
+        await user.click(screen.getByLabelText("add-program"));
 
         expect(await screen.findByText("Super Hard Program")).toBeInTheDocument();
     });
@@ -366,6 +367,7 @@ describe("ProgramsPage", () => {
                 }
             };
 
+            const user = userEvent.setup();
             renderPage(
                 ProgramPage,
                 `${PROGRAM_ROUTE}/${superHardProgram.id}`,
@@ -374,24 +376,24 @@ describe("ProgramsPage", () => {
 
             expect(await screen.findByText(superHardProgram.name)).toBeInTheDocument();
 
-            await userEvent.click(screen.getByLabelText("edit program details"));
+            await user.click(screen.getByLabelText("edit program details"));
 
             await waitFor(() => expect(screen.getByLabelText("Name")).toHaveValue(superHardProgram.name));
 
-            await userEvent.clear(screen.getByLabelText("Name"));
-            await userEvent.click(screen.getByText(superHardProgram.name));
+            await user.clear(screen.getByLabelText("Name"));
+            await user.click(screen.getByText(superHardProgram.name));
 
             expect(screen.getByLabelText("Name")).toHaveValue(superHardProgram.name);
 
-            await userEvent.clear(screen.getByLabelText("Name"));
-            await userEvent.type(screen.getByLabelText("Name"), "new name");
-            await userEvent.click(screen.getByText(superHardProgram.name));
+            await user.clear(screen.getByLabelText("Name"));
+            await user.type(screen.getByLabelText("Name"), "new name");
+            await user.click(screen.getByText(superHardProgram.name));
 
             await triggerAsync();
 
             expect(screen.queryByText("Network Error!")).not.toBeInTheDocument();
 
-            await userEvent.click(screen.getByLabelText("close"));
+            await user.click(screen.getByLabelText("close"));
 
             expect(screen.queryByLabelText("Name")).not.toBeInTheDocument();
         });
@@ -420,18 +422,19 @@ describe("ProgramsPage", () => {
                 }
             };
 
+            const user = userEvent.setup();
             renderPage(
                 ProgramPage,
                 `${PROGRAM_ROUTE}/${superHardProgram.id}`,
                 [programQueryMock, changeProgramDescriptionMock, programQueryMock]
             );
 
-            await userEvent.click(await screen.findByLabelText("edit program details"));
+            await user.click(await screen.findByLabelText("edit program details"));
 
             await waitFor(() => expect(screen.getByLabelText("Name")).toHaveValue(superHardProgram.name));
 
-            await userEvent.clear(screen.getByLabelText("Description"));
-            await userEvent.type(screen.getByLabelText("Description"), "new description{tab}");
+            await user.clear(screen.getByLabelText("Description"));
+            await user.type(screen.getByLabelText("Description"), "new description{tab}");
 
             await triggerAsync();
 

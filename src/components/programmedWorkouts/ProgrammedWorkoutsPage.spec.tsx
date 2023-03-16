@@ -81,6 +81,7 @@ describe("ProgrammedWorkoutsPage", () => {
             }
         };
 
+        const user = userEvent.setup();
         renderPage(
             ProgrammedWorkoutPage,
             PROGRAMMED_WORKOUT_ROUTE + "/new/" + "d3b2a6dd-a28f-48f8-af1f-2a5b01bea22a",
@@ -90,14 +91,14 @@ describe("ProgrammedWorkoutsPage", () => {
         expect(await screen.findByText("New Workout for 5x5")).toBeInTheDocument();
         expect(screen.getByLabelText("add-workout")).toBeDisabled();
 
-        await userEvent.type(screen.getByLabelText("Name *"), "Skipped Leg Day");
-        await userEvent.type(screen.getByLabelText("Description"), "some description");
-        await userEvent.click(await screen.findByText("MON"));
+        await user.type(screen.getByLabelText("Name *"), "Skipped Leg Day");
+        await user.type(screen.getByLabelText("Description"), "some description");
+        await user.click(await screen.findByText("MON"));
         // eslint-disable-next-line testing-library/prefer-screen-queries
-        await userEvent.click(getByRole(screen.getByTestId("focus-group-select"), "button"));
-        await userEvent.click(await screen.findByText("Quads"));
-        await userEvent.click(await screen.findByRole("presentation"));
-        await userEvent.click(screen.getByLabelText("add-workout"));
+        await user.click(getByRole(screen.getByTestId("focus-group-select"), "button"));
+        await user.click(await screen.findByText("Quads"));
+        await user.click(await screen.findByRole("presentation"));
+        await user.click(screen.getByLabelText("add-workout"));
 
         expect(mockNavigate).toHaveBeenCalled();
     });

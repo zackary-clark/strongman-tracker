@@ -1,6 +1,8 @@
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { useAuth0 } from "@auth0/auth0-react";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import * as React from "react";
 import { FunctionComponent } from "react";
 import { Outlet } from "react-router-dom";
@@ -37,11 +39,13 @@ export const Root: FunctionComponent = () => {
 
     return (
         <ApolloProvider client={client()}>
-            <SnackbarContextProvider>
-                <Snackbar />
-                <NavBar />
-                <Outlet />
-            </SnackbarContextProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <SnackbarContextProvider>
+                    <Snackbar />
+                    <NavBar />
+                    <Outlet />
+                </SnackbarContextProvider>
+            </LocalizationProvider>
         </ApolloProvider>
     );
 };

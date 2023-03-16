@@ -89,21 +89,22 @@ describe("MyExercisesPage", () => {
             }
         };
 
+        const user = userEvent.setup();
         renderPage(MyExercisePage, MY_EXERCISE_ROUTE, [myExercisesQueryMock, addMyExerciseMutationMock, myExercisesQueryMock, myExercisesQueryMock]);
 
         expect(await screen.findByText("super cool custom exercise")).toBeInTheDocument();
-        await userEvent.click(screen.getByText("Add Custom Exercise"));
+        await user.click(screen.getByText("Add Custom Exercise"));
 
         expect(await screen.findByText("New Exercise")).toBeInTheDocument();
         expect(screen.getByLabelText("add-exercise")).toBeDisabled();
-        await userEvent.type(screen.getByLabelText("Name *"), "New and Different Press");
-        await userEvent.type(screen.getByLabelText("Description"), "super cool description");
+        await user.type(screen.getByLabelText("Name *"), "New and Different Press");
+        await user.type(screen.getByLabelText("Description"), "super cool description");
         // eslint-disable-next-line testing-library/prefer-screen-queries
-        await userEvent.click(getByRole(screen.getByTestId("focus-group-select"), "button"));
-        await userEvent.click(await screen.findByText("Shoulders"));
-        await userEvent.click(await screen.findByRole("presentation"));
+        await user.click(getByRole(screen.getByTestId("focus-group-select"), "button"));
+        await user.click(await screen.findByText("Shoulders"));
+        await user.click(await screen.findByRole("presentation"));
 
-        await userEvent.click(screen.getByLabelText("add-exercise"));
+        await user.click(screen.getByLabelText("add-exercise"));
 
         expect(await screen.findByText("super cool custom exercise")).toBeInTheDocument();
     });
@@ -158,20 +159,21 @@ describe("MyExercisesPage", () => {
                 }
             };
 
+            const user = userEvent.setup();
             renderPage(MyExercisePage, `${MY_EXERCISE_ROUTE}/${superCoolCustomExercise.id}`, [exerciseQueryMock, renameExerciseMock]);
 
             expect(await screen.findByText(superCoolCustomExercise.name)).toBeInTheDocument();
 
             await waitFor(() => expect(screen.getByLabelText("Name")).toHaveValue(superCoolCustomExercise.name));
 
-            await userEvent.clear(screen.getByLabelText("Name"));
-            await userEvent.click(screen.getByText(superCoolCustomExercise.name));
+            await user.clear(screen.getByLabelText("Name"));
+            await user.click(screen.getByText(superCoolCustomExercise.name));
 
             expect(screen.getByLabelText("Name")).toHaveValue(superCoolCustomExercise.name);
 
-            await userEvent.clear(screen.getByLabelText("Name"));
-            await userEvent.type(screen.getByLabelText("Name"), "new name");
-            await userEvent.click(screen.getByText(superCoolCustomExercise.name));
+            await user.clear(screen.getByLabelText("Name"));
+            await user.type(screen.getByLabelText("Name"), "new name");
+            await user.click(screen.getByText(superCoolCustomExercise.name));
 
             await triggerAsync();
 
@@ -201,12 +203,13 @@ describe("MyExercisesPage", () => {
                 }
             };
 
+            const user = userEvent.setup();
             renderPage(MyExercisePage, `${MY_EXERCISE_ROUTE}/${superCoolCustomExercise.id}`, [exerciseQueryMock, changeExerciseDescriptionMock]);
 
             expect(await screen.findByText(superCoolCustomExercise.name)).toBeInTheDocument();
 
-            await userEvent.clear(screen.getByLabelText("Description"));
-            await userEvent.type(screen.getByLabelText("Description"), "new description{tab}");
+            await user.clear(screen.getByLabelText("Description"));
+            await user.type(screen.getByLabelText("Description"), "new description{tab}");
 
             await triggerAsync();
 
@@ -236,15 +239,16 @@ describe("MyExercisesPage", () => {
                 }
             };
 
+            const user = userEvent.setup();
             renderPage(MyExercisePage, `${MY_EXERCISE_ROUTE}/${superCoolCustomExercise.id}`, [exerciseQueryMock, changeExerciseFocusGroupsMock]);
 
             expect(await screen.findByText(superCoolCustomExercise.name)).toBeInTheDocument();
 
             // eslint-disable-next-line testing-library/prefer-screen-queries
-            await userEvent.click(getByRole(screen.getByTestId("focus-group-select"), "button"));
-            await userEvent.click(await screen.findByText("Hamstrings"));
-            await userEvent.click(await screen.findByText("Abs"));
-            await userEvent.click(await screen.findByRole("presentation"));
+            await user.click(getByRole(screen.getByTestId("focus-group-select"), "button"));
+            await user.click(await screen.findByText("Hamstrings"));
+            await user.click(await screen.findByText("Abs"));
+            await user.click(await screen.findByRole("presentation"));
 
             await triggerAsync();
 

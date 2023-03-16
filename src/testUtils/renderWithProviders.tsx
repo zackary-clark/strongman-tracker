@@ -1,6 +1,8 @@
 import { InMemoryCache } from "@apollo/client";
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { ThemeProvider } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { render, RenderResult } from "@testing-library/react";
 import React, { FunctionComponent, PropsWithChildren } from "react";
 import { MemoryRouter, Routes } from "react-router-dom";
@@ -10,29 +12,29 @@ import { typePolicies } from "../operations/typePolicies";
 import { ROOT_ROUTE } from "../pages/constants";
 import { createThemeWithMode } from "../theme";
 
-export const renderWithRouter = (component: React.ReactElement, path?: string): RenderResult => {
-    return render(component, {wrapper: createRoutingWrapper(path)});
-};
-
 export const renderWithApollo = (component: React.ReactElement, mocks?: MockedResponse[]): RenderResult => {
-    return render(component, {wrapper: createApolloProviderWrapper(mocks)});
-};
-
-export const renderWithSnackbar = (component: React.ReactElement): RenderResult => {
-    return render(component, {wrapper: SnackbarWrapper});
+    const ApolloWrapper = createApolloProviderWrapper(mocks);
+    const Wrapper: FunctionComponent<PropsWithChildren> = ({children}) => (
+        <MaterialWrapper>
+            <ApolloWrapper>
+                {children}
+            </ApolloWrapper>
+        </MaterialWrapper>
+    );
+    return render(component, {wrapper: Wrapper});
 };
 
 export const renderWithRouterAndApollo = (component: React.ReactElement, mocks?: MockedResponse[], path?: string): RenderResult => {
     const ApolloWrapper = createApolloProviderWrapper(mocks);
     const RoutingWrapper = createRoutingWrapper(path);
     const Wrapper: FunctionComponent<PropsWithChildren> = ({children}) => (
-        <ThemeWrapper>
+        <MaterialWrapper>
             <RoutingWrapper>
                 <ApolloWrapper>
                     {children}
                 </ApolloWrapper>
             </RoutingWrapper>
-        </ThemeWrapper>
+        </MaterialWrapper>
     );
     return render(component, {wrapper: Wrapper});
 };
@@ -40,13 +42,13 @@ export const renderWithRouterAndApollo = (component: React.ReactElement, mocks?:
 export const renderWithSnackbarAndApollo = (component: React.ReactElement, mocks?: MockedResponse[]): RenderResult => {
     const ApolloWrapper = createApolloProviderWrapper(mocks);
     const Wrapper: FunctionComponent<PropsWithChildren> = ({children}) => (
-        <ThemeWrapper>
+        <MaterialWrapper>
             <ApolloWrapper>
                 <SnackbarWrapper>
                     {children}
                 </SnackbarWrapper>
             </ApolloWrapper>
-        </ThemeWrapper>
+        </MaterialWrapper>
     );
     return render(component, {wrapper: Wrapper});
 };
@@ -71,7 +73,7 @@ export const createAllProviderWrapper = (
     const ApolloWrapper = createApolloProviderWrapper(mocks);
     const RoutingWrapper = createRoutingWrapper(path);
     return ({children}) => (
-        <ThemeWrapper>
+        <MaterialWrapper>
             <RoutingWrapper>
                 <SnackbarWrapper>
                     <ApolloWrapper>
@@ -79,7 +81,7 @@ export const createAllProviderWrapper = (
                     </ApolloWrapper>
                 </SnackbarWrapper>
             </RoutingWrapper>
-        </ThemeWrapper>
+        </MaterialWrapper>
     );
 };
 
@@ -105,11 +107,13 @@ const SnackbarWrapper: FunctionComponent<PropsWithChildren> = ({children}) => (
     </SnackbarContextProvider>
 );
 
-const ThemeWrapper: FunctionComponent<PropsWithChildren> = ({children}) => {
+const MaterialWrapper: FunctionComponent<PropsWithChildren> = ({children}) => {
     const theme = createThemeWithMode("dark");
     return (
-        <ThemeProvider theme={theme}>
-            {children}
-        </ThemeProvider>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <ThemeProvider theme={theme}>
+                {children}
+            </ThemeProvider>
+        </LocalizationProvider>
     );
 };

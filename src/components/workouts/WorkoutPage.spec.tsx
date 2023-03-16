@@ -237,11 +237,12 @@ describe("Workout Page", () => {
                 ]
             );
 
+            const user = userEvent.setup();
             expect(await screen.findByText("3 April 2022")).toBeInTheDocument();
 
-            await userEvent.clear(screen.getByLabelText("Date"));
-            await userEvent.type(screen.getByLabelText("Date"), "06132022");
-            await userEvent.click(screen.getByTestId("add-workout"));
+            await user.clear(screen.getByLabelText("Date"));
+            await user.type(screen.getByLabelText("Date"), "{arrowleft}{arrowleft}06132022");
+            await user.click(screen.getByTestId("add-workout"));
 
             expect(await screen.findByLabelText("save")).toBeInTheDocument();
 
@@ -250,11 +251,11 @@ describe("Workout Page", () => {
             expect(screen.getAllByLabelText("Sets")[0]).toHaveDisplayValue("4");
             expect(screen.getAllByLabelText("Reps")[0]).toHaveDisplayValue("4");
 
-            await userEvent.type(screen.getAllByLabelText("Name")[1], "Deadlift");
-            await userEvent.type(screen.getAllByLabelText("Weight (lbs)")[1], "315");
-            await userEvent.type(screen.getAllByLabelText("Sets")[1], "3");
-            await userEvent.type(screen.getAllByLabelText("Reps")[1], "3");
-            await userEvent.click(screen.getByLabelText("save"));
+            await user.type(screen.getAllByLabelText("Name")[1], "Deadlift");
+            await user.type(screen.getAllByLabelText("Weight (lbs)")[1], "315");
+            await user.type(screen.getAllByLabelText("Sets")[1], "3");
+            await user.type(screen.getAllByLabelText("Reps")[1], "3");
+            await user.click(screen.getByLabelText("save"));
 
             await triggerAsync();
 
