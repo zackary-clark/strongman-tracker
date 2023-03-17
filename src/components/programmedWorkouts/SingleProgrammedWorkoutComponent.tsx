@@ -4,6 +4,7 @@ import React, { FunctionComponent, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProgrammedWorkoutDocument } from "../../../generated/schema";
 import { useChangeOrder } from "../../hooks/useChangeOrder";
+import { useConvertWeight } from "../../hooks/useConvertWeight";
 import { useChangeProgrammedExerciseOrderMutation } from "../../operations/programmedExerciseOperations";
 import { useProgrammedWorkoutQuery } from "../../operations/programmedWorkoutOperations";
 import { PROGRAMMED_WORKOUT_ID_PARAM } from "../../pages/constants";
@@ -29,6 +30,7 @@ export const SingleProgrammedWorkoutComponent: FunctionComponent = () => {
     const { data, loading } = useProgrammedWorkoutQuery(id);
     const [changeExerciseOrder] = useChangeProgrammedExerciseOrderMutation();
     const apolloClient = useApolloClient();
+    const { convertToUserUnit } = useConvertWeight();
 
     const handleArrow = useChangeOrder(
         async (id, order) => {
@@ -66,12 +68,17 @@ export const SingleProgrammedWorkoutComponent: FunctionComponent = () => {
                     options={programmedExercises.map(progEx => ({
                         key: progEx.id,
                         primary: progEx.exercise.name,
+                        secondary: progEx.protocol?.sets?.map(set => {
+                            const weight = set.weight ? convertToUserUnit(set.weight) : "?";
+                            const reps = set.repetitions || "?";
+                            return `${weight}x${reps}`;
+                        }).join(", "),
                         upArrowClick: () => handleArrow(programmedExercises, progEx.id, "up"),
                         downArrowClick: () => handleArrow(programmedExercises, progEx.id, "down"),
                         onClick: () => {
                             setIdToEdit(progEx.id);
                             setIsEditDialogOpen(true);
-                        }
+                        },
                     }))}
                     showArrowButtons
                     showNew
