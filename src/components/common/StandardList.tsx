@@ -35,8 +35,8 @@ interface Props {
     showArrowButtons?: boolean,
 }
 
-const ArrowButtons: FunctionComponent<{option: StandardListOptions}> = ({option}) => {
-    return <Stack>
+const ArrowButtons: FunctionComponent<{option: StandardListOptions}> = ({option}) => (
+    <Stack>
         <IconButton
             edge="end"
             size="small"
@@ -53,8 +53,8 @@ const ArrowButtons: FunctionComponent<{option: StandardListOptions}> = ({option}
         >
             <KeyboardArrowDown />
         </IconButton>
-    </Stack>;
-};
+    </Stack>
+);
 
 export const StandardList: FunctionComponent<Props> = ({
     options,
