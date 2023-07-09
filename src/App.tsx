@@ -24,8 +24,10 @@ export const App: FunctionComponent = () => {
         <Auth0Provider
             domain={getAuthZeroDomain()}
             clientId={getAuthZeroClientId()}
-            redirectUri={window.location.origin}
-            audience={getApiAddress()}
+            authorizationParams={{
+                redirect_uri: window.location.origin,
+                audience: getApiAddress(),
+            }}
         >
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>

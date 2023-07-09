@@ -71,7 +71,7 @@ export const AccountMenu: FunctionComponent = () => {
                                 {version ? `v${version}` : undefined}
                             </Divider>
                         </Box>
-                        <MenuItem onClick={() => logout({ returnTo: window.location.origin })}>
+                        <MenuItem onClick={() => logout({ logoutParams: { returnTo: window.location.origin }})}>
                             <ListItemIcon>
                                 <Logout fontSize="small" />
                             </ListItemIcon>
