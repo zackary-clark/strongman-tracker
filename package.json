@@ -26,7 +26,7 @@
         "postversion": "npm run git:pushtags && npm run docker:release && sleep 5 && npm run gcp:release && npm run print:release"
     },
     "dependencies": {
-        "@apollo/client": "3.7.17",
+        "@apollo/client": "3.8.6",
         "@auth0/auth0-react": "2.1.1",
         "@babel/runtime": "7.22.6",
         "@emotion/react": "11.10.6",
@@ -35,7 +35,7 @@
         "@mui/material": "5.11.11",
         "@mui/x-date-pickers": "6.0.0",
         "date-fns": "2.29.3",
-        "graphql": "16.7.1",
+        "graphql": "16.8.1",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-router-dom": "6.14.1"
