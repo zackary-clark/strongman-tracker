@@ -1,6 +1,5 @@
-import userEvent from "@testing-library/user-event";
-import * as React from "react";
-import { useContext } from "react";
+import { userEvent } from "@testing-library/user-event";
+import React, { useContext } from "react";
 import { Box, Button } from "@mui/material";
 import { render, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
 import { defaultSnackbarMessage, SnackbarContext, SnackbarContextProvider } from "../../context/snackbarContext";

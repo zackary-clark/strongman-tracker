@@ -1,7 +1,7 @@
 import { MockedResponse } from "@apollo/client/testing";
-import { screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import * as React from "react";
+import { screen, waitForElementToBeRemoved } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
+import React from "react";
 import {
     AddLiftDocument,
     AddLiftMutation,
@@ -318,6 +318,7 @@ describe("Workout Page", () => {
             await userEvent.click(screen.getByLabelText("delete-workout"));
 
             expect(await screen.findByText("Workout Deleted!")).toBeInTheDocument();
+            await waitForElementToBeRemoved(() => screen.queryByText("Workout Deleted!"));
             expect(await screen.findByText("3 April 2022")).toBeInTheDocument();
         });
     });

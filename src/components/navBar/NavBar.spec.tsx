@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { userEvent } from "@testing-library/user-event";
 import React from "react";
 import { userPreferencesKgMock } from "../../testUtils/commonApolloMocks";
 import { createMatchMedia, MatchMedia } from "../../testUtils/matchMedia";

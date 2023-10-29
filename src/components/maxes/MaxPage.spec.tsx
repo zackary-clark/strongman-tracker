@@ -1,8 +1,8 @@
 import { MockedResponse } from "@apollo/client/testing";
 import { fireEvent, getByRole, screen, waitForElementToBeRemoved } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { userEvent } from "@testing-library/user-event";
 import { GraphQLError } from "graphql";
-import * as React from "react";
+import React from "react";
 import {
     AddMaxDocument,
     AddMaxMutation,
@@ -223,7 +223,7 @@ describe("Max Page", () => {
 
             await userEvent.click(screen.getByLabelText("Delete"));
 
-            await waitForElementToBeRemoved(() => screen.queryByText("563"));
+            expect(screen.queryByText("563")).not.toBeInTheDocument();
         });
 
         it("should show snackbar and not remove from table when delete fails", async () => {
@@ -246,6 +246,7 @@ describe("Max Page", () => {
             await userEvent.click(screen.getByLabelText("Delete"));
 
             expect(await screen.findByText("Network Error!")).toBeInTheDocument();
+            await waitForElementToBeRemoved(() => screen.queryByText("Network Error!"));
             expect(screen.getByText("563")).toBeInTheDocument();
         });
     });
