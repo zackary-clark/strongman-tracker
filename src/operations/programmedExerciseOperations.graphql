@@ -2,6 +2,7 @@ fragment ProgrammedExerciseFragment on ProgrammedExercise {
     id
     programmedWorkout
     order
+    trainingMax
     exercise {
         ...ExerciseFragment
     }
@@ -39,6 +40,15 @@ mutation ChangeProgrammedExerciseOrder($id: ID!, $order: Int!) {
 
 mutation ChangeProgrammedExerciseProtocol($id: ID!, $protocol: ProtocolInput) {
     changeProgrammedExerciseProtocol(input: { id: $id, protocol: $protocol }) {
+        success
+        programmedExercise {
+            ...ProgrammedExerciseFragment
+        }
+    }
+}
+
+mutation ChangeProgrammedExerciseTrainingMax($id: ID!, $trainingMax: Int) {
+    changeProgrammedExerciseTrainingMax(input: { id: $id, trainingMax: $trainingMax }) {
         success
         programmedExercise {
             ...ProgrammedExerciseFragment

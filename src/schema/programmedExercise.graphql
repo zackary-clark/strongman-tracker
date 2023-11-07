@@ -7,6 +7,7 @@ extend type Mutation {
     addProgrammedExercise(input: AddProgrammedExerciseInput!): ProgrammedExerciseMutationPayload
     changeProgrammedExerciseOrder(input: ChangeProgrammedExerciseOrderInput!): ProgrammedExerciseMutationPayload
     changeProgrammedExerciseProtocol(input: ChangeProgrammedExerciseProtocolInput!): ProgrammedExerciseMutationPayload
+    changeProgrammedExerciseTrainingMax(input: ChangeProgrammedExerciseTrainingMaxInput!): ProgrammedExerciseMutationPayload
     deleteProgrammedExercise(input: DeleteProgrammedExerciseInput!): ProgrammedExerciseDeletePayload
 }
 
@@ -14,6 +15,7 @@ type ProgrammedExercise {
     id: ID!
     programmedWorkout: ID!
     exercise: Exercise!
+    trainingMax: Int
     order: Int
     protocol: Protocol
 }
@@ -64,6 +66,7 @@ input SingleProgrammedExerciseInput {
 input AddProgrammedExerciseInput {
     programmedWorkout: ID!
     exercise: ID!
+    trainingMax: Int
     protocol: ProtocolInput
 }
 
@@ -75,6 +78,11 @@ input ChangeProgrammedExerciseOrderInput {
 input ChangeProgrammedExerciseProtocolInput {
     id: ID!
     protocol: ProtocolInput
+}
+
+input ChangeProgrammedExerciseTrainingMaxInput {
+    id: ID!
+    trainingMax: Int
 }
 
 input DeleteProgrammedExerciseInput {

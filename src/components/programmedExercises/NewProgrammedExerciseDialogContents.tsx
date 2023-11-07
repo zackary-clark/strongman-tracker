@@ -2,11 +2,14 @@ import { Autocomplete, Button, DialogActions, DialogContent, DialogTitle, Stack,
 import React, { FunctionComponent, useState } from "react";
 import { Protocol } from "../../../generated/schema";
 import { useSnackbar } from "../../context/snackbarContext";
+import { useConvertWeight } from "../../hooks/useConvertWeight";
 import { useExercisesQuery } from "../../operations/exerciseOperations";
 import { useAddProgrammedExerciseMutation } from "../../operations/programmedExerciseOperations";
 import { DialogCloseButton } from "../common/DialogCloseButton";
 import { ErrorScreen } from "../common/ErrorScreen";
 import { ProtocolComponent } from "./ProtocolComponent";
+import { TrainingMaxField } from "./TrainingMaxField";
+import { UnitSelect } from "./UnitSelect";
 
 interface Props {
     programmedWorkoutId: string;
@@ -22,8 +25,10 @@ export const NewProgrammedExerciseDialogContents: FunctionComponent<Props> = ({
     if (!programmedWorkoutId) return <ErrorScreen />;
 
     const [exerciseOption, setExerciseOption] = useState<{ label: string, value: string } | null>(null);
+    const [trainingMax, setTrainingMax] = useState<string>("");
     const [protocol, setProtocol] = useState<Protocol | null>(null);
 
+    const { convertUserUnitStringToGrams } = useConvertWeight(exerciseOption?.value);
     const { loading: areExercisesLoading, data: exercisesData } = useExercisesQuery();
     const exercises = exercisesData?.exercises ?? [];
 
@@ -45,6 +50,7 @@ export const NewProgrammedExerciseDialogContents: FunctionComponent<Props> = ({
                     input: {
                         programmedWorkout: programmedWorkoutId,
                         exercise: exerciseOption.value,
+                        trainingMax: convertUserUnitStringToGrams(trainingMax),
                         protocol
                     }
                 }
@@ -64,19 +70,32 @@ export const NewProgrammedExerciseDialogContents: FunctionComponent<Props> = ({
                 New Exercise
                 <DialogCloseButton onClick={handleClose} />
             </DialogTitle>
-            <DialogContent dividers sx={{px:1}}>
+            <DialogContent dividers sx={{px:2}}>
                 <Stack spacing={2}>
-                    <Autocomplete
-                        loading={areExercisesLoading}
-                        options={exercises.map(ex => ({
-                            label: ex.name,
-                            value: ex.id,
-                        }))}
-                        onChange={(event, value) => setExerciseOption(value)}
-                        value={exerciseOption}
-                        renderInput={(params) => <TextField {...params} label="Exercise" />}
-                        isOptionEqualToValue={(option, value) => option.value === value.value}
-                    />
+                    <Stack spacing={2} direction="row">
+                        <Autocomplete
+                            size="small"
+                            sx={{flexGrow: 1}}
+                            loading={areExercisesLoading}
+                            options={exercises.map(ex => ({
+                                label: ex.name,
+                                value: ex.id,
+                            }))}
+                            onChange={(event, value) => setExerciseOption(value)}
+                            value={exerciseOption}
+                            renderInput={(params) => <TextField {...params} label="Exercise" />}
+                            isOptionEqualToValue={(option, value) => option.value === value.value}
+                        />
+                        {exerciseOption?.value && (
+                            <>
+                                <UnitSelect exerciseId={exerciseOption?.value} />
+                                <TrainingMaxField
+                                    value={trainingMax}
+                                    onChange={(event) => setTrainingMax(event.target.value)}
+                                />
+                            </>
+                        )}
+                    </Stack>
                     <ProtocolComponent protocol={protocol} setProtocol={setProtocol} exerciseId={exerciseOption?.value} />
                 </Stack>
             </DialogContent>

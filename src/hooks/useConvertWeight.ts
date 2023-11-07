@@ -64,8 +64,11 @@ function convertLbStringToGrams(weightString: string) {
 }
 
 function fromStringToNumber(weightString: string) {
-    const weightValue = parseFloat(weightString);
-    if (isNaN(weightValue)) throw new Error("weight is NaN!");
+    let weightValue = parseFloat(weightString);
+    if (isNaN(weightValue)) {
+        console.warn("weight is NaN!");
+        weightValue = 0;
+    }
     return roundHalf(weightValue);
 }
 

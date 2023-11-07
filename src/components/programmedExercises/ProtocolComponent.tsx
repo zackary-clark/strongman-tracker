@@ -13,7 +13,6 @@ import {
 import React, { FunctionComponent } from "react";
 import { Protocol, Set } from "../../../generated/schema";
 import { ProtocolTableRow } from "./ProtocolTableRow";
-import { WeightHeaderCell } from "./WeightHeaderCell";
 
 interface Props {
     protocol: Protocol | null;
@@ -27,9 +26,7 @@ export const ProtocolComponent: FunctionComponent<Props> = ({ protocol, setProto
             <Table size="small" padding="normal">
                 <TableHead>
                     <TableRow>
-                        <TableCell align="center">
-                            <WeightHeaderCell exerciseId={exerciseId} />
-                        </TableCell>
+                        <TableCell align="center">Weight</TableCell>
                         <TableCell align="center">Reps</TableCell>
                     </TableRow>
                 </TableHead>
